@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoretorOrtografic.App", "CoretorOrtografic\CoretorOrtografic.App.csproj", "{C887FCB3-F84F-4138-81D0-94C645DD6AC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoretorOrtografic.Infrastructure", "CoretorOrtografic.Infrastructure\CoretorOrtografic.Infrastructure.csproj", "{430FD61E-C1CD-4206-84B6-563658EB4682}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoretorOrtografic.Core", "CoretorOrtografic.Core\CoretorOrtografic.Core.csproj", "{910EEF52-B3F0-4451-A63F-C366C5F9E2D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C887FCB3-F84F-4138-81D0-94C645DD6AC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C887FCB3-F84F-4138-81D0-94C645DD6AC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C887FCB3-F84F-4138-81D0-94C645DD6AC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C887FCB3-F84F-4138-81D0-94C645DD6AC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{430FD61E-C1CD-4206-84B6-563658EB4682}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{430FD61E-C1CD-4206-84B6-563658EB4682}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{430FD61E-C1CD-4206-84B6-563658EB4682}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{430FD61E-C1CD-4206-84B6-563658EB4682}.Release|Any CPU.Build.0 = Release|Any CPU
+		{910EEF52-B3F0-4451-A63F-C366C5F9E2D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{910EEF52-B3F0-4451-A63F-C366C5F9E2D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{910EEF52-B3F0-4451-A63F-C366C5F9E2D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{910EEF52-B3F0-4451-A63F-C366C5F9E2D8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7CD579A-3C38-46ED-9B66-6AC69985CBB8}
+	EndGlobalSection
+EndGlobal
