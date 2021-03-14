@@ -1,6 +1,8 @@
-﻿using ARLeF.Struments.Base.Core.Output;
+﻿using ARLeF.Struments.Base.Core.Input;
+using ARLeF.Struments.Base.Core.Output;
 using ARLeF.Struments.Base.Infrastructure;
 using ARLeF.Struments.Components.CoretorOrtografic.Core.KeyValueDatabase;
+using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.ContentReader;
 using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.KeyValueDatabase;
 using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.Output;
 using Autofac;
@@ -68,6 +70,7 @@ namespace ARLeF.Struments.Components.CoretorOrtografic.Infrastructure
         private void RegisterCLIDependencies(ContainerBuilder builder)
         {
             // Add CLI only services
+            builder.RegisterType<ConsoleContentReader>().As<IContentReader>();
             builder.RegisterType<ConsoleContentWriter>().As<IContentWriter>();
         }
         private void RegisterDesktopDependencies(ContainerBuilder builder)

@@ -1,4 +1,6 @@
 ﻿using ARLeF.Struments.Base.Core.Development;
+using ARLeF.Struments.Base.Core.Input;
+using ARLeF.Struments.Base.Core.Output;
 using Autofac;
 using System;
 using System.Threading;
@@ -16,17 +18,18 @@ namespace ARLeF.Struments.Apps.CoretorOrtografic.CLI
 #else
             _container = CoretorOrtograficCliDependencyContainer.Configure(false);
 #endif
-            WriteDate();
+            ReadContentAndReturnContent();
         }
 
-        public static void WriteDate()
+        public static void ReadContentAndReturnContent()
         {
-            // Create the scope, resolve your IDateWriter,
-            // use it, then dispose of the scope.
             using (var scope = Container.BeginLifetimeScope())
             {
-                var writer = scope.Resolve<IDateWriter>();
-                writer.WriteDate();
+                var reader = scope.Resolve<IContentReader>();
+                string text = reader.Read();
+
+                var writer = scope.Resolve<IContentWriter>();
+                writer.Write(text);
             }
         }
     }
