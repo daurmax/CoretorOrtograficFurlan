@@ -12,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\components\CoretorOrtografic.Components.Infrastructure\CoretorOrtografic.Components.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\base\ARLeF.Struments.Base.Core\ARLeF.Struments.Base.Core.csproj" />
+    <ProjectReference Include="..\..\..\components\CoretorOrtografic\ARLeF.Struments.Components.CoretorOrtografic.Infrastructure\ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

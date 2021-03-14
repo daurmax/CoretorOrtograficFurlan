@@ -1,12 +1,9 @@
-﻿using Autofac;
-using CoretorOrtografic.Base.Abstractions.Output;
-using CoretorOrtografic.Base.Abstractions.Development;
-using CoretorOrtografic.Components.Infrastructure.Output;
-using CoretorOrtografic.Components.Infrastructure.Development;
+﻿using ARLeF.Struments.Base.Core.Development;
+using Autofac;
 using System;
 using System.Threading;
 
-namespace CoretorOrtografic.Apps.CLI
+namespace ARLeF.Struments.Apps.CoretorOrtografic.CLI
 {
     class Program
     {

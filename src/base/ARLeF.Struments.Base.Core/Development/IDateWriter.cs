@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoretorOrtografic.Base.Abstractions.Output
+namespace ARLeF.Struments.Base.Core.Development
 {
-    public interface IOutput
+    public interface IDateWriter
     {
-        void Write(string content);
+        void WriteDate();
     }
 }

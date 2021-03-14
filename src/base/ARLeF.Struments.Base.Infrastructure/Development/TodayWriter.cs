@@ -1,12 +1,12 @@
-﻿using CoretorOrtografic.Base.Abstractions.Development;
-using CoretorOrtografic.Base.Abstractions.Output;
+﻿using ARLeF.Struments.Base.Core.Development;
+using ARLeF.Struments.Base.Core.Output;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoretorOrtografic.Components.Infrastructure.Development
+namespace ARLeF.Struments.Base.Infrastructure.Development
 {
     public class TodayWriter : IDateWriter
     {
