@@ -6,19 +6,19 @@ using CoretorOrtografic.Components.Infrastructure.Development;
 using System;
 using System.Threading;
 
-namespace CoretorOrtografic.CLI
+namespace CoretorOrtografic.Apps.CLI
 {
     class Program
     {
-        private static IContainer Container { get; set; }
+        private static IContainer _container { get; set; }
 
         static void Main(string[] args)
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterType<ConsoleOutput>().As<IOutput>();
-            builder.RegisterType<TodayWriter>().As<IDateWriter>();
-            Container = builder.Build();
-
+#if DEBUG
+            _container = DependencyContainer.Configure(true);
+#else
+            _container = DependencyContainer.Configure(false);
+#endif
             WriteDate();
         }
 
@@ -26,7 +26,7 @@ namespace CoretorOrtografic.CLI
         {
             // Create the scope, resolve your IDateWriter,
             // use it, then dispose of the scope.
-            using (var scope = Container.BeginLifetimeScope())
+            using (var scope = _container.BeginLifetimeScope())
             {
                 var writer = scope.Resolve<IDateWriter>();
                 writer.WriteDate();
