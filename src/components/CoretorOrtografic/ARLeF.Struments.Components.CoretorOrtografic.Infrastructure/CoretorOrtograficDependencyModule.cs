@@ -1,6 +1,8 @@
-﻿using ARLeF.Struments.Base.Infrastructure;
+﻿using ARLeF.Struments.Base.Core.Output;
+using ARLeF.Struments.Base.Infrastructure;
 using ARLeF.Struments.Components.CoretorOrtografic.Core.KeyValueDatabase;
 using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.KeyValueDatabase;
+using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.Output;
 using Autofac;
 using System;
 using System.Collections.Generic;
@@ -12,11 +14,13 @@ namespace ARLeF.Struments.Components.CoretorOrtografic.Infrastructure
 {
     public class CoretorOrtograficDependencyModule : Module
     {
-        private bool _isDevelopment = false;
+        private readonly bool _isDevelopment = false;
+        private CallerApplicationEnum _callerApplication;
 
-        public CoretorOrtograficDependencyModule(bool isDevelopment)
+        public CoretorOrtograficDependencyModule(bool isDevelopment, CallerApplicationEnum callerApplication)
         {
             _isDevelopment = isDevelopment;
+            _callerApplication = callerApplication;
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -29,6 +33,20 @@ namespace ARLeF.Struments.Components.CoretorOrtografic.Infrastructure
             {
                 RegisterProductionOnlyDependencies(builder);
             }
+
+            switch (_callerApplication)
+            {
+                case CallerApplicationEnum.CLI:
+                    RegisterCLIDependencies(builder);
+                    break;
+                case CallerApplicationEnum.Desktop:
+                    RegisterDesktopDependencies(builder);
+                    break;
+                case CallerApplicationEnum.Mobile:
+                    RegisterMobileDependencies(builder);
+                    break;
+            }
+
             RegisterCommonDependencies(builder);
         }
 
@@ -45,6 +63,20 @@ namespace ARLeF.Struments.Components.CoretorOrtografic.Infrastructure
         private void RegisterProductionOnlyDependencies(ContainerBuilder builder)
         {
             // Add production only services
+        }
+
+        private void RegisterCLIDependencies(ContainerBuilder builder)
+        {
+            // Add CLI only services
+            builder.RegisterType<ConsoleContentWriter>().As<IContentWriter>();
+        }
+        private void RegisterDesktopDependencies(ContainerBuilder builder)
+        {
+            // Add desktop only services
+        }
+        private void RegisterMobileDependencies(ContainerBuilder builder)
+        {
+            // Add mobile only services
         }
     }
 }

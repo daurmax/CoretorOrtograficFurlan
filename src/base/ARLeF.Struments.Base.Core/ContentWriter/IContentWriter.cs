@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ARLeF.Struments.Base.Core.Output
 {
-    public interface IOutput
+    public interface IContentWriter
     {
         void Write(string content);
     }

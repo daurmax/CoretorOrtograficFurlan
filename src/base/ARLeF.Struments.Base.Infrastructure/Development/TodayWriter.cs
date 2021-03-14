@@ -10,8 +10,8 @@ namespace ARLeF.Struments.Base.Infrastructure.Development
 {
     public class TodayWriter : IDateWriter
     {
-        private IOutput _output;
-        public TodayWriter(IOutput output)
+        private readonly IContentWriter _output;
+        public TodayWriter(IContentWriter output)
         {
             this._output = output;
         }

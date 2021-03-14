@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Base.Infrastructure.Output
+namespace ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.Output
 {
-    public class ConsoleOutput : IOutput
+    public class ConsoleContentWriter : IContentWriter
     {
         public void Write(string content)
         {

@@ -1,7 +1,6 @@
 ﻿using ARLeF.Struments.Base.Core.Development;
 using ARLeF.Struments.Base.Core.Output;
 using ARLeF.Struments.Base.Infrastructure.Development;
-using ARLeF.Struments.Base.Infrastructure.Output;
 using Autofac;
 using System;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ namespace ARLeF.Struments.Base.Infrastructure
 {
     public class CoreDependencyModule : Module
     {
-        private bool _isDevelopment = false;
+        private readonly bool _isDevelopment = false;
 
         public CoreDependencyModule(bool isDevelopment)
         {
@@ -36,7 +35,6 @@ namespace ARLeF.Struments.Base.Infrastructure
         private void RegisterCommonDependencies(ContainerBuilder builder)
         {
             // Add services for both production and development
-            builder.RegisterType<ConsoleOutput>().As<IOutput>();
         }
         private void RegisterDevelopmentOnlyDependencies(ContainerBuilder builder)
         {
