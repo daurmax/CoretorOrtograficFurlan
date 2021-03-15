@@ -51,7 +51,18 @@ namespace ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.SpellCheck
 
         public ICollection<string> GetSuggestions(ProcessedWord word)
         {
-            throw new NotImplementedException();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            Random rand = new Random();
+            int fakeSuggestions = rand.Next(0, 10);
+
+            List<string> retval = new List<string>();
+            for (int i = -1; i < fakeSuggestions; i++)
+            {
+                retval.Add(new string(Enumerable.Repeat(chars, rand.Next(4,15)).Select(s => s[rand.Next(s.Length)]).ToArray()));
+            }
+
+            return retval;
         }
 
         public void SwapWord(ProcessedWord originalWord, string suggestedWord)
