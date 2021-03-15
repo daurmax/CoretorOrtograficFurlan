@@ -1,6 +1,8 @@
 ﻿using ARLeF.Struments.Base.Core.Development;
 using ARLeF.Struments.Base.Core.Input;
 using ARLeF.Struments.Base.Core.Output;
+using ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker;
+using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.SpellChecker;
 using Autofac;
 using System;
 using System.Threading;
@@ -13,23 +15,21 @@ namespace ARLeF.Struments.Apps.CoretorOrtografic.CLI
 
         static void Main(string[] args)
         {
+            Container = CoretorOrtograficCliDependencyContainer.Configure
 #if DEBUG
-            Container = CoretorOrtograficCliDependencyContainer.Configure(true);
+                (true);
 #else
-            _container = CoretorOrtograficCliDependencyContainer.Configure(false);
+                (false);
 #endif
-            ReadContentAndReturnContent();
-        }
 
-        public static void ReadContentAndReturnContent()
-        {
             using (var scope = Container.BeginLifetimeScope())
             {
                 var reader = scope.Resolve<IContentReader>();
-                string text = reader.Read();
-
                 var writer = scope.Resolve<IContentWriter>();
-                writer.Write(text);
+
+                MockSpellChecker checker = new MockSpellChecker();
+                checker.ExecuteSpellCheck(reader.Read());
+                writer.Write(String.Join(" ", checker.AllIncorrectWordList));
             }
         }
     }
