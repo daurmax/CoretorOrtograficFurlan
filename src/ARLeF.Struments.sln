@@ -21,11 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.Apps.Coreto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.Base.Infrastructure", "base\ARLeF.Struments.Base.Infrastructure\ARLeF.Struments.Base.Infrastructure.csproj", "{F147B0F8-83BF-4D17-BC41-01BEED342CA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Struments.Components.CoretorOrtografic.Core", "components\CoretorOrtografic\ARLeF.Struments.Components.CoretorOrtografic.Core\ARLeF.Struments.Components.CoretorOrtografic.Core.csproj", "{73153ECA-E2AD-472F-92B4-629CD8D405E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.Components.CoretorOrtografic.Core", "components\CoretorOrtografic\ARLeF.Struments.Components.CoretorOrtografic.Core\ARLeF.Struments.Components.CoretorOrtografic.Core.csproj", "{73153ECA-E2AD-472F-92B4-629CD8D405E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Struments.Components.CoretorOrtografic.Tests", "components\CoretorOrtografic\ARLeF.Struments.Components.CoretorOrtografic.Tests\ARLeF.Struments.Components.CoretorOrtografic.Tests.csproj", "{3CC700AE-792E-40BD-BCEC-14CF1F9BB938}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.Components.CoretorOrtografic.Tests", "components\CoretorOrtografic\ARLeF.Struments.Components.CoretorOrtografic.Tests\ARLeF.Struments.Components.CoretorOrtografic.Tests.csproj", "{3CC700AE-792E-40BD-BCEC-14CF1F9BB938}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.Components.CoretorOrtografic.Entities", "components\CoretorOrtografic\ARLeF.Struments.Components.CoretorOrtografic.Entities\ARLeF.Struments.Components.CoretorOrtografic.Entities.csproj", "{96FE6F20-F2C1-43EE-BFFF-03C4DAFEA07E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Struments.Apps.CoretorOrtografic.Desktop", "apps\CoretorOrtografic\ARLeF.Struments.Apps.CoretorOrtografic.Desktop\ARLeF.Struments.Apps.CoretorOrtografic.Desktop.csproj", "{BA07BAD1-C6BD-46AA-990E-4C55EBAC626E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{96FE6F20-F2C1-43EE-BFFF-03C4DAFEA07E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96FE6F20-F2C1-43EE-BFFF-03C4DAFEA07E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96FE6F20-F2C1-43EE-BFFF-03C4DAFEA07E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA07BAD1-C6BD-46AA-990E-4C55EBAC626E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA07BAD1-C6BD-46AA-990E-4C55EBAC626E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA07BAD1-C6BD-46AA-990E-4C55EBAC626E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA07BAD1-C6BD-46AA-990E-4C55EBAC626E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +81,7 @@ Global
 		{73153ECA-E2AD-472F-92B4-629CD8D405E9} = {C67F60FC-1085-49BA-96A9-41575EB108E3}
 		{3CC700AE-792E-40BD-BCEC-14CF1F9BB938} = {C67F60FC-1085-49BA-96A9-41575EB108E3}
 		{96FE6F20-F2C1-43EE-BFFF-03C4DAFEA07E} = {C67F60FC-1085-49BA-96A9-41575EB108E3}
+		{BA07BAD1-C6BD-46AA-990E-4C55EBAC626E} = {37214CB2-2473-477B-8D1B-EA1DAF4B7646}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7CD579A-3C38-46ED-9B66-6AC69985CBB8}
