@@ -1,4 +1,4 @@
-﻿using ARLeF.Struments.Base.Entities;
+﻿using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;

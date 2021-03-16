@@ -1,42 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Base.Entities
+namespace ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements
 {
-    public class ProcessedWord
+    public class ProcessedPunctuation : IProcessedElement
     {
         private readonly string _original;
         private string _current;
-        private bool _checked;
-        private bool _correct;
 
-        public ProcessedWord(string word) 
+        public ProcessedPunctuation(string punctiation)
         {
-            _original = _current = word;
+            _original = _current = punctiation;
         }
 
         public string Original { get => _original; }
         public string Current
         {
             get => _current;
-            set 
+            set
             {
                 _current = value;
             }
-        }
-        public bool Checked
-        {
-            get => _checked;
-            set => _checked = value;
-        }
-        public bool Correct
-        {
-            get => _correct;
-            set => _correct = value;
         }
 
         public override string ToString()

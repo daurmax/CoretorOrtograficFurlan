@@ -1,5 +1,5 @@
-﻿using ARLeF.Struments.Base.Entities;
-using ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker;
+﻿using ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker;
+using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,38 +10,42 @@ namespace ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.SpellCheck
 {
     public class MockSpellChecker : ISpellChecker
     {
-        private ICollection<ProcessedWord> _processedWordList = new List<ProcessedWord>();
+        private ICollection<IProcessedElement> _processedElementsList = new List<IProcessedElement>();
 
 
         public MockSpellChecker() { }
 
 
-        public ICollection<ProcessedWord> AllProcessedWordList 
+        public ICollection<IProcessedElement> AllProcessedElementsList 
         {
-            get => _processedWordList;
+            get => _processedElementsList;
+        }
+        public ICollection<ProcessedWord> AllProcessedWords
+        {
+            get => _processedElementsList.OfType<ProcessedWord>().ToList();
         }
         public ICollection<ProcessedWord> AllIncorrectWordList
         {
-            get => _processedWordList.Where(word => word.Correct == false).ToList();
+            get => _processedElementsList.OfType<ProcessedWord>().Where(word => word.Correct == false).ToList();
         }
 
 
         public void ExecuteSpellCheck(string text)
         {
-            _processedWordList = GetProcessedWords(text);
-            foreach (ProcessedWord word in _processedWordList)
+            _processedElementsList = GetProcessedElements(text);
+            foreach (ProcessedWord word in _processedElementsList)
             {
                 word.Correct = CheckWordCorrectness(word);
             }
         }
 
-        private ICollection<ProcessedWord> GetProcessedWords(string text)
+        private ICollection<IProcessedElement> GetProcessedElements(string text)
         {
-            foreach (string word in text.Split(' '))
+            foreach (string word in text.Split())
             {
-                _processedWordList.Add(new ProcessedWord(word));
+                _processedElementsList.Add(new ProcessedWord(word));
             }
-            return _processedWordList;
+            return _processedElementsList;
         }
         public bool CheckWordCorrectness(ProcessedWord word)
         {
