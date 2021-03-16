@@ -12,6 +12,48 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+	<Grid Background="White" ShowGridLines="True">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="50"/>
+			<RowDefinition Height="250"/>
+		</Grid.RowDefinitions>
+		
+		<TextBox Grid.Row="0" Margin="10" VerticalAlignment="Stretch" />
 
+		<StackPanel Grid.Row="1">
+			<Panel Height="50" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+				<Button Width="160">
+					Control
+				</Button>
+			</Panel>
+		</StackPanel>
+
+		<Grid Grid.Row="2" Background="White" ShowGridLines="True">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+			
+				<Grid Grid.Column="0" Background="White" ShowGridLines="True">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="50"/>
+						<RowDefinition Height="*"/>
+					</Grid.RowDefinitions>
+
+					<StackPanel Grid.Row="0" Margin="10" VerticalAlignment="Center">
+						<Label>Peraule</Label>
+						<TextBox VerticalAlignment="Stretch" Width="200"/>
+					</StackPanel>
+
+					<StackPanel Grid.Row="1" VerticalAlignment="Center">
+						<Label>Propuestis</Label>
+						<TextBox VerticalAlignment="Stretch" Width="200"/>
+					</StackPanel>
+				</Grid>
+			
+		</Grid>
+		
+	</Grid>
 </Window>
