@@ -1,0 +1,70 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libraries", "libraries", "{4CA8E840-2659-4298-9580-5FF57C3EA96E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{A4438BDA-E4B0-4C08-BAB9-E7472466E981}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoretorOrtografic", "CoretorOrtografic", "{37214CB2-2473-477B-8D1B-EA1DAF4B7646}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.Apps.CoretorOrtografic.CLI", "apps\CoretorOrtografic\ARLeF.Struments.Apps.CoretorOrtografic.CLI\ARLeF.Struments.Apps.CoretorOrtografic.CLI.csproj", "{4706F0B8-E927-402C-B651-680755B0C41E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.Apps.CoretorOrtografic.Desktop", "apps\CoretorOrtografic\ARLeF.Struments.Apps.CoretorOrtografic.Desktop\ARLeF.Struments.Apps.CoretorOrtografic.Desktop.csproj", "{BA07BAD1-C6BD-46AA-990E-4C55EBAC626E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Business", "libraries\ARLeF.Struments.CoretorOrtografic.Business\ARLeF.Struments.CoretorOrtografic.Business.csproj", "{8722FCC3-C29D-489F-98E6-C0875BBD8BEA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Contracts", "libraries\ARLeF.Struments.CoretorOrtografic.Contracts\ARLeF.Struments.CoretorOrtografic.Contracts.csproj", "{12DE58DA-B49A-4034-B49C-F9AC422203FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Entities", "libraries\ARLeF.Struments.CoretorOrtografic.Entities\ARLeF.Struments.CoretorOrtografic.Entities.csproj", "{2AE4CFC1-B238-43FF-AA33-0710B511A5EC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Tests", "libraries\ARLeF.Struments.CoretorOrtografic.Tests\ARLeF.Struments.CoretorOrtografic.Tests.csproj", "{94702BDE-E879-4338-8404-DD74B918BD1D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4706F0B8-E927-402C-B651-680755B0C41E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4706F0B8-E927-402C-B651-680755B0C41E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4706F0B8-E927-402C-B651-680755B0C41E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4706F0B8-E927-402C-B651-680755B0C41E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA07BAD1-C6BD-46AA-990E-4C55EBAC626E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA07BAD1-C6BD-46AA-990E-4C55EBAC626E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA07BAD1-C6BD-46AA-990E-4C55EBAC626E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA07BAD1-C6BD-46AA-990E-4C55EBAC626E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8722FCC3-C29D-489F-98E6-C0875BBD8BEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8722FCC3-C29D-489F-98E6-C0875BBD8BEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8722FCC3-C29D-489F-98E6-C0875BBD8BEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8722FCC3-C29D-489F-98E6-C0875BBD8BEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12DE58DA-B49A-4034-B49C-F9AC422203FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12DE58DA-B49A-4034-B49C-F9AC422203FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12DE58DA-B49A-4034-B49C-F9AC422203FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12DE58DA-B49A-4034-B49C-F9AC422203FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AE4CFC1-B238-43FF-AA33-0710B511A5EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AE4CFC1-B238-43FF-AA33-0710B511A5EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AE4CFC1-B238-43FF-AA33-0710B511A5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AE4CFC1-B238-43FF-AA33-0710B511A5EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94702BDE-E879-4338-8404-DD74B918BD1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94702BDE-E879-4338-8404-DD74B918BD1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94702BDE-E879-4338-8404-DD74B918BD1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94702BDE-E879-4338-8404-DD74B918BD1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{37214CB2-2473-477B-8D1B-EA1DAF4B7646} = {A4438BDA-E4B0-4C08-BAB9-E7472466E981}
+		{4706F0B8-E927-402C-B651-680755B0C41E} = {37214CB2-2473-477B-8D1B-EA1DAF4B7646}
+		{BA07BAD1-C6BD-46AA-990E-4C55EBAC626E} = {37214CB2-2473-477B-8D1B-EA1DAF4B7646}
+		{8722FCC3-C29D-489F-98E6-C0875BBD8BEA} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
+		{12DE58DA-B49A-4034-B49C-F9AC422203FF} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
+		{2AE4CFC1-B238-43FF-AA33-0710B511A5EC} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
+		{94702BDE-E879-4338-8404-DD74B918BD1D} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7CD579A-3C38-46ED-9B66-6AC69985CBB8}
+	EndGlobalSection
+EndGlobal

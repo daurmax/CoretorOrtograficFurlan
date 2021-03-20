@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\base\ARLeF.Struments.Base.Core\ARLeF.Struments.Base.Core.csproj" />
-    <ProjectReference Include="..\..\..\components\CoretorOrtografic\ARLeF.Struments.Components.CoretorOrtografic.Infrastructure\ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\libraries\ARLeF.Struments.CoretorOrtografic.Business\ARLeF.Struments.CoretorOrtografic.Business.csproj" />
+    <ProjectReference Include="..\..\..\libraries\ARLeF.Struments.CoretorOrtografic.Contracts\ARLeF.Struments.CoretorOrtografic.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
