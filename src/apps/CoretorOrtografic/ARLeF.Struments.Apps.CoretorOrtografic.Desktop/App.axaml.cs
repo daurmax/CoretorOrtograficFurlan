@@ -17,10 +17,13 @@ namespace ARLeF.Struments.Apps.CoretorOrtografic.Desktop
 
         public override void OnFrameworkInitializationCompleted()
         {
-            new MainWindow
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                DataContext = new MainWindowViewModel(Locator.GetLocator().GetService<ISpellChecker>())
-            }.Show();
+                desktop.MainWindow = new MainWindow
+                {
+                    DataContext = new MainWindowViewModel(Locator.GetLocator().GetService<ISpellChecker>()),
+                };
+            }
 
             base.OnFrameworkInitializationCompleted();
         }
