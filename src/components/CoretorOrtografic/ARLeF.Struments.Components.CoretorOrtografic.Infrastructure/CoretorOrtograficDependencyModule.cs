@@ -2,9 +2,11 @@
 using ARLeF.Struments.Base.Core.Output;
 using ARLeF.Struments.Base.Infrastructure;
 using ARLeF.Struments.Components.CoretorOrtografic.Core.KeyValueDatabase;
+using ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker;
 using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.ContentReader;
 using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.KeyValueDatabase;
 using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.Output;
+using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.SpellChecker;
 using Autofac;
 using System;
 using System.Collections.Generic;
@@ -60,6 +62,7 @@ namespace ARLeF.Struments.Components.CoretorOrtografic.Infrastructure
         private void RegisterDevelopmentOnlyDependencies(ContainerBuilder builder)
         {
             // Add development only services
+            builder.RegisterType<MockSpellChecker>().As<ISpellChecker>();
             builder.RegisterType<MockKeyValueDatabase>().As<IKeyValueDatabase>();
         }
         private void RegisterProductionOnlyDependencies(ContainerBuilder builder)
