@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ARLeF.Struments.Components.CoretorOrtografic.Entities\ARLeF.Struments.Components.CoretorOrtografic.Entities.csproj" />
+    <ProjectReference Include="..\ARLeF.Struments.CoretorOrtografic.Entities\ARLeF.Struments.CoretorOrtografic.Entities.csproj" />
   </ItemGroup>
 
 </Project>

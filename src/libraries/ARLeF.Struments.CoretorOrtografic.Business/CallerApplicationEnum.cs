@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Components.CoretorOrtografic.Infrastructure
+namespace ARLeF.Struments.CoretorOrtografic.Business
 {
     public enum CallerApplicationEnum
     {

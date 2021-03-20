@@ -1,4 +1,4 @@
-using ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker;
+using ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker;
 using System;
 using System.Collections.Generic;
 using System.Text;

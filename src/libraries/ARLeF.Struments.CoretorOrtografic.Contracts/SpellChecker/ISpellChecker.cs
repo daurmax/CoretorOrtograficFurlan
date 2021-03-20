@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker
+namespace ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker
 {
     public interface ISpellChecker
     {

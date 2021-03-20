@@ -1,6 +1,6 @@
 using ARLeF.Struments.Apps.CoretorOrtografic.Desktop.ViewModels;
 using ARLeF.Struments.Apps.CoretorOrtografic.Desktop.Views;
-using ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker;
+using ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;

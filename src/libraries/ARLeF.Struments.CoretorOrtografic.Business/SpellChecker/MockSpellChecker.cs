@@ -1,12 +1,12 @@
-﻿using ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker;
-using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
+﻿using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
+using ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.SpellChecker
+namespace ARLeF.Struments.CoretorOrtografic.Business.SpellChecker
 {
     public class MockSpellChecker : ISpellChecker
     {

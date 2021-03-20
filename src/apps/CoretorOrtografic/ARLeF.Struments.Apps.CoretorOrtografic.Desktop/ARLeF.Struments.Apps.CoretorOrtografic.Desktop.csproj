@@ -18,10 +18,11 @@
     <PackageReference Include="Splat.Autofac" Version="10.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\components\CoretorOrtografic\ARLeF.Struments.Components.CoretorOrtografic.Infrastructure\ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="NewFolder\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\libraries\ARLeF.Struments.CoretorOrtografic.Business\ARLeF.Struments.CoretorOrtografic.Business.csproj" />
+    <ProjectReference Include="..\..\..\libraries\ARLeF.Struments.CoretorOrtografic.Contracts\ARLeF.Struments.CoretorOrtografic.Contracts.csproj" />
   </ItemGroup>
 </Project>
