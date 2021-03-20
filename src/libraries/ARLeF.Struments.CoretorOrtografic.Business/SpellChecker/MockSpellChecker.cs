@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ARLeF.Struments.CoretorOrtografic.Business.SpellChecker
@@ -41,9 +42,19 @@ namespace ARLeF.Struments.CoretorOrtografic.Business.SpellChecker
 
         private ICollection<IProcessedElement> GetProcessedElements(string text)
         {
-            foreach (string word in text.Split())
+            List<string> words = Regex.Split(text, "(!?[a-zA-Z-èàòùìç]*)").ToList();
+            words = words.Where(x => !String.IsNullOrEmpty(x)).ToList();
+            //String.Join(String.Empty, _processedElementsList)
+
+            foreach (string word in words)
             {
-                _processedElementsList.Add(new ProcessedWord(word));
+                if (Regex.IsMatch(word, "[a-zA-Z-èàòùìç]+"))
+                {
+                    _processedElementsList.Add(new ProcessedWord(word));
+                } else
+                {
+                    _processedElementsList.Add(new ProcessedPunctuation(word));
+                }
             }
             return _processedElementsList;
         }
@@ -80,6 +91,16 @@ namespace ARLeF.Struments.CoretorOrtografic.Business.SpellChecker
         public void AddWord(ProcessedWord word)
         {
             throw new NotImplementedException();
+        }
+
+        public string GetCorrectedText()
+        {
+            string result = "";
+            foreach(IProcessedElement word in _processedElementsList)
+            {
+                result = result + word.ToString();
+            }
+            return result;
         }
     }
 }
