@@ -43,7 +43,7 @@ namespace ARLeF.Struments.Apps.CoretorOrtografic.Desktop
             Locator.CurrentMutable.InitializeAvalonia();
 
             resolver.SetLifetimeScope(builder.Build());
-            BuildAvaloniaApp().Start(AppMain, args);
+            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.
@@ -51,18 +51,5 @@ namespace ARLeF.Struments.Apps.CoretorOrtografic.Desktop
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace();
-
-        // Application entry point. Avalonia is completely initialized.
-        static void AppMain(Application app, string[] args)
-        {
-            // A cancellation token source that will be used to stop the main loop
-            var cts = new CancellationTokenSource();
-
-            // Do you startup code here
-            //
-
-            // Start the main loop
-            app.Run(cts.Token);
-        }
     }
 }
