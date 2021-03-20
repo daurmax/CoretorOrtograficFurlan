@@ -54,5 +54,10 @@ namespace ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker
         /// </summary>
         /// <param name="word"><see cref="ProcessedWord"/> to be added to the dictionary</param>
         void AddWord(ProcessedWord word);
+
+        /// <summary>
+        /// Returns the corrected text concatenating the <see cref="ProcessedWord"/>
+        /// </summary>
+        string GetCorrectedText();
     }
 }
