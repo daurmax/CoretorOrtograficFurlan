@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Base.Core.Input
+namespace ARLeF.Struments.CoretorOrtografic.Contracts.Input
 {
     public interface IContentReader
     {

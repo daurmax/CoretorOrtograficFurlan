@@ -1,12 +1,11 @@
-﻿using ARLeF.Struments.Base.Core.Input;
-using ARLeF.Struments.Base.Core.Output;
-using ARLeF.Struments.Base.Infrastructure;
-using ARLeF.Struments.Components.CoretorOrtografic.Core.KeyValueDatabase;
-using ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker;
-using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.ContentReader;
-using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.KeyValueDatabase;
-using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.Output;
-using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.SpellChecker;
+﻿using ARLeF.Struments.CoretorOrtografic.Business.ContentReader;
+using ARLeF.Struments.CoretorOrtografic.Business.KeyValueDatabase;
+using ARLeF.Struments.CoretorOrtografic.Business.Output;
+using ARLeF.Struments.CoretorOrtografic.Business.SpellChecker;
+using ARLeF.Struments.CoretorOrtografic.Contracts.Input;
+using ARLeF.Struments.CoretorOrtografic.Contracts.KeyValueDatabase;
+using ARLeF.Struments.CoretorOrtografic.Contracts.Output;
+using ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker;
 using Autofac;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Components.CoretorOrtografic.Infrastructure
+namespace ARLeF.Struments.CoretorOrtografic.Business
 {
     public class CoretorOrtograficDependencyModule : Module
     {
@@ -50,15 +49,8 @@ namespace ARLeF.Struments.Components.CoretorOrtografic.Infrastructure
                     RegisterMobileDependencies(builder);
                     break;
             }
-
-            RegisterCommonDependencies(builder);
         }
 
-        private void RegisterCommonDependencies(ContainerBuilder builder)
-        {
-            // Add services for both production and development
-            builder.RegisterModule(new CoreDependencyModule(_isDevelopment));
-        }
         private void RegisterDevelopmentOnlyDependencies(ContainerBuilder builder)
         {
             // Add development only services

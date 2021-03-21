@@ -1,4 +1,4 @@
-﻿using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure;
+﻿using ARLeF.Struments.CoretorOrtografic.Business;
 using Autofac;
 using System;
 using System.Collections.Generic;

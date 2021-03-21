@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Components.CoretorOrtografic.Core.KeyValueDatabase
+namespace ARLeF.Struments.CoretorOrtografic.Contracts.KeyValueDatabase
 {
     public interface IKeyValueDatabase
     {
@@ -13,6 +13,6 @@ namespace ARLeF.Struments.Components.CoretorOrtografic.Core.KeyValueDatabase
         /// </summary>
         /// <param name="id">key associated with a value</param>
         /// <returns>Value associated to a key</returns>
-        Task<string> GetByKey(string key);
+        Task<string> GetSuggestionsByKey(string key);
     }
 }
