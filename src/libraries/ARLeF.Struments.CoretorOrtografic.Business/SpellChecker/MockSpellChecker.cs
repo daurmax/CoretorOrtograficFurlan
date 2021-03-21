@@ -30,25 +30,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Business.SpellChecker
                 word.Correct = CheckWordCorrectness(word);
             }
         }
-
-        private ICollection<IProcessedElement> GetProcessedElements(string text)
-        {
-            List<string> words = Regex.Split(text, "(!?[a-zA-Z-èàòùìç]*)").ToList();
-            words = words.Where(x => !String.IsNullOrEmpty(x)).ToList();
-            //String.Join(String.Empty, _processedElementsList)
-
-            foreach (string word in words)
-            {
-                if (Regex.IsMatch(word, "[a-zA-Z-èàòùìç]+"))
-                {
-                    _processedElementsList.Add(new ProcessedWord(word));
-                } else
-                {
-                    _processedElementsList.Add(new ProcessedPunctuation(word));
-                }
-            }
-            return _processedElementsList;
-        }
         public bool CheckWordCorrectness(ProcessedWord word)
         {
             Random rand = new Random();
@@ -84,7 +65,26 @@ namespace ARLeF.Struments.CoretorOrtografic.Business.SpellChecker
             throw new NotImplementedException();
         }
 
-        public string GetCorrectedText()
+        private ICollection<IProcessedElement> GetProcessedElements(string text)
+        {
+            List<string> words = Regex.Split(text, "(!?[a-zA-Z-èàòùìç]*)").ToList();
+            words = words.Where(x => !String.IsNullOrEmpty(x)).ToList();
+            //String.Join(String.Empty, _processedElementsList)
+
+            foreach (string word in words)
+            {
+                if (Regex.IsMatch(word, "[a-zA-Z-èàòùìç]+"))
+                {
+                    _processedElementsList.Add(new ProcessedWord(word));
+                }
+                else
+                {
+                    _processedElementsList.Add(new ProcessedPunctuation(word));
+                }
+            }
+            return _processedElementsList;
+        }
+        public string GetProcessedText()
         {
             string result = "";
             foreach (IProcessedElement word in _processedElementsList)
@@ -93,6 +93,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Business.SpellChecker
             }
             return result;
         }
+
         //public ICollection<IProcessedElement> GetAllProcessedElementsList
         //{
         //    get => _processedElementsList;
