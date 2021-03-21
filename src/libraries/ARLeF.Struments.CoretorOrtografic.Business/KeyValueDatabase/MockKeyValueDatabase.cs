@@ -9,7 +9,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Business.KeyValueDatabase
 {
     public class MockKeyValueDatabase : IKeyValueDatabase
     {
-        public Task<string> GetByKey(string key)
+        public Task<string> GetSuggestionsByKey(string key)
         {
             throw new NotImplementedException();
         }
