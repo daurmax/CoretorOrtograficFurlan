@@ -1,4 +1,5 @@
 ﻿using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
+using ARLeF.Struments.CoretorOrtografic.Contracts.KeyValueDatabase;
 using ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker;
 using System;
 using System.Collections.Generic;
@@ -11,23 +12,13 @@ namespace ARLeF.Struments.CoretorOrtografic.Business.SpellChecker
 {
     public class MockSpellChecker : ISpellChecker
     {
+        private IKeyValueDatabase _keyValueDatabaseService;
         private ICollection<IProcessedElement> _processedElementsList = new List<IProcessedElement>();
 
 
-        public MockSpellChecker() { }
-
-
-        public ICollection<IProcessedElement> AllProcessedElementsList 
+        public MockSpellChecker(IKeyValueDatabase keyValueDatabaseService) 
         {
-            get => _processedElementsList;
-        }
-        public ICollection<ProcessedWord> AllProcessedWords
-        {
-            get => _processedElementsList.OfType<ProcessedWord>().ToList();
-        }
-        public ICollection<ProcessedWord> AllIncorrectWordList
-        {
-            get => _processedElementsList.OfType<ProcessedWord>().Where(word => word.Correct == false).ToList();
+            _keyValueDatabaseService = keyValueDatabaseService;
         }
 
 
@@ -96,11 +87,23 @@ namespace ARLeF.Struments.CoretorOrtografic.Business.SpellChecker
         public string GetCorrectedText()
         {
             string result = "";
-            foreach(IProcessedElement word in _processedElementsList)
+            foreach (IProcessedElement word in _processedElementsList)
             {
                 result = result + word.ToString();
             }
             return result;
+        }
+        //public ICollection<IProcessedElement> GetAllProcessedElementsList
+        //{
+        //    get => _processedElementsList;
+        //}
+        //public ICollection<ProcessedWord> GetAllProcessedWords
+        //{
+        //    get => _processedElementsList.OfType<ProcessedWord>().ToList();
+        //}
+        public ICollection<ProcessedWord> GetAllIncorrectWords()
+        {
+            return _processedElementsList.OfType<ProcessedWord>().Where(word => word.Correct == false).ToList();
         }
     }
 }
