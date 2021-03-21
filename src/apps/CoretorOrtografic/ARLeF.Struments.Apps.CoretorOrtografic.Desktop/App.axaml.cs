@@ -1,6 +1,6 @@
 using ARLeF.Struments.Apps.CoretorOrtografic.Desktop.ViewModels;
 using ARLeF.Struments.Apps.CoretorOrtografic.Desktop.Views;
-using ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker;
+using ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -17,10 +17,13 @@ namespace ARLeF.Struments.Apps.CoretorOrtografic.Desktop
 
         public override void OnFrameworkInitializationCompleted()
         {
-            new MainWindow
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                DataContext = new MainWindowViewModel(Locator.GetLocator().GetService<ISpellChecker>())
-            }.Show();
+                desktop.MainWindow = new MainWindow
+                {
+                    DataContext = new MainWindowViewModel(Locator.GetLocator().GetService<ISpellChecker>()),
+                };
+            }
 
             base.OnFrameworkInitializationCompleted();
         }

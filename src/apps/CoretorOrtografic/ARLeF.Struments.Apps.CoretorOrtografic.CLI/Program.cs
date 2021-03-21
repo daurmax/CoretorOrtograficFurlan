@@ -1,8 +1,7 @@
-﻿using ARLeF.Struments.Base.Core.Development;
-using ARLeF.Struments.Base.Core.Input;
-using ARLeF.Struments.Base.Core.Output;
-using ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker;
-using ARLeF.Struments.Components.CoretorOrtografic.Infrastructure.SpellChecker;
+﻿using ARLeF.Struments.CoretorOrtografic.Business.SpellChecker;
+using ARLeF.Struments.CoretorOrtografic.Contracts.Input;
+using ARLeF.Struments.CoretorOrtografic.Contracts.Output;
+using ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker;
 using Autofac;
 using System;
 using System.Threading;
@@ -27,9 +26,9 @@ namespace ARLeF.Struments.Apps.CoretorOrtografic.CLI
                 var reader = scope.Resolve<IContentReader>();
                 var writer = scope.Resolve<IContentWriter>();
 
-                MockSpellChecker checker = new MockSpellChecker();
+                ISpellChecker checker = scope.Resolve<ISpellChecker>();
                 checker.ExecuteSpellCheck(reader.Read());
-                writer.Write(String.Join(" ", checker.AllIncorrectWordList));
+                writer.Write(String.Join("\n", checker.GetAllIncorrectWords()));
             }
         }
     }

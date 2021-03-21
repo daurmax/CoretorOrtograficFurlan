@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker
+namespace ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker
 {
     public interface ISpellChecker
     {
@@ -54,5 +54,17 @@ namespace ARLeF.Struments.Components.CoretorOrtografic.Core.SpellChecker
         /// </summary>
         /// <param name="word"><see cref="ProcessedWord"/> to be added to the dictionary</param>
         void AddWord(ProcessedWord word);
+
+        /// <summary>
+        /// Returns the corrected text concatenating all the corrected <see cref="ProcessedWord"/>s and <see cref="ProcessedPunctuation"/>s
+        /// </summary>
+        /// <returns><see cref="string"/> containing the corrected text</returns>
+        string GetCorrectedText();
+
+        /// <summary>
+        /// Retrieves a list of all incorrect <see cref="ProcessedWord"/>s
+        /// </summary>
+        /// <returns><see cref="ICollection{ProcessedWord}"/> of all incorrect words</returns>
+        ICollection<ProcessedWord> GetAllIncorrectWords();
     }
 }
