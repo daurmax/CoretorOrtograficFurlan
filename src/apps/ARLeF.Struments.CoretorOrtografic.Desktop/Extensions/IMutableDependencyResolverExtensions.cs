@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Apps.CoretorOrtografic.Desktop.Extensions
+namespace ARLeF.Struments.CoretorOrtografic.Desktop.Extensions
 {
     public static class IMutableDependencyResolverExtensions
     {

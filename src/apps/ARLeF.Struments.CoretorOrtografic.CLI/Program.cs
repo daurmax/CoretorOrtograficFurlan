@@ -6,7 +6,7 @@ using Autofac;
 using System;
 using System.Threading;
 
-namespace ARLeF.Struments.Apps.CoretorOrtografic.CLI
+namespace ARLeF.Struments.CoretorOrtografic.CLI
 {
     class Program
     {

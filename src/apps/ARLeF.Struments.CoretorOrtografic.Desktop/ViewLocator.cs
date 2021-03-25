@@ -1,9 +1,9 @@
-using ARLeF.Struments.Apps.CoretorOrtografic.Desktop.ViewModels;
+using ARLeF.Struments.CoretorOrtografic.Desktop.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using System;
 
-namespace ARLeF.Struments.Apps.CoretorOrtografic.Desktop
+namespace ARLeF.Struments.CoretorOrtografic.Desktop
 {
     public class ViewLocator : IDataTemplate
     {

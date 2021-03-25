@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Apps.CoretorOrtografic.CLI
+namespace ARLeF.Struments.CoretorOrtografic.CLI
 {
     class CoretorOrtograficCliDependencyContainer
     {

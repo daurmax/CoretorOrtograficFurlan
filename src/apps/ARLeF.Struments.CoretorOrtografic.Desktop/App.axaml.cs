@@ -1,12 +1,12 @@
-using ARLeF.Struments.Apps.CoretorOrtografic.Desktop.ViewModels;
-using ARLeF.Struments.Apps.CoretorOrtografic.Desktop.Views;
+using ARLeF.Struments.CoretorOrtografic.Desktop.ViewModels;
+using ARLeF.Struments.CoretorOrtografic.Desktop.Views;
 using ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Splat;
 
-namespace ARLeF.Struments.Apps.CoretorOrtografic.Desktop
+namespace ARLeF.Struments.CoretorOrtografic.Desktop
 {
     public class App : Application
     {

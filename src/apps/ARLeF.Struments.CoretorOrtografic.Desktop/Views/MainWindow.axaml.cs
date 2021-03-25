@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using AvaloniaEdit;
 
-namespace ARLeF.Struments.Apps.CoretorOrtografic.Desktop.Views
+namespace ARLeF.Struments.CoretorOrtografic.Desktop.Views
 {
     public class MainWindow : Window
     {
