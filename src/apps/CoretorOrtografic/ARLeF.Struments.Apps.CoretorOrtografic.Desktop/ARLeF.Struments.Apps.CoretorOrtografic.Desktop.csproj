@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\libraries\ARLeF.Struments.CoretorOrtografic.Business\ARLeF.Struments.CoretorOrtografic.Business.csproj" />
