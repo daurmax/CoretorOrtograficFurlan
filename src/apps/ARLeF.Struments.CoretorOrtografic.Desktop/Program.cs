@@ -1,4 +1,4 @@
-using ARLeF.Struments.Apps.CoretorOrtografic.Desktop.Extensions;
+using ARLeF.Struments.CoretorOrtografic.Desktop.Extensions;
 using Autofac;
 using Avalonia;
 using Avalonia.Controls;
@@ -11,7 +11,7 @@ using System;
 using System.Reflection;
 using System.Threading;
 
-namespace ARLeF.Struments.Apps.CoretorOrtografic.Desktop
+namespace ARLeF.Struments.CoretorOrtografic.Desktop
 {
     class Program
     {

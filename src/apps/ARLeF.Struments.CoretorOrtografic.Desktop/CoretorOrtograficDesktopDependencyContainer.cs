@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Apps.CoretorOrtografic.Desktop
+namespace ARLeF.Struments.CoretorOrtografic.Desktop
 {
     class CoretorOrtograficDesktopDependencyContainer
     {
