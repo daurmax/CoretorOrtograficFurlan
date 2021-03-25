@@ -1,16 +1,21 @@
 <Window xmlns="https://github.com/avaloniaui"
-        xmlns:AvalonEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:ARLeF.Struments.Apps.CoretorOrtografic.Desktop.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:ae="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ARLeF.Struments.Apps.CoretorOrtografic.Desktop.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="ARLeF.Struments.Apps.CoretorOrtografic.Desktop">
+	<Window.Styles>
+		<Style Selector = "TextBlock.green">
+			<Setter Property = "Foreground" Value = "Green" />
+		</Style>
+	</Window.Styles>
 
 	<Design.DataContext>
-		<vm:MainWindowViewModel/>
+		<!--<vm:MainWindowViewModel/>-->
 	</Design.DataContext>
 
 	<Grid Background="White" ShowGridLines="True">
@@ -20,18 +25,15 @@
 			<RowDefinition Height="250"/>
 		</Grid.RowDefinitions>
 
-		<DockPanel Grid.Row="0">
-			<AvalonEdit:TextEditor Name="Editor"
-								   Background="Gray"
-								   Margin="30"
-								   Foreground="Black"
-								   SyntaxHighlighting="XML"
-								   HorizontalScrollBarVisibility="Disabled"
-								   VerticalScrollBarVisibility="Visible"
-								   TextBlock.FontSize="14" />
-		</DockPanel>
-
-		<!--<TextBox Text="{Binding Text}" Grid.Row="0" Margin="10" VerticalAlignment="Stretch" />-->
+		<ae:TextEditor Name="textEditor" 
+					   FontFamily="Consolas" 
+					   FontSize="14" 
+					   Margin="10"
+					   IsReadOnly="False"
+					   Background="{DynamicResource ThemeCodeBackgroundBrush}"
+					   Foreground="{DynamicResource ThemeCodeForegroundBrush}">
+		</ae:TextEditor>
+		<!--<TextBox Name="Editor" Text="{Binding Text}" Grid.Row="0" Margin="10" VerticalAlignment="Stretch" AcceptsReturn="True" TextWrapping="Wrap" />-->
 
 		<StackPanel Grid.Row="1">
 			<Panel Height="50" HorizontalAlignment="Center" VerticalAlignment="Stretch">

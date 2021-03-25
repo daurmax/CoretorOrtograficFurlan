@@ -14,16 +14,16 @@ namespace ARLeF.Struments.Apps.CoretorOrtografic.Desktop.ViewModels
 
         #region Fields
         private string _text;
+        private FormattedText _formattedText;
         private string _selectedWord;
         private List<string> _suggestedWords;
-        private FormattedText _test;
         #endregion Fields
 
         public MainWindowViewModel(ISpellChecker spellChecker) 
         {
             _spellChecker = spellChecker;
 
-            Text = "prova";
+            Text = "prova prova prova";
             SpellCheckCommand = ReactiveCommand.Create(ExecuteSpellCheckCommand);
         }
 
@@ -32,6 +32,11 @@ namespace ARLeF.Struments.Apps.CoretorOrtografic.Desktop.ViewModels
         {
             get => _text;
             set => this.RaiseAndSetIfChanged(ref _text, value);
+        }
+        public FormattedText FormattedText
+        {
+            get => _formattedText;
+            set => this.RaiseAndSetIfChanged(ref _formattedText, value);
         }
         public string SelectedWord
         {
