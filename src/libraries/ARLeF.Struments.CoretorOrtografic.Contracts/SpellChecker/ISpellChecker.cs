@@ -59,7 +59,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker
         /// Returns the corrected text concatenating all the corrected <see cref="ProcessedWord"/>s and <see cref="ProcessedPunctuation"/>s
         /// </summary>
         /// <returns><see cref="string"/> containing the corrected text</returns>
-        string GetCorrectedText();
+        string GetProcessedText();
 
         /// <summary>
         /// Retrieves a list of all incorrect <see cref="ProcessedWord"/>s
