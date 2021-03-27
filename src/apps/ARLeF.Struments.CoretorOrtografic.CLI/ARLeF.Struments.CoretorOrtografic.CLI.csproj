@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>ARLeF.Struments.Apps.CoretorOrtografic.CLI</AssemblyName>
+    <RootNamespace>ARLeF.Struments.Apps.CoretorOrtografic.CLI</RootNamespace>
+    <PackageId>ARLeF.Struments.Apps.CoretorOrtografic.CLI</PackageId>
+    <Authors>ARLeF.Struments.Apps.CoretorOrtografic.CLI</Authors>
+    <Company>ARLeF.Struments.Apps.CoretorOrtografic.CLI</Company>
+    <Product>ARLeF.Struments.Apps.CoretorOrtografic.CLI</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\libraries\ARLeF.Struments.CoretorOrtografic.Business\ARLeF.Struments.CoretorOrtografic.Business.csproj" />
+  </ItemGroup>
+
+</Project>
