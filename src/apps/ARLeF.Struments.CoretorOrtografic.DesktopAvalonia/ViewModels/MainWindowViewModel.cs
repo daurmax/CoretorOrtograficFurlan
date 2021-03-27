@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Text;
 
-namespace ARLeF.Struments.CoretorOrtografic.Desktop.ViewModels
+namespace ARLeF.Struments.CoretorOrtografic.DesktopAvalonia.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
