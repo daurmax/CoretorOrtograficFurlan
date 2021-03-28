@@ -10,8 +10,8 @@
   "build": {
     "appId": "com.ARLeF.Struments.CoretorOrtografic.DesktopElectron.app",
     "productName": "ARLeF.Struments.CoretorOrtografic.DesktopElectron",
-    "copyright": "Copyright © 2020",
-    "buildVersion": "1.0.0",
+    "copyright": "Copyright © 2021",
+    "buildVersion": "0.0.1",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop"
