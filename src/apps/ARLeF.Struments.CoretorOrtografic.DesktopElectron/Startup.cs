@@ -12,9 +12,12 @@ namespace ARLeF.Struments.CoretorOrtografic.DesktopElectron
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -22,7 +25,6 @@ namespace ARLeF.Struments.CoretorOrtografic.DesktopElectron
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -30,14 +32,30 @@ namespace ARLeF.Struments.CoretorOrtografic.DesktopElectron
             {
                 configuration.RootPath = "coretor-ortografic/build";
             });
+
+            if (_env.IsDevelopment())
+            {
+                // Register the Swagger generator, defining 1 or more Swagger documents
+                services.AddSwaggerGen();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
+                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+                // specifying the Swagger JSON endpoint.
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CoretorOrtograficAPI");
+                });
             }
             else
             {
@@ -63,7 +81,7 @@ namespace ARLeF.Struments.CoretorOrtografic.DesktopElectron
             {
                 spa.Options.SourcePath = "coretor-ortografic";
 
-                if (env.IsDevelopment())
+                if (_env.IsDevelopment())
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
