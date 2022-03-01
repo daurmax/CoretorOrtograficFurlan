@@ -20,4 +20,8 @@
     <Folder Include="Infrastructure\KeyValueDatabase\" />
     <Folder Include="Infrastructure\RadixTree\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libraries\ARLeF.Struments.CoretorOrtografic.Entities\ARLeF.Struments.CoretorOrtografic.Entities.csproj" />
+    <ProjectReference Include="..\..\Dictionaries\Project\ARLeF.Struments.CoretorOrtografic.Dictionaries\ARLeF.Struments.CoretorOrtografic.Dictionaries.csproj" />
+  </ItemGroup>
 </Project>
