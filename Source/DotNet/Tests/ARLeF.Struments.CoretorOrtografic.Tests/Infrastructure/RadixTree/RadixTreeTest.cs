@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
 using ARLeF.Struments.CoretorOrtografic.Entities.RadixTree;
 using NUnit.Framework;
 
@@ -15,12 +16,10 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTree
         [Test]
         public void ReadWordsRadixTreeTest()
         {
-            string RADIX_FILE_PATH = "Dictionaries/WordsRadixTree/words.rt";
-
             var timer = new Stopwatch();
             timer.Start();
 
-            var rootNode = new RadixTreeNode(RADIX_FILE_PATH, 0);
+            var rootNode = new RadixTreeNode(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH, 0);
 
             Console.WriteLine($"Edge position: [{rootNode.EdgePosition}]");
             Console.WriteLine($"Number of edges: [{rootNode.EdgesNumber}]");
