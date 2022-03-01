@@ -25,6 +25,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Struments.CoretorOrtografic.Dictionaries", "Libraries\ARLeF.Struments.CoretorOrtografic.Dictionaries\ARLeF.Struments.CoretorOrtografic.Dictionaries.csproj", "{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{3CFD357F-50D1-4E92-B2A0-71B28C1A2671}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "macOS", "macOS", "{BAD4C009-211D-4056-AE20-DA39FD9E54E3}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\UnzipFiles.sh = Scripts\UnzipFiles.sh
+		Scripts\ZipFiles.sh = Scripts\ZipFiles.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +81,7 @@ Global
 		{422FE06A-B539-464B-8C4D-5D59CE47A41C} = {A4438BDA-E4B0-4C08-BAB9-E7472466E981}
 		{D3431997-28F4-4155-8F9D-DD62CF5F49BA} = {FC5515EF-1C17-47F3-8E46-C7D97D0E37A5}
 		{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
+		{BAD4C009-211D-4056-AE20-DA39FD9E54E3} = {3CFD357F-50D1-4E92-B2A0-71B28C1A2671}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7CD579A-3C38-46ED-9B66-6AC69985CBB8}
