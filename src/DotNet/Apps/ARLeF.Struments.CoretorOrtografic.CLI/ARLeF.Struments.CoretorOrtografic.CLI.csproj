@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\libraries\ARLeF.Struments.CoretorOrtografic.Business\ARLeF.Struments.CoretorOrtografic.Business.csproj" />
-    <ProjectReference Include="..\..\Dictionaries\Project\ARLeF.Struments.CoretorOrtografic.Dictionaries\ARLeF.Struments.CoretorOrtografic.Dictionaries.csproj" />
+    <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Dictionaries\ARLeF.Struments.CoretorOrtografic.Dictionaries.csproj" />
   </ItemGroup>
-
 </Project>
