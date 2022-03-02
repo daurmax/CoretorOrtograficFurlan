@@ -5,9 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="RadixTree\" />
+    <PackageReference Include="Autofac" Version="6.1.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Folder Include="RadixTree\" />
+    <ProjectReference Include="..\ARLeF.Struments.CoretorOrtografic.Core\ARLeF.Struments.CoretorOrtografic.Core.csproj" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-using ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker;
+﻿using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
 using Avalonia.Media;
 using ReactiveUI;
 using System;

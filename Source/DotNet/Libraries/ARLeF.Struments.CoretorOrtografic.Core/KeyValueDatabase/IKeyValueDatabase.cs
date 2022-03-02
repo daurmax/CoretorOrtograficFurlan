@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.CoretorOrtografic.Contracts.KeyValueDatabase
+namespace ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase
 {
     public interface IKeyValueDatabase
     {

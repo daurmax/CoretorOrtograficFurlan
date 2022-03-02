@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
-using ARLeF.Struments.CoretorOrtografic.Entities.RadixTree;
+using ARLeF.Struments.CoretorOrtografic.Core.Entities.RadixTree;
 using NUnit.Framework;
 
 namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTree

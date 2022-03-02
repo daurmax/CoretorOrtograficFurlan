@@ -1,11 +1,11 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Contracts.Output;
+﻿using ARLeF.Struments.CoretorOrtografic.Core.Output;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.CoretorOrtografic.Business.Output
+namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.Output
 {
     public class ConsoleContentWriter : IContentWriter
     {

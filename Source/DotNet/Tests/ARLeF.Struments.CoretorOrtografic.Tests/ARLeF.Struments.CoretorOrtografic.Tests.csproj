@@ -21,7 +21,7 @@
     <Folder Include="Infrastructure\RadixTree\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Entities\ARLeF.Struments.CoretorOrtografic.Entities.csproj" />
     <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Dictionaries\ARLeF.Struments.CoretorOrtografic.Dictionaries.csproj" />
+    <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Core\ARLeF.Struments.CoretorOrtografic.Core.csproj" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Business.SpellChecker;
-using ARLeF.Struments.CoretorOrtografic.Contracts.Input;
-using ARLeF.Struments.CoretorOrtografic.Contracts.Output;
-using ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker;
+﻿using ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker;
+using ARLeF.Struments.CoretorOrtografic.Core.Input;
+using ARLeF.Struments.CoretorOrtografic.Core.Output;
+using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
 using Autofac;
 using System;
 using System.Threading;

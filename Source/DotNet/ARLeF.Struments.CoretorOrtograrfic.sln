@@ -7,12 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{A4438BDA-E4B0-4C08-BAB9-E7472466E981}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Business", "libraries\ARLeF.Struments.CoretorOrtografic.Business\ARLeF.Struments.CoretorOrtografic.Business.csproj", "{8722FCC3-C29D-489F-98E6-C0875BBD8BEA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Contracts", "libraries\ARLeF.Struments.CoretorOrtografic.Contracts\ARLeF.Struments.CoretorOrtografic.Contracts.csproj", "{12DE58DA-B49A-4034-B49C-F9AC422203FF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Entities", "libraries\ARLeF.Struments.CoretorOrtografic.Entities\ARLeF.Struments.CoretorOrtografic.Entities.csproj", "{2AE4CFC1-B238-43FF-AA33-0710B511A5EC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.CLI", "apps\ARLeF.Struments.CoretorOrtografic.CLI\ARLeF.Struments.CoretorOrtografic.CLI.csproj", "{26D153CC-6B10-4D5F-BCDE-04F8D02E3611}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.DesktopAvalonia", "apps\ARLeF.Struments.CoretorOrtografic.DesktopAvalonia\ARLeF.Struments.CoretorOrtografic.DesktopAvalonia.csproj", "{D3E6D81C-7029-4D82-8ACD-DA9435678C92}"
@@ -33,24 +27,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "macOS", "macOS", "{BAD4C009
 		Scripts\ZipFiles.sh = Scripts\ZipFiles.sh
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Struments.CoretorOrtografic.Core", "Libraries\ARLeF.Struments.CoretorOrtografic.Core\ARLeF.Struments.CoretorOrtografic.Core.csproj", "{DD44BC76-A9F3-42BF-982F-F4D26347249D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Struments.CoretorOrtografic.Infrastructure", "Libraries\ARLeF.Struments.CoretorOrtografic.Infrastructure\ARLeF.Struments.CoretorOrtografic.Infrastructure.csproj", "{C9E6D5DC-3891-4149-BA88-E315F0680D33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8722FCC3-C29D-489F-98E6-C0875BBD8BEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8722FCC3-C29D-489F-98E6-C0875BBD8BEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8722FCC3-C29D-489F-98E6-C0875BBD8BEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8722FCC3-C29D-489F-98E6-C0875BBD8BEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12DE58DA-B49A-4034-B49C-F9AC422203FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12DE58DA-B49A-4034-B49C-F9AC422203FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12DE58DA-B49A-4034-B49C-F9AC422203FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12DE58DA-B49A-4034-B49C-F9AC422203FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2AE4CFC1-B238-43FF-AA33-0710B511A5EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AE4CFC1-B238-43FF-AA33-0710B511A5EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AE4CFC1-B238-43FF-AA33-0710B511A5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AE4CFC1-B238-43FF-AA33-0710B511A5EC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{26D153CC-6B10-4D5F-BCDE-04F8D02E3611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26D153CC-6B10-4D5F-BCDE-04F8D02E3611}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26D153CC-6B10-4D5F-BCDE-04F8D02E3611}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -68,20 +54,27 @@ Global
 		{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD44BC76-A9F3-42BF-982F-F4D26347249D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD44BC76-A9F3-42BF-982F-F4D26347249D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD44BC76-A9F3-42BF-982F-F4D26347249D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD44BC76-A9F3-42BF-982F-F4D26347249D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9E6D5DC-3891-4149-BA88-E315F0680D33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9E6D5DC-3891-4149-BA88-E315F0680D33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9E6D5DC-3891-4149-BA88-E315F0680D33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9E6D5DC-3891-4149-BA88-E315F0680D33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{8722FCC3-C29D-489F-98E6-C0875BBD8BEA} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
-		{12DE58DA-B49A-4034-B49C-F9AC422203FF} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
-		{2AE4CFC1-B238-43FF-AA33-0710B511A5EC} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
 		{26D153CC-6B10-4D5F-BCDE-04F8D02E3611} = {A4438BDA-E4B0-4C08-BAB9-E7472466E981}
 		{D3E6D81C-7029-4D82-8ACD-DA9435678C92} = {A4438BDA-E4B0-4C08-BAB9-E7472466E981}
 		{422FE06A-B539-464B-8C4D-5D59CE47A41C} = {A4438BDA-E4B0-4C08-BAB9-E7472466E981}
 		{D3431997-28F4-4155-8F9D-DD62CF5F49BA} = {FC5515EF-1C17-47F3-8E46-C7D97D0E37A5}
 		{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
 		{BAD4C009-211D-4056-AE20-DA39FD9E54E3} = {3CFD357F-50D1-4E92-B2A0-71B28C1A2671}
+		{DD44BC76-A9F3-42BF-982F-F4D26347249D} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
+		{C9E6D5DC-3891-4149-BA88-E315F0680D33} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7CD579A-3C38-46ED-9B66-6AC69985CBB8}

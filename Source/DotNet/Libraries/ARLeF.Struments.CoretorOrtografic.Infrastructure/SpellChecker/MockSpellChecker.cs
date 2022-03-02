@@ -1,6 +1,6 @@
 ﻿using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
-using ARLeF.Struments.CoretorOrtografic.Contracts.KeyValueDatabase;
-using ARLeF.Struments.CoretorOrtografic.Contracts.SpellChecker;
+using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
+using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.CoretorOrtografic.Business.SpellChecker
+namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 {
     public class MockSpellChecker : ISpellChecker
     {

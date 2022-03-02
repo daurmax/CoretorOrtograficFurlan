@@ -1,11 +1,11 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Contracts.Input;
+﻿using ARLeF.Struments.CoretorOrtografic.Core.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.CoretorOrtografic.Business.ContentReader
+namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.ContentReader
 {
     public class ConsoleContentReader : IContentReader
     {

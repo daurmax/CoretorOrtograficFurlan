@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.CoretorOrtografic.Contracts.Output
+namespace ARLeF.Struments.CoretorOrtografic.Core.Output
 {
     public interface IContentWriter
     {
