@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ARLeF.Struments.CoretorOrtografic.Infrastructure.RadixTreeReader;
+using ARLeF.Struments.CoretorOrtografic.Core.RadixTreeReader;
 
 namespace ARLeF.Struments.CoretorOrtografic.Business
 {
@@ -54,6 +56,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Business
         private void RegisterDevelopmentOnlyDependencies(ContainerBuilder builder)
         {
             // Add development only services
+            builder.RegisterType<InMemoryRadixTreeReader>().As<IRadixTreeReader>();
             builder.RegisterType<MockSpellChecker>().As<ISpellChecker>();
             builder.RegisterType<MockKeyValueDatabase>().As<IKeyValueDatabase>();
         }

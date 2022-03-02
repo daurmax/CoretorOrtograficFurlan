@@ -10,18 +10,21 @@
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="Autofac" Version="6.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Infrastructure\KeyValueDatabase\" />
     <None Remove="Infrastructure\RadixTree\" />
+    <None Remove="Autofac" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\KeyValueDatabase\" />
-    <Folder Include="Infrastructure\RadixTree\" />
+    <Folder Include="Infrastructure\RadixTreeReader\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Dictionaries\ARLeF.Struments.CoretorOrtografic.Dictionaries.csproj" />
     <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Core\ARLeF.Struments.CoretorOrtografic.Core.csproj" />
+    <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Infrastructure\ARLeF.Struments.CoretorOrtografic.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Dictionaries\ARLeF.Struments.CoretorOrtografic.Dictionaries.csproj" />
   </ItemGroup>
 </Project>

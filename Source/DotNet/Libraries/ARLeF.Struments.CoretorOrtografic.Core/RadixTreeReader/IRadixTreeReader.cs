@@ -5,6 +5,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTreeReader
 {
     public interface IRadixTreeReader
     {
-        RadixTreeNode GetRootNode();
+        RadixTreeNode RootNode { get; }
     }
 }
