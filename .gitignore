@@ -440,6 +440,10 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+##
+## Built dictionaries 
+##
 words.rt
 words.db
 frec.db
