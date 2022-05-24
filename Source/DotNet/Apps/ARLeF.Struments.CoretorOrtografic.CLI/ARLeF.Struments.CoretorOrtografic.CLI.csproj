@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>ARLeF.Struments.Apps.CoretorOrtografic.CLI</AssemblyName>
     <RootNamespace>ARLeF.Struments.Apps.CoretorOrtografic.CLI</RootNamespace>
     <PackageId>ARLeF.Struments.Apps.CoretorOrtografic.CLI</PackageId>
@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\Build\CLI\Debug\net5.0\net5.0\net5.0</OutputPath>
+    <OutputPath>..\..\Build\CLI\Debug\net5.0\net5.0\net5.0\net6.0</OutputPath>
     <WarningLevel>4</WarningLevel>
     <CustomCommands>
       <CustomCommands>
@@ -24,10 +24,10 @@
     </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\Build\CLI\Release\net5.0\net5.0\net5.0</OutputPath>
+    <OutputPath>..\..\Build\CLI\Release\net5.0\net5.0\net5.0\net6.0</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.1.0" />
+    <PackageReference Include="Autofac" Version="6.3.0" />
   </ItemGroup>
 
   <ItemGroup>
