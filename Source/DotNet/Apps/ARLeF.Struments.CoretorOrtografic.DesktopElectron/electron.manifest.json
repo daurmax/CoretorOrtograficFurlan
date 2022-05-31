@@ -1,13 +1,16 @@
 {
-  "executable": "AngularWithDotnetCoreElectronNet",
+  "executable": "Coretôr Ortografic Furlan",
   "splashscreen": {
     "imageFile": ""
   },
+  "name": "ARLeF.Struments.CoretorOrtografic.DesktopElectron",
+  "author": "Massimo Romanin",
   "singleInstance": false,
+  "environment": "Production",
   "build": {
-    "appId": "com.AngularWithDotnetCoreElectronNet.app",
-    "productName": "AngularWithDotnetCoreElectronNet",
-    "copyright": "Copyright © 2019",
+    "appId": "com.ARLeF.Struments.CoretorOrtografic.DesktopElectron.app",
+    "productName": "Coretôr Ortografic Furlan",
+    "copyright": "Copyright © 2020",
     "buildVersion": "1.0.0",
     "compression": "maximum",
     "directories": {
@@ -17,14 +20,14 @@
       {
         "from": "./bin",
         "to": "bin",
-        "filter": ["**/*"]
+        "filter": [ "**/*" ]
       }
     ],
     "files": [
       {
         "from": "./ElectronHostHook/node_modules",
         "to": "ElectronHostHook/node_modules",
-        "filter": ["**/*"]
+        "filter": [ "**/*" ]
       },
       "**/*"
     ]

@@ -1,21 +1,41 @@
-using ElectronNET.API;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using ElectronNET.API;
 
-namespace AngularWithDotnetCoreElectronNet
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllersWithViews();
+builder.WebHost.UseElectron(args);
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            return WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseElectron(args);
-        }
-    }
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller}/{action=Index}/{id?}");
+
+app.MapFallbackToFile("index.html");;
+
+if (HybridSupport.IsElectronActive)
+{
+    CreateElectronWindow();
+}
+
+app.Run();
+
+async void CreateElectronWindow()
+{
+    var window = await Electron.WindowManager.CreateWindowAsync();
+    window.OnClosed += () => Electron.App.Quit();
 }
