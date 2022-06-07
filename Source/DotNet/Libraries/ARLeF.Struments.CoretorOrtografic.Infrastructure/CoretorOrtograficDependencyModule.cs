@@ -1,17 +1,10 @@
 ﻿using ARLeF.Struments.CoretorOrtografic.Infrastructure.ContentReader;
 using ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase;
-using ARLeF.Struments.CoretorOrtografic.Infrastructure.Output;
 using ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker;
 using ARLeF.Struments.CoretorOrtografic.Core.Input;
 using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
-using ARLeF.Struments.CoretorOrtografic.Core.Output;
 using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
 using Autofac;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ARLeF.Struments.CoretorOrtografic.Infrastructure.RadixTreeReader;
 using ARLeF.Struments.CoretorOrtografic.Core.RadixTreeReader;
 
@@ -69,7 +62,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Business
         {
             // Add CLI only services
             builder.RegisterType<ConsoleContentReader>().As<IContentReader>();
-            builder.RegisterType<ConsoleContentWriter>().As<IContentWriter>();
         }
         private void RegisterDesktopDependencies(ContainerBuilder builder)
         {
