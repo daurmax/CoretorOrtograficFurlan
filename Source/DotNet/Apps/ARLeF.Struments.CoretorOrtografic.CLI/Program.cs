@@ -20,7 +20,6 @@ namespace ARLeF.Struments.CoretorOrtografic.CLI
 
         public static void Main(string[] args)
         {
-            Console.ForegroundColor = ConsoleColor.White;
 
             Container = CoretorOrtograficCliDependencyContainer.Configure
 #if DEBUG
@@ -28,6 +27,11 @@ namespace ARLeF.Struments.CoretorOrtografic.CLI
 #else
                 (false);
 #endif
+
+            Console.ForegroundColor = ConsoleColor.White;
+
+            PrintTitle();
+            PrintInstructions();
 
             using (var scope = Container.BeginLifetimeScope())
             {
@@ -86,6 +90,34 @@ namespace ARLeF.Struments.CoretorOrtografic.CLI
             }
         }
 
+        public static void PrintTitle()
+        {
+            Console.Title = "ASCII Art";
+            string title = @"
+                                                                                      
+           ~!!~             .!!!!!!!!!!!!~~^.         :!!!!.      ^7JJ?^.     .!!!!!!!!!!!!!!!!!!!!.
+          Y@@@@5            ?@@@@@@@@@@@@@@@@&G!      P@@@@?    Y&@&BG#@&P.   ~@@@@@@@@@@@@@@@@@@@@5
+         ^@@@@@@^           ?@@@@&GGGGGGGG#&@@@@&!    P@@@@?   G@@7    :&@&.  ~@@@@&GGGGGGGGGGGGGGG!
+         #@@@@@@#           ?@@@@G         .?&@@@@?   P@@@@7   &@&GGGGGG&@@^  ~@@@@B                
+        Y@@@&&@@@Y          ?@@@@G           ^@@@@&   P@@@@7   &@&7!!!!!~~~   ~@@@@B                
+       :@@@@?7@@@@^         ?@@@@G           .&@@@@.  P@@@@7   #@&:     ^.    ~@@@@B                
+       #@@@&  #@@@#         ?@@@@P           Y@@@@#   P@@@@7   ^&@@P77Y&@&!   ~@@@@B                
+      Y@@@@!  !@@@@Y        ?@@@@B.......:^J#@@@@B.   P@@@@7     !5B##BP7.    ~@@@@#:............   
+     :@@@@B    B@@@@^       ?@@@@@@@@@@@@@@@@@@#7     P@@@@7                  ~@@@@@@@@@@@@@@@@@#   
+     #@@@@^    :@@@@#       ?@@@@&&&&&&&&@@@@&:       P@@@@7                  ~@@@@@&&&&&&&&&&&&B   
+    J@@@@5      P@@@@Y      ?@@@@G      ^&@@@@7       P@@@@7                  ~@@@@B                
+   :&@@@@GJJJJJJG@@@@@^     ?@@@@P       7@@@@&:      P@@@@7                  ~@@@@B                
+   B@@@@@@@@@@@@@@@@@@#     ?@@@@G        5@@@@#      P@@@@7                  ~@@@@B                
+  J@@@@&YYYYYYYYYY#@@@@J    ?@@@@G         #@@@@P     P@@@@7                  ~@@@@B                
+ :&@@@@^          ^@@@@@:   ?@@@@G         :&@@@@7    P@@@@7                  ~@@@@B                
+ B@@@@5            5@@@@B   ?@@@@G          !@@@@&^   P@@@@#555555555555555.  ~@@@@B                
+5@@@@&.             &@@@@Y  ?@@@@G           5@@@@&.  G@@@@@@@@@@@@@@@@@@@@:  ~@@@@#                
+7????^              :????7  .????^            7????.  ^???????????????????7   .????~                
+                                                                                                    
+        ";
+
+            Console.WriteLine(title);
+        }
         public static void PrintInstructions()
         {
 
@@ -122,6 +154,10 @@ namespace ARLeF.Struments.CoretorOrtografic.CLI
         private static void PrintSuggestedWords(List<string> words)
         {
             Checker.ExecuteSpellCheck(String.Join(" ", words));
+
+            // TODO
+
+            Checker.CleanSpellChecker();
         }
     }
 }
