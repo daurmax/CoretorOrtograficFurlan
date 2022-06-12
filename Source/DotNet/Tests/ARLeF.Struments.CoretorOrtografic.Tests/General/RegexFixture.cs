@@ -57,11 +57,11 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.General
         }
 
         [Test]
-        public void RemoveDoubleLettersTest()
+        public void RemoveAllRepeatingLettersTest()
         {
-            var doubles = "doppia";
-            var triples = "dopppia";
-            var expectedResult = "dopia";
+            var doubles = "suppellettile";
+            var triples = "supppellettile";
+            var expectedResult = "supeletile";
             var doublesStrResult = new StringBuilder();
             var triplesStrResult = new StringBuilder();
 
@@ -75,6 +75,33 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.General
             foreach (var element in triples.ToCharArray())
             {
                 if (triplesStrResult.Length == 0 || triplesStrResult[triplesStrResult.Length - 1] != element)
+                    triplesStrResult.Append(element);
+            }
+            var tripleResult = triplesStrResult.ToString();
+
+            Assert.AreEqual(doubleResult, expectedResult);
+            Assert.AreEqual(tripleResult, expectedResult);
+        }
+
+        [Test]
+        public void RemoveSpecificRepeatingLettersTest()
+        {
+            var doubles = "suppellettile";
+            var triples = "supppellettile";
+            var expectedResult = "supellettile";
+            var doublesStrResult = new StringBuilder();
+            var triplesStrResult = new StringBuilder();
+
+            foreach (var element in doubles.ToCharArray())
+            {
+                if ((element == 'p') && (doublesStrResult.Length == 0 || doublesStrResult[doublesStrResult.Length - 1] != element))
+                    doublesStrResult.Append(element);
+            }
+            var doubleResult = doublesStrResult.ToString();
+
+            foreach (var element in triples.ToCharArray())
+            {
+                if ((element == 'p') && (triplesStrResult.Length == 0 || triplesStrResult[triplesStrResult.Length - 1] != element))
                     triplesStrResult.Append(element);
             }
             var tripleResult = triplesStrResult.ToString();

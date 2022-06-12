@@ -9,13 +9,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
 	{
 		public static (string, string) GetPhoneticHashesByWord(string word)
         {
-			string original = word;
-			string firstHash;
-			string secondHash;
-
-            original = PrepareOriginalWord(original);
-
-            throw new NotImplementedException();
+            return GetPhoneticHashesByOriginal(PrepareOriginalWord(word));
         }
 
         private static string PrepareOriginalWord(string original)
@@ -110,6 +104,65 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
             original = Regex.Replace(original, "f$", "4");
 
             return original;
+        }
+
+        private static (string, string) GetPhoneticHashesByOriginal(string original)
+        {
+            string firstHash = original;
+            string secondHash = original;
+
+            firstHash = Regex.Replace(firstHash, "'c", "A");
+            firstHash = Regex.Replace(firstHash, "c[ji]us$", "A");
+            firstHash = Regex.Replace(firstHash, "c[ji]u$", "A");
+            firstHash = Regex.Replace(firstHash, "c'", "A");
+            firstHash = Regex.Replace(firstHash, "ti", "A");
+            firstHash = Regex.Replace(firstHash, "ci", "A");
+            firstHash = Regex.Replace(firstHash, "si", "A");
+            firstHash = Regex.Replace(firstHash, "zs", "A");
+            firstHash = Regex.Replace(firstHash, "zi", "A");
+            firstHash = Regex.Replace(firstHash, "cj", "A");
+            firstHash = Regex.Replace(firstHash, "çs", "A");
+            firstHash = Regex.Replace(firstHash, "tz", "A");
+            firstHash = Regex.Replace(firstHash, "z", "A");
+            firstHash = Regex.Replace(firstHash, "ç", "A");
+            firstHash = Regex.Replace(firstHash, "c", "A");
+            firstHash = Regex.Replace(firstHash, "q", "A");
+            firstHash = Regex.Replace(firstHash, "k", "A");
+            firstHash = Regex.Replace(firstHash, "ts", "A");
+            firstHash = Regex.Replace(firstHash, "s", "A");
+
+            secondHash = Regex.Replace(secondHash, "c$", "0");
+            secondHash = Regex.Replace(secondHash, "g$", "0");
+
+            secondHash = Regex.Replace(secondHash, "bs$", "s");
+            secondHash = Regex.Replace(secondHash, "cs$", "s");
+            secondHash = Regex.Replace(secondHash, "fs$", "s");
+            secondHash = Regex.Replace(secondHash, "gs$", "s");
+            secondHash = Regex.Replace(secondHash, "ps$", "s");
+            secondHash = Regex.Replace(secondHash, "vs$", "s");
+
+            secondHash = Regex.Replace(secondHash, "di(?=.)", "E");
+            secondHash = Regex.Replace(secondHash, "gji", "E");
+            secondHash = Regex.Replace(secondHash, "gi", "E");
+            secondHash = Regex.Replace(secondHash, "gj", "E");
+            secondHash = Regex.Replace(secondHash, "g", "E");
+
+            secondHash = Regex.Replace(secondHash, "ts", "E");
+            secondHash = Regex.Replace(secondHash, "s", "E");
+            secondHash = Regex.Replace(secondHash, "zi", "E");
+            secondHash = Regex.Replace(secondHash, "z", "E");
+
+            firstHash = Regex.Replace(firstHash, "j", "i");
+            secondHash = Regex.Replace(secondHash, "j", "i");
+
+            // Remove double "i" in both hashes (WIP - NOT WORKING)
+            var strResult = new StringBuilder();
+            foreach (var element in firstHash.ToCharArray())
+            {
+                if ((element == 'i') && (strResult.Length == 0 || strResult[strResult.Length - 1] != element))
+                    strResult.Append(element);
+            }
+            original = strResult.ToString();
         }
     }
 
