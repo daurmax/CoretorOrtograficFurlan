@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Text;
 using System.Text.RegularExpressions;
+using ARLeF.Struments.CoretorOrtografic.Core.Constants;
 
 namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
 {
@@ -11,15 +13,35 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
 			string firstHash;
 			string secondHash;
 
-            //original = PrepareOriginalWord(original);
+            original = PrepareOriginalWord(original);
 
             throw new NotImplementedException();
         }
 
-        /*private static string PrepareOriginalWord(string original)
+        private static string PrepareOriginalWord(string original)
         {
-            Regex.Replace();
-        }*/
+            // Replace uncommon apostrophes with '
+            original = Regex.Replace(original, FriulianConstants.UNCOMMON_APOSTROPHES, "'");
+
+            // Replace "e " with '
+            original = Regex.Replace(original, "e ", "'");
+
+            // Remove all spaces from word (should never happen at this point but still)
+            original = Regex.Replace(original, " ", "");
+
+            // Remove double letters
+            var strResult = new StringBuilder();
+
+            foreach (var element in original.ToCharArray())
+            {
+                if (strResult.Length == 0 || strResult[strResult.Length - 1] != element)
+                    strResult.Append(element);
+            }
+            original = strResult.ToString();
+
+            // Make the string lowercase
+            original = original.ToLower();
+        }
 	}
 
     // Original algorithm by Perl-based COF
