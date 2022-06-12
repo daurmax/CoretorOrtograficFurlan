@@ -11,7 +11,7 @@ using ARLeF.Struments.CoretorOrtografic.Core.RadixTreeReader;
 
 namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTree
 {
-    public class RadixTreeReaderTest
+    public class RadixTreeReaderFixture
     {
         private static IContainer Container { get; set; }
 

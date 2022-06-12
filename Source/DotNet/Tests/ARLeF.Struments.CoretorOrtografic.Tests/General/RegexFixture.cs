@@ -82,5 +82,21 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.General
             Assert.AreEqual(doubleResult, expectedResult);
             Assert.AreEqual(tripleResult, expectedResult);
         }
+
+        [Test]
+        public void ReplaceFriulianVowelsWithLatinVowelsTest()
+        {
+            string input = "àáâ'a èéê'e ìíî'i òóô'o ùúû'u";
+            string expected = "aaaa eeee iiii oooo uuuu";
+            string result = String.Empty;
+
+            result = Regex.Replace(input, FriulianConstants.SMALL_A_VARIANTS, "a");
+            result = Regex.Replace(result, FriulianConstants.SMALL_E_VARIANTS, "e");
+            result = Regex.Replace(result, FriulianConstants.SMALL_I_VARIANTS, "i");
+            result = Regex.Replace(result, FriulianConstants.SMALL_O_VARIANTS, "o");
+            result = Regex.Replace(result, FriulianConstants.SMALL_U_VARIANTS, "u");
+
+            Assert.AreEqual(expected, result);
+        }
     }
 }

@@ -12,7 +12,7 @@ using ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
 
 namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTree
 {
-    public class PhoneticAlgorithmTest
+    public class PhoneticAlgorithmFixture
     {
         private static IContainer Container { get; set; }
 
@@ -29,5 +29,15 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTree
             Assert.AreEqual(expectedHashes.Item1, calculatedHashes.Item1);
             Assert.AreEqual(expectedHashes.Item2, calculatedHashes.Item2);
         }
+
+        //[Test]
+        //public void PrepareOriginalWordTest()
+        //{
+        //    string word = "verarmentâsicuintri";
+        //    string expectedResult = "v225e5tasicW";
+        //    string result = FurlanPhoneticAlgorithmModel.PrepareOriginalWord(word);
+
+        //    Assert.AreEqual(expectedResult, result);
+        //}
     }
 }
