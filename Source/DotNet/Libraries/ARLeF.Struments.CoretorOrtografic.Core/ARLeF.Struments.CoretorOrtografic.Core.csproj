@@ -9,11 +9,15 @@
     <None Remove="Entities\" />
     <None Remove="Entities\ProcessedElements\" />
     <None Remove="Entities\RadixTree\" />
+    <None Remove="PhoneticAlgorithm\" />
+    <None Remove="Constants\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="RadixTreeReader\" />
     <Folder Include="Entities\" />
     <Folder Include="Entities\ProcessedElements\" />
     <Folder Include="Entities\RadixTree\" />
+    <Folder Include="FurlanPhoneticAlgorithm\" />
+    <Folder Include="Constants\" />
   </ItemGroup>
 </Project>

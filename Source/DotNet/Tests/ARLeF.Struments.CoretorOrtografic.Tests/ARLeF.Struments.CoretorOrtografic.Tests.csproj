@@ -14,13 +14,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Infrastructure\KeyValueDatabase\" />
     <None Remove="Infrastructure\RadixTree\" />
     <None Remove="Autofac" />
+    <None Remove="Infrastructure\PhoneticAlgorithm\" />
+    <None Remove="Infrastructure\General\RegexTest.config" />
+    <None Remove="General\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Infrastructure\KeyValueDatabase\" />
     <Folder Include="Infrastructure\RadixTreeReader\" />
+    <Folder Include="Infrastructure\PhoneticAlgorithm\" />
+    <Folder Include="General\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Core\ARLeF.Struments.CoretorOrtografic.Core.csproj" />

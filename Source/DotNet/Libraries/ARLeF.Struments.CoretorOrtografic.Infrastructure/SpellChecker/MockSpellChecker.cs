@@ -1,4 +1,5 @@
 ﻿using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
+using ARLeF.Struments.CoretorOrtografic.Core.Constants;
 using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
 using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
 using System;
@@ -87,13 +88,12 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 
         private ICollection<IProcessedElement> ProcessText(string text)
         {
-            List<string> words = Regex.Split(text, "(!?[a-zA-Z-èàòùìç]*)").ToList();
-            words = words.Where(x => !String.IsNullOrEmpty(x)).ToList();
+            List<string> words = Regex.Split(text, @$"(!?[{FriulianConstants.FRIULIAN_LETTERS}]*)").Where(x => !String.IsNullOrEmpty(x)).ToList();
             //String.Join(String.Empty, _processedElementsList)
 
             foreach (string word in words)
             {
-                if (Regex.IsMatch(word, "[a-zA-Z-èàòùìç]+"))
+                if (Regex.IsMatch(word, @$"[{FriulianConstants.FRIULIAN_LETTERS}]+"))
                 {
                     _processedElements.Add(new ProcessedWord(word));
                 }
