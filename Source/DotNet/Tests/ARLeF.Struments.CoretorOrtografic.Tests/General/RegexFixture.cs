@@ -12,6 +12,7 @@ using ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
 using System.Text.RegularExpressions;
 using ARLeF.Struments.CoretorOrtografic.Core.Constants;
 using System.Text;
+using System.Linq;
 
 namespace ARLeF.Struments.CoretorOrtografic.Tests.General
 {
@@ -87,22 +88,49 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.General
         public void RemoveSpecificRepeatingLettersTest()
         {
             var doubles = "suppellettile";
+            var doublesToCharArray = doubles.ToCharArray();
             var triples = "supppellettile";
+            var triplesToCharArray = triples.ToCharArray();
             var expectedResult = "supellettile";
+            var letterToRemove = 'p'; 
             var doublesStrResult = new StringBuilder();
             var triplesStrResult = new StringBuilder();
 
-            foreach (var element in doubles.ToCharArray())
+            for (int i = 0; i < doublesToCharArray.Length - 1; i++)
             {
-                if ((element == 'p') && (doublesStrResult.Length == 0 || doublesStrResult[doublesStrResult.Length - 1] != element))
-                    doublesStrResult.Append(element);
+                if (doublesToCharArray[i] == letterToRemove && doublesToCharArray[i] == doublesToCharArray[i + 1])
+                {
+                    continue;
+                }
+
+                if (i == doublesToCharArray.Length - 2)
+                {
+                    doublesStrResult.Append(doublesToCharArray[i]);
+                    doublesStrResult.Append(doublesToCharArray[doublesToCharArray.Length - 1]);
+                }
+                else
+                {
+                    doublesStrResult.Append(doublesToCharArray[i]);
+                }
             }
             var doubleResult = doublesStrResult.ToString();
 
-            foreach (var element in triples.ToCharArray())
+            for (int i = 0; i < triplesToCharArray.Length - 1; i++)
             {
-                if ((element == 'p') && (triplesStrResult.Length == 0 || triplesStrResult[triplesStrResult.Length - 1] != element))
-                    triplesStrResult.Append(element);
+                if (triplesToCharArray[i] == letterToRemove && triplesToCharArray[i] == triplesToCharArray[i + 1])
+                {
+                    continue;
+                }
+
+                if (i == triplesToCharArray.Length - 2)
+                {
+                    triplesStrResult.Append(triplesToCharArray[i]);
+                    triplesStrResult.Append(triplesToCharArray[triplesToCharArray.Length - 1]);
+                }
+                else
+                {
+                    triplesStrResult.Append(triplesToCharArray[i]);
+                }
             }
             var tripleResult = triplesStrResult.ToString();
 
