@@ -141,7 +141,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
             secondHash = Regex.Replace(secondHash, "ps$", "s");
             secondHash = Regex.Replace(secondHash, "vs$", "s");
 
-            secondHash = Regex.Replace(secondHash, "di(?=.)", "E");
+            secondHash = Regex.Replace(secondHash, "di(?=.)", "E"); // Replaces only if word does not end with "di"
             secondHash = Regex.Replace(secondHash, "gji", "E");
             secondHash = Regex.Replace(secondHash, "gi", "E");
             secondHash = Regex.Replace(secondHash, "gj", "E");
