@@ -10,7 +10,7 @@ using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
 
 namespace ARLeF.Struments.CoretorOrtografic.CLI
 {
-    class Program
+    public class Program
     {
         private static IContainer Container { get; set; }
 

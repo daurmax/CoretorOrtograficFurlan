@@ -13,6 +13,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase
         /// </summary>
         /// <param name="id">key associated with a value</param>
         /// <returns>Value associated to a key</returns>
-        Task<string> GetSuggestionsByKey(string key);
+        Task<string> GetPhoneticSuggestions(string hash1, string hash2);
     }
 }

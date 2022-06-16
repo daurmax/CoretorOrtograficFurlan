@@ -51,7 +51,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Business
             // Add development only services
             builder.RegisterType<InMemoryRadixTreeReader>().As<IRadixTreeReader>();
             builder.RegisterType<MockSpellChecker>().As<ISpellChecker>();
-            builder.RegisterType<MockKeyValueDatabase>().As<IKeyValueDatabase>();
+            builder.RegisterType<BerkeleyDbKeyValueDatabase>().As<IKeyValueDatabase>();
         }
         private void RegisterProductionOnlyDependencies(ContainerBuilder builder)
         {

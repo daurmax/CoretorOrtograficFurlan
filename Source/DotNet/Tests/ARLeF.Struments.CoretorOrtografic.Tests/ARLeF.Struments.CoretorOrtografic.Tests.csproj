@@ -19,11 +19,13 @@
     <None Remove="Infrastructure\PhoneticAlgorithm\" />
     <None Remove="Infrastructure\General\RegexTest.config" />
     <None Remove="General\" />
+    <None Remove="Infrastructure\KeyValueDatabase\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\RadixTreeReader\" />
     <Folder Include="Infrastructure\PhoneticAlgorithm\" />
     <Folder Include="General\" />
+    <Folder Include="Infrastructure\KeyValueDatabase\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Core\ARLeF.Struments.CoretorOrtografic.Core.csproj" />

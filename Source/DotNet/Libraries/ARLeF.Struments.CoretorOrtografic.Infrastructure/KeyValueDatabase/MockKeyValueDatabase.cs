@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
 {
-    public class MockKeyValueDatabase : IKeyValueDatabase
+    public class BerkeleyDbKeyValueDatabase : IKeyValueDatabase
     {
-        public Task<string> GetSuggestionsByKey(string key)
+        public Task<string> GetPhoneticSuggestions(string hash1, string hash2)
         {
             throw new NotImplementedException();
         }
