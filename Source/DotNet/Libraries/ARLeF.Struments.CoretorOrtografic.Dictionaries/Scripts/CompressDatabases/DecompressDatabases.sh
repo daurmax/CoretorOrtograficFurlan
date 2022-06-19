@@ -2,8 +2,8 @@
 
 # This script zips all the dictionaries (and radix tree) files, so that they can be stored in version control
 
-# Elisions
-cd ../../Libraries/ARLeF.Struments.CoretorOrtografic.Dictionaries/Dictionaries/Elisions/
+# Elisions 
+cd ../../Dictionaries/Elisions/
 if [ -e elisions.db ]
 then
   echo "Elisions dictionary has already been extrated from archive."

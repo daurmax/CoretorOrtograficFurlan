@@ -6,9 +6,11 @@
 
   <ItemGroup>
     <None Remove="Enums\" />
+    <None Remove="Scripts\ToTextFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Constants\" />
+    <Folder Include="Scripts\DumpToTextFiles\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Dictionaries\Elisions\elisions.db">
