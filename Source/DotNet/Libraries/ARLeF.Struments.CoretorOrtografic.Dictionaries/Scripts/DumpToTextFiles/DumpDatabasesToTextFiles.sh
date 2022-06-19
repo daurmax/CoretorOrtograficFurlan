@@ -30,7 +30,7 @@ else
       rm elisions.txt
       end_time=$(date +%s.%3N)
       duration=$(echo "scale=3; $end_time - $start_time" | bc)
-      echo "elisions.txt splitted in ${duration} seconds."
+      echo "elisions.txt split in ${duration} seconds."
     else 
       echo "elisions.txt not found. Please make sure dump procedure went successfully."
     fi
@@ -67,7 +67,7 @@ else
       rm errors.txt
       end_time=$(date +%s.%3N)
       duration=$(echo "scale=3; $end_time - $start_time" | bc)
-      echo "errors.txt splitted in ${duration} seconds."
+      echo "errors.txt split in ${duration} seconds."
     else 
       echo "errors.txt not found. Please make sure dump procedure went successfully."
     fi
@@ -104,7 +104,7 @@ else
       rm frec.txt
       end_time=$(date +%s.%3N)
       duration=$(echo "scale=3; $end_time - $start_time" | bc)
-      echo "frec.txt splitted in ${duration} seconds."
+      echo "frec.txt split in ${duration} seconds."
     else 
       echo "frec.txt not found. Please make sure dump procedure went successfully."
     fi
@@ -141,7 +141,7 @@ else
       rm words.txt
       end_time=$(date +%s.%3N)
       duration=$(echo "scale=3; $end_time - $start_time" | bc)
-      echo "words.txt splitted in ${duration} seconds."
+      echo "words.txt split in ${duration} seconds."
     else 
       echo "words.txt not found. Please make sure dump procedure went successfully."
     fi
