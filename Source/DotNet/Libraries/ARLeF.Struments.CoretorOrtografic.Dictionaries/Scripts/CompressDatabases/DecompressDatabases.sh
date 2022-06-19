@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # This script zips all the dictionaries (and radix tree) files, so that they can be stored in version control
+# Tested on macOS 12.4
 
 # Elisions 
 cd ../../Dictionaries/Elisions/
