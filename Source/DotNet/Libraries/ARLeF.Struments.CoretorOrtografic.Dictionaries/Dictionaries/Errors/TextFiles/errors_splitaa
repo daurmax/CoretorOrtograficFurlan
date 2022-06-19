@@ -1,0 +1,609 @@
+VERSION=3
+format=print
+type=hash
+h_nelem=301
+db_pagesize=4096
+HEADER=END
+ un'
+ une
+ 'a
+ a
+ 'e
+ e
+ 'i
+ i
+ 'o
+ o
+ a'
+ a
+ a'nd
+ a 'nd
+ adincuatri
+ ad in cuatri
+ adindoi
+ ad in doi
+ adindopli
+ ad in dopli
+ ad\c3\b4r
+ ad \c3\b4r
+ afat
+ a fat
+ aments
+ a ments
+ andi
+ a 'ndi
+ atorator
+ ator ator
+ atorat\c3\b4r
+ ator ator
+ atorvie
+ ator vie
+ benben
+ ben ben
+ bench\c3\a9
+ ben che
+ bielplanc
+ biel planc
+ caj\c3\b9
+ ca j\c3\b9
+ cass\c3\b9
+ ca s\c3\b9
+ ca\c3\b9
+ ca j\c3\b9
+ centmil
+ cent mil
+ centm\c3\ael
+ cent mil
+ cincuantemil
+ cincuante mil
+ cincuantem\c3\ael
+ cincuante mil
+ cuan'che
+ cuant che
+ cuatrimil
+ cuatri mil
+ cuatrim\c3\ael
+ cuatri mil
+ cuindi
+ duncje
+ cun tune
+ cuntune
+ cun'tun
+ cuntun
+ cun-tun
+ cuntun
+ cundutachel
+ cundut achel
+ cunt'un
+ cuntun
+ cutuardismil
+ cutuardis mil
+ cutuardism\c3\ael
+ cutuardis mil
+ da c\c3\aes
+ dac\c3\aes
+ dap\c3\aet
+ da p\c3\aet
+ dar\c3\a2r
+ di r\c3\a2r
+ di bant
+ dibant
+ dibessole
+ di bessole
+ dibess\c3\b4i
+ di bess\c3\b4i
+ difat
+ di fat
+ dil\c3\a0
+ di l\c3\a0
+ disenufmil
+ disen\c3\bbf mil
+ disenufm\c3\ael
+ disen\c3\bbf mil
+ disesietmil
+ disesiet mil
+ disesietm\c3\ael
+ disesiet mil
+ disevotmil
+ disevot mil
+ disevotm\c3\ael
+ disevot mil
+ dismil
+ d\c3\aes mil
+ dism\c3\ael
+ d\c3\aes mil
+ distrade
+ di strade
+ doimil
+ doi mil
+ doim\c3\ael
+ doi mil
+ dutc\c3\a2s
+ dut c\c3\a2s
+ d\c3\aesmil
+ d\c3\aes mil
+ d\c3\aesm\c3\ael
+ d\c3\aes mil
+ e'
+ e
+ e'nd
+ e 'nd
+ endi
+ e 'ndi
+ f\c3\bbrvie
+ f\c3\bbr vie
+ i'
+ i
+ iar
+ \c3\aer
+ ier
+ \c3\aer
+ impins
+ in p\c3\aets
+ in tal
+ intal
+ in te
+ inte
+ in tun
+ intun
+ in'ai
+ intai
+ in'es
+ intes
+ in'tune
+ intune
+ in-tai
+ intai
+ in-tes
+ intes
+ in-tune
+ intune
+ indues
+ in dues
+ indu\c3\a8s
+ in dues
+ infat
+ in fat
+ insumis
+ in sumis
+ int'ai
+ intai
+ int'es
+ intes
+ int'une
+ intune
+ j
+ i
+ justapont
+ juste apont
+ lafes\c3\ac
+ laf\c3\a8 s\c3\ac
+ lai\c3\b9
+ l\c3\a0 j\c3\b9
+ las\c3\b9
+ l\c3\a0 s\c3\b9
+ magaricusin\c3\b2
+ magari cuss\c3\ac no
+ malafes\c3\ac
+ ma laf\c3\a8 s\c3\ac
+ no'nd
+ no 'nd
+ nondi
+ no 'ndi
+ nuialtri
+ nuie altri
+ nusai
+ nus ai
+ nuses
+ nus es
+ n\c3\bbfmil
+ n\c3\bbf mil
+ n\c3\bbfm\c3\ael
+ n\c3\bbf mil
+ o'
+ o
+ o'nd
+ o 'nd
+ oben
+ o ben
+ ondi
+ o 'ndi
+ ormai
+ aromai
+ pa la
+ par la
+ par sore
+ parsore
+ partiere
+ par tiere
+ parv\c3\aar
+ par v\c3\aar
+ pidimancul
+ pi di mancul
+ poben
+ po ben
+ purch\c3\a9
+ p\c3\bbr che
+ quan'che
+ cuant che
+ quindi
+ duncje
+ s'ai
+ sai
+ s'es
+ ses
+ sedismil
+ sedis mil
+ sedism\c3\ael
+ sedis mil
+ sessantemil
+ sessante mil
+ sessantem\c3\ael
+ sessante mil
+ setantemil
+ setante mil
+ setantem\c3\ael
+ setante mil
+ sotman
+ sot man
+ sotvie
+ sot vie
+ sumo
+ s\c3\b9 mo
+ sun tune
+ suntune
+ sun'tun
+ suntun
+ sun-tun
+ suntun
+ sunt'un
+ suntun
+ t'al
+ tal
+ t'e
+ te
+ t'un
+ tun
+ tan'che
+ tant che
+ tanben
+ tant ben
+ tantben
+ tant ben
+ trentemil
+ trente mil
+ trentem\c3\ael
+ trente mil
+ unevore
+ une vore
+ ungrum
+ un grum
+ ural
+ ur al
+ ure
+ ur e
+ uses
+ us es
+ vincjmil
+ vincj mil
+ vincjm\c3\ael
+ vincj mil
+ \c3\a2tre
+ altre
+ \c3\a2tri
+ altri
+ l'
+ la
+ d'
+ di
+ a tarviars
+ a traviers
+ a tarviers
+ a traviers
+ a'ndi
+ a 'ndi
+ abracecuel
+ a bracecuel
+ abracevierte
+ a bracevierte
+ adaments
+ ad a ments
+ adinspissul
+ ad in spissul
+ agratis
+ a gratis
+ and
+ a 'nd
+ apene
+ a pene
+ aplanc
+ a planc
+ aplomp
+ a plomp
+ appueste
+ a pueste
+ apueste
+ a pueste
+ bench\c3\a8
+ ben che
+ benenom\c3\a2l
+ ben e no m\c3\a2l
+ bielaplanc
+ biel a planc
+ c'a
+ che a
+ c'al
+ che al
+ c'e
+ che e
+ c'i
+ che i
+ c'o
+ che o
+ cai\c3\b9
+ ca j\c3\b9
+ cas\c3\b9
+ ca s\c3\b9
+ ch'a
+ che a
+ ch'al
+ che al
+ ch'e
+ che e
+ ch'i
+ che i
+ ch'o
+ che o
+ cincmil
+ cinc mil
+ cincm\c3\ael
+ cinc mil
+ cuanche
+ cuant che
+ cuantche
+ cuant che
+ cuarantemil
+ cuarante mil
+ cuarantem\c3\ael
+ cuarante mil
+ cuindismil
+ cuindis mil
+ cuindism\c3\ael
+ cuindis mil
+ cun la
+ cu la
+ cun tun
+ cuntun
+ cun'tune
+ cuntune
+ cun-tune
+ cuntune
+ cundiplui
+ cun di plui
+ cunt'une
+ cuntune
+ d'ist\c3\a8s
+ dist\c3\a8s
+ da pr\c3\bbf
+ dapr\c3\bbf
+ dacj\c3\a2f
+ da cj\c3\a2f
+ dibessolis
+ di bessolis
+ dibess\c3\b4l
+ di bess\c3\b4l
+ disen\c3\bbfmil
+ disen\c3\bbf mil
+ disen\c3\bbfm\c3\ael
+ disen\c3\bbf mil
+ dodismil
+ dodis mil
+ dodism\c3\ael
+ dodis mil
+ e'ndi
+ e 'ndi
+ end
+ e 'nd
+ furvie
+ f\c3\bbr vie
+ in tai
+ intai
+ in tes
+ intes
+ in tune
+ intune
+ in'al
+ intal
+ in'e
+ inte
+ in'tun
+ intun
+ in-tal
+ intal
+ in-te
+ inte
+ in-tun
+ intun
+ inpins
+ in p\c3\aets
+ int'al
+ intal
+ int'e
+ inte
+ int'un
+ intun
+ justeapont
+ juste apont
+ lafen\c3\b2
+ laf\c3\a8 no
+ lafess\c3\ac
+ laf\c3\a8 s\c3\ac
+ laj\c3\b9
+ l\c3\a0 j\c3\b9
+ lass\c3\b9
+ l\c3\a0 s\c3\b9
+ la\c3\b9
+ l\c3\a0 j\c3\b9
+ l\c3\ac
+ li
+ magaricussin\c3\b2
+ magari cuss\c3\ac no
+ malafen\c3\b2
+ ma laf\c3\a8 no
+ malafess\c3\ac
+ ma laf\c3\a8 s\c3\ac
+ mancjemai
+ mancje mai
+ nialtri
+ nuie altri
+ no'ndi
+ no 'ndi
+ nomo
+ no mo
+ nonantemil
+ nonante mil
+ nonantem\c3\ael
+ nonante mil
+ nond
+ no 'nd
+ novantemil
+ novante mil
+ novantem\c3\ael
+ novante mil
+ nufmil
+ n\c3\bbf mil
+ nufm\c3\ael
+ n\c3\bbf mil
+ nusal
+ nus al
+ nuse
+ nus e
+ o'ndi
+ o 'ndi
+ ond
+ o 'nd
+ op\c3\bbr
+ o p\c3\bbr
+ oramai
+ aromai
+ ossedi
+ o sedi
+ ossei
+ o sei
+ otantemil
+ otante mil
+ otantem\c3\ael
+ otante mil
+ par sot
+ parsot
+ paraltri
+ par altri
+ parceche
+ parc\c3\a8 che
+ partarviars
+ par traviers
+ partarviers
+ par traviers
+ parvie
+ par vie
+ podopo
+ po dopo
+ purch\c3\a8
+ p\c3\bbr che
+ quanche
+ cuant che
+ quantche
+ cuant che
+ s'a
+ se a
+ s'e
+ se
+ s'i
+ se i
+ s'o
+ se o
+ sietmil
+ siet mil
+ sietm\c3\ael
+ siet mil
+ sismil
+ s\c3\aes mil
+ sism\c3\ael
+ s\c3\aes mil
+ sun tun
+ suntun
+ sun'tune
+ suntune
+ sun-tune
+ suntune
+ sunt'une
+ suntune
+ s\c3\aesmil
+ s\c3\aes mil
+ s\c3\aesm\c3\ael
+ s\c3\aes mil
+ t'ai
+ tai
+ t'es
+ tes
+ t'une
+ tune
+ tamben
+ tant ben
+ tanche
+ tant che
+ tantad\c3\ac
+ tant a d\c3\ae
+ tantad\c3\ae
+ tant a d\c3\ae
+ tantetant
+ tant e tant
+ torator
+ tor ator
+ torat\c3\b4r
+ tor ator
+ tredismil
+ tredis mil
+ tredism\c3\ael
+ tredis mil
+ tremil
+ tr\c3\aa mil
+ trem\c3\ael
+ tr\c3\aa mil
+ tr\c3\aamil
+ tr\c3\aa mil
+ tr\c3\aam\c3\ael
+ tr\c3\aa mil
+ undismil
+ undis mil
+ undism\c3\ael
+ undis mil
+ unmont
+ un mont
+ urai
+ ur ai
+ ures
+ ur es
+ usal
+ us al
+ valad\c3\ac
+ v\c3\a2l a d\c3\ae
+ valad\c3\ae
+ v\c3\a2l a d\c3\ae
+ ven a stai
+ ven a st\c3\a2i
+ venad\c3\ac
+ ven a d\c3\ae
+ venad\c3\ae
+ ven a d\c3\ae
+ venastai
+ ven a st\c3\a2i
+ venast\c3\a2i
+ ven a st\c3\a2i
+ votmil
+ vot mil
+ votm\c3\ael
+ vot mil
+ \c3\a2tris
+ altris
+DATA=END
