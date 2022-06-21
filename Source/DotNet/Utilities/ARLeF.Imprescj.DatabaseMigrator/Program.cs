@@ -3,69 +3,183 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using LiteDB;
 
 namespace ARLeF.Imprescj.DatabaseMigrator
 {
+    public enum FileType
+    {
+        Header,
+        Regular,
+        Tail
+    }
+
     public class Program
     {
+        private static readonly string WORDS_DB_PATH = @"words.db";
+        private static readonly string WORDS_LOG_DB_PATH = @"words-log.db";
+        private static readonly string WORDS_TEXT_FILES_FOLDER_PATH = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/WordsDatabase/TextFiles";
+
         public static void Main(string[] args)
         {
-            string cs = @$"URI=file:{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/words.db";
+            File.Delete(WORDS_DB_PATH);
+            File.Delete(WORDS_LOG_DB_PATH);
 
-            using var con = new SQLiteConnection(cs);
-            con.Open();
-
-            using var cmd = new SQLiteCommand(con);
-
-            cmd.CommandText = "DROP TABLE IF EXISTS words";
-            cmd.ExecuteNonQuery();
-
-            cmd.CommandText = @"CREATE TABLE Words(Key varchar(50) PRIMARY KEY, Value varchar(255))";
-            cmd.ExecuteNonQuery();
-
-            const Int32 BufferSize = 128;
-            using (var fileStream = File.OpenRead(@$"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/words.txt"))
+            using (var db = new LiteDatabase(WORDS_DB_PATH))
             {
-                using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+                var globalTimer = new Stopwatch();
+                globalTimer.Start();
+
+                // Get words collection
+                var wordsCollection = db.GetCollection<KeyValuePair<string, string>>("words");
+
+                // Create unique index in key field
+                wordsCollection.EnsureIndex(x => x.Key, true);
+
+                // Use LINQ to query documents (with no index)
+                //var results = col.Find(x => x.Key == "jnejew");
+                var wordFilePaths = Directory.GetFiles(WORDS_TEXT_FILES_FOLDER_PATH)
+                                           .ToList();
+
+                // For estimating time remaining
+                List<double> filesElapseds = new();
+
+                wordFilePaths.Sort();
+                
+                /////
+                Console.WriteLine("----------");
+
+                ProcessTextFile(wordsCollection, wordFilePaths.First(), FileType.Header);
+
+                var elapsedMilliseconds = globalTimer.ElapsedMilliseconds;
+                filesElapseds.Add(elapsedMilliseconds);
+                var estimatedRemainingMilliseconds = filesElapseds.Average() * (wordFilePaths.Count - 1);
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write($"{TimeSpan.FromMilliseconds(elapsedMilliseconds).TotalSeconds}");
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine(" seconds elapsed in total.");
+
+                Console.Write("About ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine($"{TimeSpan.FromMilliseconds(estimatedRemainingMilliseconds).Hours} hour(s), " +
+                              $"{TimeSpan.FromMilliseconds(estimatedRemainingMilliseconds).Minutes} minute(s) and " +
+                              $"{TimeSpan.FromMilliseconds(estimatedRemainingMilliseconds).Minutes} second(s)");
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine(" remaining.");
+
+                var fileLength = new FileInfo(WORDS_DB_PATH).Length;
+                Console.Write("words.db filesize is ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write(fileLength);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write(" bytes (");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write((double)fileLength / 1000000);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine(" megabytes).");
+
+                var localTimer = new Stopwatch();
+                localTimer.Start();
+
+                for (int i = 1; i < wordFilePaths.Count; i++)
                 {
-                    String line;
-                    long lineCounter = 0;
-                    (string, string) keyValuePairCache = default;
+                    Console.WriteLine("----------");
 
-                    var timer = new Stopwatch();
-                    timer.Start();
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.Write($"Processing file ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write(Regex.Replace(wordFilePaths[i], WORDS_TEXT_FILES_FOLDER_PATH + "/", ""));
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine($" ({i + 1} out of {wordFilePaths.Count})...");
 
-                    while ((line = streamReader.ReadLine()) != null)
-                    {
-                        if (lineCounter <= 5) // Header lines
-                        {
-                            lineCounter++;
-                            continue;
-                        }
-                        if (lineCounter % 2 == 0) // Even lines contain the key
-                        {
-                            keyValuePairCache.Item1 = Regex.Replace(line, "^ ", ""); // Remove whitespace at the beginning of the line
-                        }
-                        else // Odd lines contain the value
-                        {
-                            keyValuePairCache.Item2 = Regex.Replace(line, "^ ", ""); // Remove whitespace at the beginning of the line
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.Write($"File ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write(Regex.Replace(wordFilePaths[i], WORDS_TEXT_FILES_FOLDER_PATH + "/", ""));
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine($" ({i + 1} out of {wordFilePaths.Count})...");
 
-                            // The key is added to the database
-                            cmd.CommandText = "INSERT INTO Words(Key, Value) VALUES (@Key, @Value)";
-                            cmd.Parameters.AddWithValue("@Key", keyValuePairCache.Item1);
-                            cmd.Parameters.AddWithValue("@Value", keyValuePairCache.Item2);
-                            cmd.ExecuteNonQuery();
+                    ProcessTextFile(wordsCollection, wordFilePaths[i], FileType.Regular);
 
-                            keyValuePairCache = default;
-                        }
+                    elapsedMilliseconds = localTimer.ElapsedMilliseconds;
+                    filesElapseds.Add(elapsedMilliseconds);
+                    localTimer.Restart();
+                    estimatedRemainingMilliseconds = filesElapseds.Average() * (wordFilePaths.Count - i);
 
-                        Console.Write($"Elapsed: {TimeSpan.FromMilliseconds(timer.ElapsedMilliseconds).TotalSeconds} seconds...");
-                        Console.SetCursorPosition(0, Console.CursorTop);
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write($"{TimeSpan.FromMilliseconds(elapsedMilliseconds).TotalSeconds}");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine(" seconds elapsed in total.");
 
-                        lineCounter++;
-                    }
+                    Console.Write("About ");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"{TimeSpan.FromMilliseconds(estimatedRemainingMilliseconds).Hours} hour(s), " +
+                                  $"{TimeSpan.FromMilliseconds(estimatedRemainingMilliseconds).Minutes} minute(s) and " +
+                                  $"{TimeSpan.FromMilliseconds(estimatedRemainingMilliseconds).Minutes} second(s)");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine(" remaining.");
+
+                    fileLength = new FileInfo(WORDS_DB_PATH).Length;
+                    Console.Write("words.db filesize is ");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write(fileLength);
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.Write(" bytes (");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write((double)fileLength / 1000000);
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine(" megabytes).");
                 }
+
+                Console.WriteLine("----------");
+
+                ProcessTextFile(wordsCollection, wordFilePaths.Last(), FileType.Tail);
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write($"{TimeSpan.FromMilliseconds(globalTimer.ElapsedMilliseconds).TotalSeconds}");
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine(" seconds elapsed in total.");
+
+                fileLength = new FileInfo(WORDS_DB_PATH).Length;
+                Console.Write("words.db filesize is ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write(fileLength);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write(" bytes (");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write((double)fileLength / 1000000);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine(") megabytes).");
+
+                globalTimer.Stop();
+                Console.WriteLine("----------");
+                Console.WriteLine($"KeyValue database words.db processed in {globalTimer.Elapsed}.");
             }
+        }
+
+        public static void ProcessTextFile(ILiteCollection<KeyValuePair<string, string>> collection, string path, FileType fileType)
+        {
+            long lineCounter = 0;
+
+            var timer = new Stopwatch();
+            timer.Start();
+
+            string[] textFileLines = File.ReadAllLines(path);
+            List<KeyValuePair<string, string>> keyValuePairs = new();
+
+            int startingPoint = fileType == FileType.Regular ? 0 : 6; // Skip header lines in header file
+            int endingPoint = fileType == FileType.Regular ? textFileLines.Count() - 1 : textFileLines.Count() - 2; // Skip footer line in tail file
+
+            for (int i = startingPoint; i < endingPoint; i = i + 2)
+            {
+                keyValuePairs.Add(new KeyValuePair<string, string>(textFileLines[i], textFileLines[i + 1]));
+
+                lineCounter++;
+            }
+
+            collection.Insert(keyValuePairs);
         }
     }
 }
