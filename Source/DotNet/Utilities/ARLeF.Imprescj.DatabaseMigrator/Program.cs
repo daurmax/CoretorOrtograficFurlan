@@ -32,10 +32,10 @@ namespace ARLeF.Imprescj.DatabaseMigrator
                 globalTimer.Start();
 
                 // Get words collection
-                var wordsCollection = db.GetCollection<KeyValuePair<string, byte[]>>("words");
+                var wordsCollection = db.GetCollection<BsonDocument>("words");
 
                 // Create unique index in key field
-                wordsCollection.EnsureIndex(x => x.Key, true);
+                //wordsCollection.EnsureIndex(x => x., true);
 
                 // Use LINQ to query documents (with no index)
                 //var results = col.Find(x => x.Key == "jnejew");
@@ -47,14 +47,14 @@ namespace ARLeF.Imprescj.DatabaseMigrator
                 wordFilePaths.Sort();
 
                 /////
-                Console.WriteLine("----------");
+                //Console.WriteLine("----------");
 
                 wordsCollection.Insert(ProcessTextFile(wordFilePaths.First(), FileType.Header));
 
                 var localTimer = new Stopwatch();
                 localTimer.Start();
 
-                List<KeyValuePair<string, byte[]>> keyValuePairs = new();
+                List<BsonDocument> bsonDocuments = new();
 
                 for (int i = 0; i < wordFilePaths.Count; i++)
                 {
@@ -67,78 +67,56 @@ namespace ARLeF.Imprescj.DatabaseMigrator
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(Regex.Replace(wordFilePaths[i], WORDS_TEXT_FILES_FOLDER_PATH + "/", ""));
                     Console.ForegroundColor = ConsoleColor.Red;
-                    if (i == 0)
-                    {
-                        Console.Write(" (header file)");
-                        fileType = FileType.Header;
-                    }
-                    else if (i == wordFilePaths.Count - 1)
-                    {
-                        Console.Write(" (tail file)");
-                        fileType = FileType.Tail;
-                    }
+                    //if (i == 0)
+                    //{
+                    //    Console.Write(" (header file)");
+                    //    fileType = FileType.Header;
+                    //}
+                    //else if (i == wordFilePaths.Count - 1)
+                    //{
+                    //    Console.Write(" (tail file)");
+                    //    fileType = FileType.Tail;
+                    //}
                     Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine($" ({i + 1} out of {wordFilePaths.Count})...");
 
-                    keyValuePairs.AddRange(ProcessTextFile(wordFilePaths[i], fileType));
+                    bsonDocuments.AddRange(ProcessTextFile(wordFilePaths[i], fileType));
 
-                    long elapsedTicks = localTimer.ElapsedTicks;
-                    filesElapseds.Add(elapsedTicks);
+                    long elapsedMilliseconds = localTimer.ElapsedMilliseconds;
+                    filesElapseds.Add(elapsedMilliseconds);
                     localTimer.Restart();
                     double estimatedRemainingTicks = filesElapseds.Average() * (wordFilePaths.Count - i);
 
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.Write($"{TimeSpan.FromTicks(elapsedTicks).TotalSeconds}");
+                    Console.Write(Regex.Replace(wordFilePaths[i], WORDS_TEXT_FILES_FOLDER_PATH + "/", ""));
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    Console.WriteLine(" seconds elapsed in total.");
+                    Console.Write(" processed in ");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write($"{TimeSpan.FromMilliseconds(elapsedMilliseconds).TotalMilliseconds}");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine(" milliseconds.");
 
                     Console.Write("About ");
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.Write($"{TimeSpan.FromTicks((long)estimatedRemainingTicks).Seconds} second(s)");
+                    Console.Write($"{TimeSpan.FromMilliseconds((long)estimatedRemainingTicks).TotalSeconds} second(s)");
                     Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine(" remaining.");
 
                     Console.WriteLine("----------");
+
+                    Console.SetCursorPosition(0, Console.CursorTop - 5);
                 }
+                Console.SetCursorPosition(0, Console.CursorTop + 5);
                 Console.WriteLine("--------------------");
-
-                //Console.WriteLine($"Finding duplicate keys...");
-                //localTimer.Restart();
-                //var query = keyValuePairs.GroupBy(x => x.Key)
-                //                         .Where(g => g.Count() > 1)
-                //                         .ToList();
-                //Console.ForegroundColor = ConsoleColor.Blue;
-                //Console.WriteLine($"Found {query.Count} pairs with duplicate keys.");
-                //Console.ForegroundColor = ConsoleColor.Gray;
-
-                //var newQuery = keyValuePairs.Where(g => g.Key.Contains("65g8A6597Y7")).ToList();
-                //Console.ForegroundColor = ConsoleColor.Blue;
-                //Console.WriteLine($"Found {newQuery.Count} pairs with key containing '65g8A6597Y7'.");
-                //foreach (var kvPair in newQuery)
-                //{
-                //    Console.WriteLine($"Key is {kvPair.Key}, Value is {kvPair.Value}.");
-                //}
-                //Console.ForegroundColor = ConsoleColor.Gray;
-
-                //Console.ForegroundColor = ConsoleColor.Blue;
-                //Console.Write($"{TimeSpan.FromMilliseconds(localTimer.ElapsedMilliseconds).TotalSeconds}");
-                //Console.ForegroundColor = ConsoleColor.Gray;
-                //Console.WriteLine(" seconds elapsed in total.");
-
-                //Console.WriteLine("--------------------");
 
                 Console.WriteLine($"Processing word.db...");
                 localTimer.Restart();
                 wordsCollection.DeleteAll();
-                wordsCollection.InsertBulk(keyValuePairs);
-                //for (int i = 0; i < keyValuePairs.Count; i++)
-                //{
-                //    wordsCollection.Insert(keyValuePairs[i]);
-                //}
+                wordsCollection.InsertBulk(bsonDocuments);
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write($"{TimeSpan.FromMilliseconds(localTimer.ElapsedMilliseconds).TotalSeconds}");
                 Console.ForegroundColor = ConsoleColor.Gray;
-                Console.WriteLine(" seconds elapsed in total.");
+                Console.WriteLine(" seconds elapsed.");
                 
                 var fileLength = new FileInfo(WORDS_DB_PATH).Length;
                 Console.Write("words.db filesize is ");
@@ -157,13 +135,13 @@ namespace ARLeF.Imprescj.DatabaseMigrator
             }
         }
 
-        public static IEnumerable<KeyValuePair<string, byte[]>> ProcessTextFile(string path, FileType fileType)
+        public static IEnumerable<BsonDocument> ProcessTextFile(string path, FileType fileType)
         {
             var timer = new Stopwatch();
             timer.Start();
 
             string[] textFileLines = File.ReadAllLines(path);
-            List<KeyValuePair<string, byte[]>> keyValuePairs = new();
+            List<BsonDocument> keyValuePairs = new();
 
             int startingPoint = 0;
             int endingPoint = textFileLines.Count() - 1;
@@ -178,7 +156,11 @@ namespace ARLeF.Imprescj.DatabaseMigrator
 
             for (int i = startingPoint; i < endingPoint; i = i + 2)
             {
-                keyValuePairs.Add(new KeyValuePair<string, byte[]>(Regex.Replace(textFileLines[i], "^ ", ""), CompressWord(Regex.Replace(textFileLines[i + 1], "^ ", ""))));
+                keyValuePairs.Add(new BsonDocument
+                {
+                    { "_id", Regex.Replace(textFileLines[i], "^ ", "") },
+                    { "value", Regex.Replace(textFileLines[i + 1], "^ ", "") }
+                });
             }
 
             return keyValuePairs;
