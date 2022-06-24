@@ -10,7 +10,7 @@ using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
 using ARLeF.Struments.CoretorOrtografic.Core.RadixTreeReader;
 using ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
 
-namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTree
+namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.PhoneticAlgorithm
 {
     public class PhoneticAlgorithmFixture
     {

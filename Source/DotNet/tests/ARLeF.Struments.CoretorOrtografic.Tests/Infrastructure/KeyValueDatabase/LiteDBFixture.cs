@@ -9,10 +9,12 @@ using ARLeF.Struments.CoretorOrtografic.Core.Input;
 using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
 using ARLeF.Struments.CoretorOrtografic.Core.RadixTreeReader;
 using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
+using LiteDB;
+using System.Linq;
 
 namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabase
 {
-    public class KeyValueDatabaseFixture
+    public class LiteDBFixture
     {
         private static IContainer Container { get; set; }
 
@@ -28,19 +30,19 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
             var timer = new Stopwatch();
             timer.Start();
 
-            using (var scope = Container.BeginLifetimeScope())
+            using (var db = new LiteDatabase(DictionaryFilePaths.LITEDB_WORDS_DATABASE_FILE_PATH))
             {
-                var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
+                var wordsCollection = db.GetCollection<BsonDocument>("words");
 
-                var key = "A6p7";
-                var value = keyValueDatabaseReader.GetValueAsStringByKey(key);
-                var expectedResult = "lincinariurindi";
+                var key = "v8597";
+                var value = wordsCollection.FindOne(Query.EQ("_id", key));
+                var expectedResult = "vonde";
 
                 Console.WriteLine($"Key is: [{key}]");
-                Console.WriteLine($"Value is: [{value}]");
+                Console.WriteLine($"Value is: [{value["value"].AsString}]");
 
-                Assert.NotNull(value);
-                Assert.AreEqual(value, expectedResult);
+                Assert.NotNull(value["value"]);
+                Assert.AreEqual(value["value"].AsString, expectedResult);
             }
 
             timer.Stop();

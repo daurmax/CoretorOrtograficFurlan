@@ -32,5 +32,8 @@
     <None Update="Dictionaries\WordsRadixTree\words.rt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Dictionaries\WordsDatabase\LiteDB\words.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
