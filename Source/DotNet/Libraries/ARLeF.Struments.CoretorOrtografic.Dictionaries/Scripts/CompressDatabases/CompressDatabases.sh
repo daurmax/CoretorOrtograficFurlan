@@ -4,7 +4,7 @@
 # Tested on macOS 12.4
 
 # Elisions 
-cd ../../Dictionaries/Elisions/
+cd ../../Dictionaries/Elisions/BerkeleyDB/
 if [ -e elisions.zip ]
 then
   echo "Elisions archive has already been created."
@@ -15,7 +15,7 @@ fi
 # Elisions
 
 # Errors 
-cd ../../Dictionaries/Errors/
+cd ../../../Dictionaries/Errors/BerkeleyDB/
 if [ -e errors.zip ]
 then
   echo "Errors archive has already been created."
@@ -26,7 +26,7 @@ fi
 # Errors
 
 # Frec 
-cd ../../Dictionaries/Frec/
+cd ../../../Dictionaries/Frec/BerkeleyDB/
 if [ -e frec.zip ]
 then
   echo "Frec archive has already been created."
@@ -36,19 +36,30 @@ else
 fi
 # Frec
 
-# Words database
-cd ../../Dictionaries/WordsDatabase/
+# Words database - BerkeleyDB
+cd ../../../Dictionaries/WordsDatabase/BerkeleyDB/
 if [ -e words.zip ]
 then
-  echo "WordsDatabase archive has already been created."
+  echo "BerkeleyDB WordsDatabase archive has already been created."
 else
-  echo "WordsDatabase archive not yet created. Creating..."
+  echo "BerkeleyDB WordsDatabase archive not yet created. Creating..."
   zip -s 5m words_split.zip words.db
 fi
-# Words database
+# Words database - BerkeleyDB
+
+# Words database - LiteDB
+cd ../../../Dictionaries/WordsDatabase/LiteDB/
+if [ -e words.zip ]
+then
+  echo "LiteDB WordsDatabase archive has already been created."
+else
+  echo "LiteDB WordsDatabase archive not yet created. Creating..."
+  zip -s 5m words_split.zip words.db
+fi
+# Words database - LiteDB
 
 # Words radix tree
-cd ../../Dictionaries/WordsRadixTree/
+cd ../../../Dictionaries/WordsRadixTree/
 if [ -e words.zip ]
 then
   echo "WordsRadixTree archive has already been created."

@@ -37,18 +37,12 @@ namespace ARLeF.Imprescj.DatabaseMigrator
                 // Create unique index in key field
                 wordsCollection.EnsureIndex("_id");
 
-                // Use LINQ to query documents (with no index)
-                //var results = col.Find(x => x.Key == "jnejew");
                 var wordFilePaths = Directory.GetFiles(WORDS_TEXT_FILES_FOLDER_PATH).ToList();
 
                 // For estimating time remaining
                 List<double> filesElapseds = new();
 
                 wordFilePaths.Sort();
-
-                /////
-                //Console.WriteLine("----------");
-
                 wordsCollection.Insert(ProcessTextFile(wordFilePaths.First(), FileType.Header));
 
                 var localTimer = new Stopwatch();

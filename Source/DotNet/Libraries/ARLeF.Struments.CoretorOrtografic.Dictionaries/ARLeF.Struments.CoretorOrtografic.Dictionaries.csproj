@@ -7,10 +7,14 @@
   <ItemGroup>
     <None Remove="Enums\" />
     <None Remove="Scripts\ToTextFiles\" />
+    <None Remove="Dictionaries\WordsDatabase\BerkeleyDB\" />
+    <None Remove="Dictionaries\WordsDatabase\LiteDB\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Constants\" />
     <Folder Include="Scripts\DumpToTextFiles\" />
+    <Folder Include="Dictionaries\WordsDatabase\BerkeleyDB\" />
+    <Folder Include="Dictionaries\WordsDatabase\LiteDB\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Dictionaries\Elisions\elisions.db">
