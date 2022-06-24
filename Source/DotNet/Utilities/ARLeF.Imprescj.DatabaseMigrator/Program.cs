@@ -35,7 +35,7 @@ namespace ARLeF.Imprescj.DatabaseMigrator
                 var wordsCollection = db.GetCollection<BsonDocument>("words");
 
                 // Create unique index in key field
-                //wordsCollection.EnsureIndex(x => x., true);
+                wordsCollection.EnsureIndex("_id");
 
                 // Use LINQ to query documents (with no index)
                 //var results = col.Find(x => x.Key == "jnejew");
@@ -66,17 +66,6 @@ namespace ARLeF.Imprescj.DatabaseMigrator
                     Console.Write($"Processing file ");
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(Regex.Replace(wordFilePaths[i], WORDS_TEXT_FILES_FOLDER_PATH + "/", ""));
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    //if (i == 0)
-                    //{
-                    //    Console.Write(" (header file)");
-                    //    fileType = FileType.Header;
-                    //}
-                    //else if (i == wordFilePaths.Count - 1)
-                    //{
-                    //    Console.Write(" (tail file)");
-                    //    fileType = FileType.Tail;
-                    //}
                     Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine($" ({i + 1} out of {wordFilePaths.Count})...");
 
@@ -87,7 +76,7 @@ namespace ARLeF.Imprescj.DatabaseMigrator
                     localTimer.Restart();
                     double estimatedRemainingTicks = filesElapseds.Average() * (wordFilePaths.Count - i);
 
-                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(Regex.Replace(wordFilePaths[i], WORDS_TEXT_FILES_FOLDER_PATH + "/", ""));
                     Console.ForegroundColor = ConsoleColor.Gray;
                     Console.Write(" processed in ");
@@ -106,7 +95,13 @@ namespace ARLeF.Imprescj.DatabaseMigrator
 
                     Console.SetCursorPosition(0, Console.CursorTop - 5);
                 }
-                Console.SetCursorPosition(0, Console.CursorTop + 5);
+                Console.Clear();
+                Console.WriteLine("--------------------");
+                Console.Write($"Word files processed in ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write($"{TimeSpan.FromMilliseconds(globalTimer.ElapsedMilliseconds).TotalSeconds}");
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine(" seconds.");
                 Console.WriteLine("--------------------");
 
                 Console.WriteLine($"Processing word.db...");
