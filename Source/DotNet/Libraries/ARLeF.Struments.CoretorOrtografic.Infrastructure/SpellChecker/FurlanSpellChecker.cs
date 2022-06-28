@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 {
-    public class MockSpellChecker : ISpellChecker
+    public class FurlanSpellChecker : ISpellChecker
     {
         private ICollection<IProcessedElement> _processedElements = new List<IProcessedElement>();
 
@@ -30,7 +30,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
             }
         }
 
-        public MockSpellChecker() { }
+        public FurlanSpellChecker() { }
 
 
         public async Task ExecuteSpellCheck(string text)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
 {
@@ -36,7 +37,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
 
                 if (retrievedData.Count == 1)
                 {
-                    return retrievedData.Single().Value;
+                    return ReplaceWordUnicodeCodesWithSpecialCharacters(retrievedData.Single().Value);
                 }
                 else if (!retrievedData.Any())
                 {
@@ -47,6 +48,25 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                     throw new InvalidDataException($"The provided key '{key}' returned more than one result.");
                 }
             }
+        }
+
+        private string ReplaceWordUnicodeCodesWithSpecialCharacters(string word)
+        {
+            var retval = word;
+
+            retval = Regex.Replace(retval, @"\\e7", "ç");
+            retval = Regex.Replace(retval, @"\\e2", "â");
+            retval = Regex.Replace(retval, @"\\ea", "ê");
+            retval = Regex.Replace(retval, @"\\ee", "î");
+            retval = Regex.Replace(retval, @"\\f4", "ô");
+            retval = Regex.Replace(retval, @"\\fb", "û");
+            retval = Regex.Replace(retval, @"\\e0", "à");
+            retval = Regex.Replace(retval, @"\\e8", "è");
+            retval = Regex.Replace(retval, @"\\ec", "ì");
+            retval = Regex.Replace(retval, @"\\f2", "ò");
+            retval = Regex.Replace(retval, @"\\f9", "ù");
+
+            return retval;
         }
     }
 }
