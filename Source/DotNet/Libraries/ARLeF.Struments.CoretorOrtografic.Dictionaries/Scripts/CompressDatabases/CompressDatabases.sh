@@ -58,6 +58,17 @@ else
 fi
 # Words database - LiteDB
 
+# Words database - SQLite
+cd ../../../Dictionaries/WordsDatabase/SQLite/
+if [ -e words.zip ]
+then
+  echo "SQLite WordsDatabase archive has already been created."
+else
+  echo "SQLite WordsDatabase archive not yet created. Creating..."
+  zip -s 5m words_split.zip words.db
+fi
+# Words database - SQLite
+
 # Words radix tree
 cd ../../../Dictionaries/WordsRadixTree/
 if [ -e words.zip ]

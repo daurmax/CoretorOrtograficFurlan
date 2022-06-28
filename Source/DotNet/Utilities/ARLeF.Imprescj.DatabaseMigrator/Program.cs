@@ -43,12 +43,12 @@ namespace ARLeF.Imprescj.DatabaseMigrator
                 List<double> filesElapseds = new();
 
                 wordFilePaths.Sort();
-                wordsCollection.Insert(ProcessTextFile(wordFilePaths.First(), FileType.Header));
+                //wordsCollection.Insert(ProcessTextFile(wordFilePaths.First(), FileType.Header));
 
                 var localTimer = new Stopwatch();
                 localTimer.Start();
 
-                List<BsonDocument> bsonDocuments = new();
+                List<KeyValuePair<string, string>> keyValuePairs = new();
 
                 for (int i = 0; i < wordFilePaths.Count; i++)
                 {
@@ -63,7 +63,7 @@ namespace ARLeF.Imprescj.DatabaseMigrator
                     Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine($" ({i + 1} out of {wordFilePaths.Count})...");
 
-                    bsonDocuments.AddRange(ProcessTextFile(wordFilePaths[i], fileType));
+                    keyValuePairs.AddRange(ProcessTextFile(wordFilePaths[i], fileType));
 
                     long elapsedMilliseconds = localTimer.ElapsedMilliseconds;
                     filesElapseds.Add(elapsedMilliseconds);
@@ -98,10 +98,42 @@ namespace ARLeF.Imprescj.DatabaseMigrator
                 Console.WriteLine(" seconds.");
                 Console.WriteLine("--------------------");
 
-                Console.WriteLine($"Processing word.db...");
+                Console.WriteLine($"Creating word.db...");
                 localTimer.Restart();
-                wordsCollection.DeleteAll();
-                wordsCollection.InsertBulk(bsonDocuments);
+
+                string cs = @$"URI=file:{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/words.db";
+
+                using (var con = new SQLiteConnection(cs))
+                {
+                    con.Open();
+
+                    using var cmd = new SQLiteCommand(con);
+
+                    cmd.CommandText = "DROP TABLE IF EXISTS Words";
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = @"CREATE TABLE Words(Key varchar(50) PRIMARY KEY, Value varchar(255))";
+                    cmd.ExecuteNonQuery();
+
+                    using (var transaction = con.BeginTransaction())
+                    {
+                        var command = con.CreateCommand();
+
+                        command.CommandText = "INSERT INTO Words(Key, Value) VALUES (@Key, @Value)";
+                        
+                        foreach (var keyValuePair in keyValuePairs)
+                        {
+                            command.Parameters.AddWithValue("@Key", keyValuePair.Key);
+                            command.Parameters.AddWithValue("@Value", keyValuePair.Value);
+                            command.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                    }
+                }
+
+                //wordsCollection.DeleteAll();
+                //wordsCollection.InsertBulk(keyValuePairs);
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write($"{TimeSpan.FromMilliseconds(localTimer.ElapsedMilliseconds).TotalSeconds}");
                 Console.ForegroundColor = ConsoleColor.Gray;
@@ -124,13 +156,13 @@ namespace ARLeF.Imprescj.DatabaseMigrator
             }
         }
 
-        public static IEnumerable<BsonDocument> ProcessTextFile(string path, FileType fileType)
+        public static IEnumerable<KeyValuePair<string, string>> ProcessTextFile(string path, FileType fileType)
         {
             var timer = new Stopwatch();
             timer.Start();
 
             string[] textFileLines = File.ReadAllLines(path);
-            List<BsonDocument> keyValuePairs = new();
+            List<KeyValuePair<string, string>> keyValuePairs = new();
 
             int startingPoint = 0;
             int endingPoint = textFileLines.Count() - 1;
@@ -145,43 +177,11 @@ namespace ARLeF.Imprescj.DatabaseMigrator
 
             for (int i = startingPoint; i < endingPoint; i = i + 2)
             {
-                keyValuePairs.Add(new BsonDocument
-                {
-                    { "_id", Regex.Replace(textFileLines[i], "^ ", "") },
-                    { "value", Regex.Replace(textFileLines[i + 1], "^ ", "") }
-                });
+                keyValuePairs.Add(new KeyValuePair<string, string>(Regex.Replace(textFileLines[i], "^ ", ""),
+                                                                   Regex.Replace(textFileLines[i + 1], "^ ", "")));
             }
 
             return keyValuePairs;
-        }
-
-        public static byte[] CompressWord(string word)
-        {
-            var bytes = Encoding.UTF8.GetBytes(word);
-            using (var memoryStream = new MemoryStream())
-            {
-                using (var gzipStream = new GZipStream(memoryStream, CompressionLevel.Optimal))
-                {
-                    gzipStream.Write(bytes, 0, bytes.Length);
-                }
-                return memoryStream.ToArray();
-            }
-        }
-
-        public static string DecompressWord(byte[] bytes)
-        {
-            using (var memoryStream = new MemoryStream(bytes))
-            {
-
-                using (var outputStream = new MemoryStream())
-                {
-                    using (var decompressStream = new GZipStream(memoryStream, CompressionMode.Decompress))
-                    {
-                        decompressStream.CopyTo(outputStream);
-                    }
-                    return Encoding.UTF8.GetString(outputStream.ToArray());
-                }
-            }
         }
     }
 }

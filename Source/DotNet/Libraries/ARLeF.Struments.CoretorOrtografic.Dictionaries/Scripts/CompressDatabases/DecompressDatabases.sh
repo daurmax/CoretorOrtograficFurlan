@@ -60,6 +60,18 @@ else
 fi
 # Words database - LiteDB
 
+# Words database - SQLite
+cd ../../../Dictionaries/WordsDatabase/SQLite/
+if [ -e words.db ]
+then
+  echo "SQLite WordsDatabase dictionary has already been extrated from archive."
+else
+  echo "SQLite WordsDatabase dictionary not yet extracted. Extracting..."
+  zip -F words_split.zip --output words.zip
+  unzip words.zip
+fi
+# Words database - SQLite
+
 # Words radix tree
 cd ../../../Dictionaries/WordsRadixTree/
 if [ -e words.rt ]
