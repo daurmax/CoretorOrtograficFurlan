@@ -5,7 +5,7 @@ using ARLeF.Struments.CoretorOrtografic.Core.Constants;
 
 namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
 {
-	public static class FurlanPhoneticAlgorithmModel
+	public static class FurlanPhoneticAlgorithm
 	{
 		public static (string, string) GetPhoneticHashesByWord(string word)
         {

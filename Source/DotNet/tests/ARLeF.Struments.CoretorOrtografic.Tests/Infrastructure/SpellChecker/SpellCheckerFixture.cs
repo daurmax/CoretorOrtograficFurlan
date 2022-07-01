@@ -43,7 +43,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.SpellChecker
                 List<string> result = new();
                 if (value1 != null)
                 {
-                    result.AddRange(value1.Split(','));
+                    result.AddRange(value1?.Split(','));
                 }
                 if (value2 != null)
                 {

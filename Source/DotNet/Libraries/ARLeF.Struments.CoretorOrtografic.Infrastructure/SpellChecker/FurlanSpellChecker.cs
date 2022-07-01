@@ -1,5 +1,6 @@
 ﻿using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
 using ARLeF.Struments.CoretorOrtografic.Core.Constants;
+using ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
 using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
 using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
 using System;
@@ -13,6 +14,8 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 {
     public class FurlanSpellChecker : ISpellChecker
     {
+        private readonly IKeyValueDatabase _keyValueDatabase;
+
         private ICollection<IProcessedElement> _processedElements = new List<IProcessedElement>();
 
         public IReadOnlyCollection<IProcessedElement> ProcessedElements
@@ -30,15 +33,18 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
             }
         }
 
-        public FurlanSpellChecker() { }
+        public FurlanSpellChecker(IKeyValueDatabase keyValueDatabase)
+        {
+            _keyValueDatabase = keyValueDatabase;
+        }
 
 
-        public async Task ExecuteSpellCheck(string text)
+        public void ExecuteSpellCheck(string text)
         {
             _processedElements = ProcessText(text);
             foreach (ProcessedWord word in _processedElements)
             {
-                word.Correct = await CheckWordCorrectness(word);
+                word.Correct = CheckWordCorrectness(word).Result;
             }
         }
         public void CleanSpellChecker()
@@ -50,8 +56,28 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
         {
             return await Task<bool>.Factory.StartNew(() =>
             {
-                Random rand = new Random();
-                return rand.NextDouble() > 0.5;
+                (string, string) wordHashes = FurlanPhoneticAlgorithm.GetPhoneticHashesByWord(word.ToString());
+
+                var retrievedValue1 = _keyValueDatabase.GetValueAsStringByKey(wordHashes.Item1);
+                var retrievedValue2 = _keyValueDatabase.GetValueAsStringByKey(wordHashes.Item2);
+                if (retrievedValue1 is null && retrievedValue2 is null)
+                {
+                    return false;
+                }
+                else
+                {
+                    List<string> suggestedWords = new();
+                    if (retrievedValue1 is not null && retrievedValue1 != String.Empty)
+                    {
+                        suggestedWords.AddRange(retrievedValue1.Split(','));
+                    }
+                    if (retrievedValue2 is not null && retrievedValue2 != String.Empty)
+                    {
+                        suggestedWords.AddRange(retrievedValue2.Split(','));
+                    }
+
+                    return suggestedWords.Contains(word.ToString());
+                }
             });
         }
         public async Task<ICollection<string>> GetWordSuggestions(ProcessedWord word)

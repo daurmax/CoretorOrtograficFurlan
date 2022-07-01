@@ -24,7 +24,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.SpellChecker
         /// Executes the spell check on a given <see cref="string"/>
         /// </summary>
         /// <param name="text"><see cref="string"/> to spell check</param>
-        Task ExecuteSpellCheck(string text);
+        void ExecuteSpellCheck(string text);
 
         /// <summary>
         /// Cleans the spell checker.
