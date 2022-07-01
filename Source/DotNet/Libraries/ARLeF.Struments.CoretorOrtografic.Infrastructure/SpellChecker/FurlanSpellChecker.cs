@@ -84,18 +84,28 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
         {
             return await Task<ICollection<string>>.Factory.StartNew(() =>
             {
-                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                (string, string) wordHashes = FurlanPhoneticAlgorithm.GetPhoneticHashesByWord(word.ToString());
 
-                Random rand = new Random();
-                int fakeSuggestions = rand.Next(0, 10);
-
-                List<string> retval = new List<string>();
-                for (int i = -1; i < fakeSuggestions; i++)
+                var retrievedValue1 = _keyValueDatabase.GetValueAsStringByKey(wordHashes.Item1);
+                var retrievedValue2 = _keyValueDatabase.GetValueAsStringByKey(wordHashes.Item2);
+                if (retrievedValue1 is null && retrievedValue2 is null)
                 {
-                    retval.Add(new string(Enumerable.Repeat(chars, rand.Next(4, 15)).Select(s => s[rand.Next(s.Length)]).ToArray()));
+                    return null;
                 }
+                else
+                {
+                    List<string> suggestedWords = new();
+                    if (retrievedValue1 is not null && retrievedValue1 != String.Empty)
+                    {
+                        suggestedWords.AddRange(retrievedValue1.Split(','));
+                    }
+                    if (retrievedValue2 is not null && retrievedValue2 != String.Empty)
+                    {
+                        suggestedWords.AddRange(retrievedValue2.Split(','));
+                    }
 
-                return retval;
+                    return suggestedWords;
+                }
             });
         }
 

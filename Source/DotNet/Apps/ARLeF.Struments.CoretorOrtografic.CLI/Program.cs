@@ -12,16 +12,14 @@ namespace ARLeF.Struments.CoretorOrtografic.CLI
 {
     public class Program
     {
-        private static IContainer Container { get; set; }
-
-        private static IContentReader Reader { get; set; }
-
-        private static ISpellChecker Checker { get; set; }
+        private static IContainer _container;
+        private static IContentReader _reader;
+        private static ISpellChecker _checker;
 
         public static void Main(string[] args)
         {
 
-            Container = CoretorOrtograficCliDependencyContainer.Configure
+            _container = CoretorOrtograficCliDependencyContainer.Configure
 #if DEBUG
                 (true);
 #else
@@ -33,15 +31,15 @@ namespace ARLeF.Struments.CoretorOrtografic.CLI
             PrintTitle();
             PrintInstructions();
 
-            using (var scope = Container.BeginLifetimeScope())
+            using (var scope = _container.BeginLifetimeScope())
             {
-                Reader = scope.Resolve<IContentReader>();
+                _reader = scope.Resolve<IContentReader>();
 
-                Checker = scope.Resolve<ISpellChecker>();
+                _checker = scope.Resolve<ISpellChecker>();
 
                 while (true)
                 {
-                    var readStrings = Reader.Read()?.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
+                    var readStrings = _reader.Read()?.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
                     if (readStrings is null || !readStrings.Any())
                     {
@@ -124,9 +122,9 @@ namespace ARLeF.Struments.CoretorOrtografic.CLI
         }
         private static void PrintWordsCorrectness(List<string> words)
         {
-            Checker.ExecuteSpellCheck(String.Join(" ", words));
+            _checker.ExecuteSpellCheck(String.Join(" ", words));
 
-            foreach (ProcessedWord processedWord in Checker.ProcessedWords)
+            foreach (ProcessedWord processedWord in _checker.ProcessedWords)
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write($"{processedWord.Original}");
@@ -149,15 +147,60 @@ namespace ARLeF.Struments.CoretorOrtografic.CLI
             }
 
             Console.WriteLine();
-            Checker.CleanSpellChecker();
+            _checker.CleanSpellChecker();
         }
         private static void PrintSuggestedWords(List<string> words)
         {
-            Checker.ExecuteSpellCheck(String.Join(" ", words));
+            _checker.ExecuteSpellCheck(String.Join(" ", words));
 
-            // TODO
+            foreach (ProcessedWord processedWord in _checker.ProcessedWords)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write($"{processedWord.Original}");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(" is ");
+                if (processedWord.Correct)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("correct");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(".");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("incorrect");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(". ");
+                    var suggestedWords = _checker.GetWordSuggestions(processedWord).Result;
+                    if (suggestedWords is null || !suggestedWords.Any())
+                    {
+                        Console.WriteLine("There are no suggestions.");
+                    }
+                    else
+                    {
+                        Console.Write("Suggestions are: ");
+                        foreach (var suggestedWord in suggestedWords)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.Write(suggestedWord);
+                            if (suggestedWord != suggestedWords.Last())
+                            {
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.Write(", ");
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.WriteLine(".");
+                            }
+                        }
+                    }
+                }
+            }
 
-            Checker.CleanSpellChecker();
+            Console.WriteLine();
+            _checker.CleanSpellChecker();
         }
     }
 }
