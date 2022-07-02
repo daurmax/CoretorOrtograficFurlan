@@ -63,25 +63,18 @@ namespace ARLeF.Struments.CoretorOrtografic.CLI
                     }
                     else
                     {
-                        try 
+                        switch (Char.ToUpper(readStrings.First().Single()))
                         {
-                            switch (Char.ToUpper(readStrings.First().Single()))
-                            {
-                                case 'C':
-                                    PrintWordsCorrectness(readStrings.Skip(1).ToList());
-                                    break;
-                                case 'S':
-                                    PrintSuggestedWords(readStrings.Skip(1).ToList());
-                                    break;
-                                default:
-                                    Console.WriteLine($"Unknown command '{readStrings.First()}'.");
-                                    PrintInstructions();
-                                    break;
-                            }
-                        }
-                        catch (Exception test)
-                        {
-                            Console.WriteLine(test.ToString());
+                            case 'C':
+                                PrintWordsCorrectness(readStrings.Skip(1).ToList());
+                                break;
+                            case 'S':
+                                PrintSuggestedWords(readStrings.Skip(1).ToList());
+                                break;
+                            default:
+                                Console.WriteLine($"Unknown command '{readStrings.First()}'.");
+                                PrintInstructions();
+                                break;
                         }
                     }
                 }
@@ -122,85 +115,103 @@ namespace ARLeF.Struments.CoretorOrtografic.CLI
         }
         private static void PrintWordsCorrectness(List<string> words)
         {
-            _checker.ExecuteSpellCheck(String.Join(" ", words));
-
-            foreach (ProcessedWord processedWord in _checker.ProcessedWords)
+            try
             {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.Write($"{processedWord.Original}");
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write(" is ");
-                if (processedWord.Correct)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("correct");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine(".");
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("incorrect");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine(".");
-                }
-            }
+                _checker.ExecuteSpellCheck(String.Join(" ", words));
 
-            Console.WriteLine();
-            _checker.CleanSpellChecker();
-        }
-        private static void PrintSuggestedWords(List<string> words)
-        {
-            _checker.ExecuteSpellCheck(String.Join(" ", words));
-
-            foreach (ProcessedWord processedWord in _checker.ProcessedWords)
-            {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.Write($"{processedWord.Original}");
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write(" is ");
-                if (processedWord.Correct)
+                foreach (ProcessedWord processedWord in _checker.ProcessedWords)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("correct");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write($"{processedWord.Original}");
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine(".");
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("incorrect");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write(". ");
-                    var suggestedWords = _checker.GetWordSuggestions(processedWord).Result;
-                    if (suggestedWords is null || !suggestedWords.Any())
+                    Console.Write(" is ");
+                    if (processedWord.Correct)
                     {
-                        Console.WriteLine("There are no suggestions.");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write("correct");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine(".");
                     }
                     else
                     {
-                        Console.Write("Suggestions are: ");
-                        foreach (var suggestedWord in suggestedWords)
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("incorrect");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine(".");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An exception of type {ex.GetType()} occurred.");
+            }
+            finally
+            {
+                Console.WriteLine();
+                _checker.CleanSpellChecker();
+            }
+        }
+        private static void PrintSuggestedWords(List<string> words)
+        {
+            try
+            {
+                _checker.ExecuteSpellCheck(String.Join(" ", words));
+
+                foreach (ProcessedWord processedWord in _checker.ProcessedWords)
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write($"{processedWord.Original}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(" is ");
+                    if (processedWord.Correct)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write("correct");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine(".");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("incorrect");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(". ");
+                        var suggestedWords = _checker.GetWordSuggestions(processedWord).Result;
+                        if (suggestedWords is null || !suggestedWords.Any())
                         {
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.Write(suggestedWord);
-                            if (suggestedWord != suggestedWords.Last())
+                            Console.WriteLine("There are no suggestions.");
+                        }
+                        else
+                        {
+                            Console.Write("Suggestions are: ");
+                            foreach (var suggestedWord in suggestedWords)
                             {
-                                Console.ForegroundColor = ConsoleColor.White;
-                                Console.Write(", ");
-                            }
-                            else
-                            {
-                                Console.ForegroundColor = ConsoleColor.White;
-                                Console.WriteLine(".");
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.Write(suggestedWord);
+                                if (suggestedWord != suggestedWords.Last())
+                                {
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.Write(", ");
+                                }
+                                else
+                                {
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.WriteLine(".");
+                                }
                             }
                         }
                     }
                 }
             }
-
-            Console.WriteLine();
-            _checker.CleanSpellChecker();
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An exception of type {ex.GetType()} occurred.");
+            }
+            finally
+            {
+                Console.WriteLine();
+                _checker.CleanSpellChecker();
+            }
         }
     }
 }

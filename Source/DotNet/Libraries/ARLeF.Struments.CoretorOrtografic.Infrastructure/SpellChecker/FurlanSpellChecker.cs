@@ -42,7 +42,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
         public void ExecuteSpellCheck(string text)
         {
             _processedElements = ProcessText(text);
-            foreach (ProcessedWord word in _processedElements)
+            foreach (ProcessedWord word in ProcessedWords)
             {
                 word.Correct = CheckWordCorrectness(word).Result;
             }
