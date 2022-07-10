@@ -30,10 +30,10 @@
 <br />
 <div align="center">
   <a href="https://github.com/daurmax/CoretorOrtograficFurlan">
-    <img src="../Design/Icons/cof_logo.svg" alt="Logo" width="80" height="80">
+    <img src="../Design/Icons/cof_logo.svg" alt="Logo" width="200" height="200">
   </a>
 
-<h3 align="center"><b>Coretôr Ortografic Furlan</b></h3>
+<h1 align="center"><b>Coretôr Ortografic Furlan</b></h1>
 
   <p align="center">
     <i>Coretôr Ortografic Furlan</i> (<b>COF</b>) è un correttore ortografico multimodale e cross-platform per la lingua friulana.
