@@ -5,7 +5,6 @@ using ARLeF.Struments.CoretorOrtografic.Core.Input;
 using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
 using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
 using Autofac;
-using ARLeF.Struments.CoretorOrtografic.Infrastructure.RadixTreeReader;
 using ARLeF.Struments.CoretorOrtografic.Core.RadixTreeReader;
 
 namespace ARLeF.Struments.CoretorOrtografic.Business
@@ -49,7 +48,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Business
         private void RegisterDevelopmentOnlyDependencies(ContainerBuilder builder)
         {
             // Add development only services
-            builder.RegisterType<InMemoryRadixTreeReader>().As<IRadixTreeReader>();
             builder.RegisterType<FurlanSpellChecker>().As<ISpellChecker>();
             builder.RegisterType<SQLiteKeyValueDatabase>().As<IKeyValueDatabase>();
         }

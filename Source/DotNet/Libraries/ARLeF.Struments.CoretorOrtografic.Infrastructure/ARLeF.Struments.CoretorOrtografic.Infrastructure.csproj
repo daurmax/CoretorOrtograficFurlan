@@ -19,7 +19,4 @@
     <None Remove="LiteDB" />
     <None Remove="System.Data.SQLite" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RadixTreeReader\" />
-  </ItemGroup>
 </Project>

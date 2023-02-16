@@ -34,7 +34,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
 
             var key = "v8597";
             var expectedResult = "vonde";
-            string result = null;
 
             using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_WORDS_DATABASE_FILE_PATH}"))
             {

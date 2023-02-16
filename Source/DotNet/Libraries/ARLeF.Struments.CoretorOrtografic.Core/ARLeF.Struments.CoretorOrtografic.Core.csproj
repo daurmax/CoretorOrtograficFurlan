@@ -14,9 +14,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="RadixTreeReader\" />
-    <Folder Include="Entities\" />
     <Folder Include="Entities\ProcessedElements\" />
-    <Folder Include="Entities\RadixTree\" />
     <Folder Include="FurlanPhoneticAlgorithm\" />
     <Folder Include="Constants\" />
   </ItemGroup>
