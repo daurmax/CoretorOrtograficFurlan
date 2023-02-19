@@ -1,5 +1,5 @@
 ﻿using System;
-using ARLeF.Struments.CoretorOrtografic.Core.Entities.RadixTree;
+using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
 
 namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTreeReader
 {

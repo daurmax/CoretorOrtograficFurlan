@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
-using ARLeF.Struments.CoretorOrtografic.Core.Entities.RadixTree;
+using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
 using NUnit.Framework;
 using Autofac.Core;
 using Autofac;

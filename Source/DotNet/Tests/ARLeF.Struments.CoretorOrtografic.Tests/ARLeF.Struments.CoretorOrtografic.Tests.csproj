@@ -26,7 +26,6 @@
     <Folder Include="Infrastructure\PhoneticAlgorithm\" />
     <Folder Include="General\" />
     <Folder Include="Infrastructure\KeyValueDatabase\" />
-    <Folder Include="Infrastructure\RadixTreeReader\" />
     <Folder Include="Infrastructure\SpellChecker\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Core.Entities.RadixTree;
+﻿using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
 using ARLeF.Struments.CoretorOrtografic.Infrastructure.RadixTreeDatabase;
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ARLeF.Struments.CoretorOrtografic.Core.Entities.RadixTree
+namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 {
     public class RadixTreeEdge
     {
