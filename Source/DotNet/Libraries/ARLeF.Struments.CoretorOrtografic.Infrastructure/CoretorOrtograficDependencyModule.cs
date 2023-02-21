@@ -5,7 +5,6 @@ using ARLeF.Struments.CoretorOrtografic.Core.Input;
 using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
 using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
 using Autofac;
-using ARLeF.Struments.CoretorOrtografic.Core.RadixTreeReader;
 
 namespace ARLeF.Struments.CoretorOrtografic.Business
 {

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.RadixTreeDatabase
 {
@@ -13,20 +14,24 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.RadixTreeDatabase
     {
         private byte[] data;
 
-        private const int NodeHeadDim = 1;
-
         public RadixTreeDatabaseService()
         {
-            using (FileStream fileStream = new FileStream(DictionaryFilePaths.SQLITE_WORDS_DATABASE_FILE_PATH, FileMode.Open, FileAccess.Read))
+            using (var fh = new FileStream(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH, FileMode.Open, FileAccess.Read))
             {
-                data = new byte[fileStream.Length];
-                fileStream.Read(data, 0, (int)fileStream.Length);
+                data = new byte[fh.Length];
+                fh.Read(data, 0, data.Length);
             }
         }
 
         public RadixTreeNode GetRoot()
         {
             return new RadixTreeNode(0, data);
+        }
+
+        public string PrintFirstNBytesAsHex(int n)
+        {
+            var retval = Convert.ToHexString(data.Take(n).ToArray());
+            return retval;
         }
     }
 }

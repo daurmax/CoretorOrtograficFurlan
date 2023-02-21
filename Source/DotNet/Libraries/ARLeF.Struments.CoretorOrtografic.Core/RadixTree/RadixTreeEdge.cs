@@ -1,61 +1,68 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 {
     public class RadixTreeEdge
     {
-        private int pos;
-        private byte[] tree;
+        private const byte IS_WORD_FLAG = 128;
+        private const byte CASE_FLAG = 64;
+        private const byte IS_LEAF_FLAG = 32;
+        private const byte NO_FLAGS = unchecked((byte)~(IS_WORD_FLAG | CASE_FLAG | IS_LEAF_FLAG));
+        private const byte EDGE_HEAD_DIM = 1;
+        private const byte OFFSET_DIM = 4;
 
-        private const byte IsWordFlag = 128;
-        private const byte CaseFlag = 64;
-        private const byte IsLeafFlag = 32;
-        private const byte NoFlags = 0x1F;
-        private const int EdgeHeadDim = 1;
-        private const int OffsetDim = 4;
+        private int _pos;
+        private byte[] _tree;
 
         public RadixTreeEdge(int pos, byte[] tree)
         {
-            this.pos = pos;
-            this.tree = tree;
+            _tree = tree;
+            _pos = pos;
         }
 
         public bool IsWord()
         {
-            byte flags = tree[pos + EdgeHeadDim];
-            if ((flags & IsWordFlag) == IsWordFlag)
-            {
-                return (flags & CaseFlag) == CaseFlag ? true : false;
-            }
-            return false;
-        }
-        public bool IsLowercase()
-        {
-            return (tree[pos + EdgeHeadDim] & CaseFlag) == 0;
-        }
-        public bool IsLeaf()
-        {
-            return (tree[pos + EdgeHeadDim] & IsLeafFlag) == IsLeafFlag;
+            byte flags = _tree[_pos];
+            return (flags & IS_WORD_FLAG) != 0;
         }
 
-        public int GetLength()
+        public bool IsLowerCase()
         {
-            return tree[pos + EdgeHeadDim] & NoFlags;
+            byte flags = _tree[_pos];
+            return (flags & CASE_FLAG) == 0;
         }
+
+        public bool IsLeaf()
+        {
+            byte flags = _tree[_pos];
+            return (flags & IS_LEAF_FLAG) != 0;
+        }
+
+        public int GetLenString()
+        {
+            byte flags = _tree[_pos];
+            return flags & NO_FLAGS;
+        }
+
         public string GetString()
         {
-            int length = GetLength();
-            return System.Text.Encoding.UTF8.GetString(tree, pos + EdgeHeadDim + 1, length);
+            int len = GetLenString();
+            byte[] bytes = new byte[len];
+            Array.Copy(_tree, _pos + 1, bytes, 0, len);
+            return System.Text.Encoding.UTF8.GetString(bytes);
         }
+
         public int GetDimension()
         {
-            return EdgeHeadDim + GetLength() + (IsLeaf() ? 0 : OffsetDim);
+            return EDGE_HEAD_DIM + GetLenString() + (IsLeaf() ? 0 : OFFSET_DIM);
         }
+
         public RadixTreeNode GetNode()
         {
-            int nodePos = BitConverter.ToInt32(tree, pos + EdgeHeadDim + GetLength());
-            return new RadixTreeNode(pos + nodePos, tree);
+            int nodePos = BitConverter.ToInt32(_tree, _pos + EDGE_HEAD_DIM + GetLenString());
+            return new RadixTreeNode(_pos + nodePos, _tree);
         }
     }
 }

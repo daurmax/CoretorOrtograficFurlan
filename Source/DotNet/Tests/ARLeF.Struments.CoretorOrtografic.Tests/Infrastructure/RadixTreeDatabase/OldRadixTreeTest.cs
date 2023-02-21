@@ -71,7 +71,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTree
         }
     }
 
-    public class RadixTreeTest
+    public class OldRadixTreeTest
     {
         [SetUp]
         public void Setup()
@@ -84,7 +84,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTree
             var timer = new Stopwatch();
             timer.Start();
 
-            var rootNode = new RadixTreeNode(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH, 0);
+            var rootNode = new RadixTreeNode(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH, 1);
 
             Console.WriteLine($"Edge position: [{rootNode.EdgePosition}]");
             Console.WriteLine($"Number of edges: [{rootNode.EdgesNumber}]");

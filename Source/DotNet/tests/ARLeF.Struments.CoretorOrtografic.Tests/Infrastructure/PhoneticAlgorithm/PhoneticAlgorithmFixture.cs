@@ -7,7 +7,6 @@ using Autofac.Core;
 using Autofac;
 using ARLeF.Struments.CoretorOrtografic.Core.Input;
 using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
-using ARLeF.Struments.CoretorOrtografic.Core.RadixTreeReader;
 using ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
 
 namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.PhoneticAlgorithm

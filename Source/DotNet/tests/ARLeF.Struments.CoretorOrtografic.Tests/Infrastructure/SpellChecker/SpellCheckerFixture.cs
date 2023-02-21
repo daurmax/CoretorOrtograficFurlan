@@ -7,7 +7,6 @@ using Autofac.Core;
 using Autofac;
 using ARLeF.Struments.CoretorOrtografic.Core.Input;
 using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
-using ARLeF.Struments.CoretorOrtografic.Core.RadixTreeReader;
 using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
 using System.Collections.Generic;
 using System.Linq;

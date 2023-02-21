@@ -13,7 +13,6 @@
     <None Remove="Constants\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="RadixTreeReader\" />
     <Folder Include="Entities\ProcessedElements\" />
     <Folder Include="FurlanPhoneticAlgorithm\" />
     <Folder Include="Constants\" />
