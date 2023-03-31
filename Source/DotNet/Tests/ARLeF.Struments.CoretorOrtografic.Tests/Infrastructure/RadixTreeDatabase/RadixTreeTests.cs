@@ -27,7 +27,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTreeDataba
 
             // Act
             var rootNode = _radixTree.GetRoot();
-            int actualEdgeNumber = rootNode.GetNumEdges();
+            int? actualEdgeNumber = rootNode.GetNumEdges();
 
             // Assert
             Assert.AreEqual(expectedEdgeNumber, actualEdgeNumber);

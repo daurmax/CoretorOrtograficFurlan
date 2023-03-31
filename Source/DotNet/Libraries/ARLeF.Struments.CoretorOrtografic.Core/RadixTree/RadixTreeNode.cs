@@ -10,7 +10,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
         private const int NNEDGE = 2;
         private const int NNEXT_POS = 3;
         private const int NNEXT_NUM = 4;
-        public int NumEdges => GetNumEdges();
+        public int? NumEdges => GetNumEdges();
         public int NextPos { get; set; } = 1;
         public int NextNum { get; set; } = 0;
 
@@ -22,9 +22,16 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
             NextNum = 0;
         }
 
-        public int GetNumEdges()
+        public int? GetNumEdges()
         {
-            return _tree[Pos];
+            try
+            {
+                return _tree[Pos];
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                return null;
+            }
         }
 
         public RadixTreeEdge GetNextEdge()

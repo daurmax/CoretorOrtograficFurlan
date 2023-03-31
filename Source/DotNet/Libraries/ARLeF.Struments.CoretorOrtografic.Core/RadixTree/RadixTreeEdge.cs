@@ -22,10 +22,32 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
             _pos = pos;
         }
 
-        public bool IsWord()
+        //public bool IsWord()
+        //{
+        //    byte flags = _tree[_pos];
+        //    //return (flags & IS_WORD_FLAG) != 0;
+        //    return flags == IS_WORD_FLAG;
+        //}
+
+        public int IsWord()
         {
             byte flags = _tree[_pos];
-            return (flags & IS_WORD_FLAG) != 0;
+
+            if ((flags & IS_WORD_FLAG) != 0)
+            {
+                if ((flags & CASE_FLAG) != 0)
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public bool IsLowerCase()

@@ -1,165 +1,232 @@
-﻿//using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
-//using ARLeF.Struments.CoretorOrtografic.Infrastructure.RadixTreeDatabase;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
+﻿using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
+using ARLeF.Struments.CoretorOrtografic.Infrastructure.RadixTreeDatabase;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 
-//namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
-//{
-//    public class RT_Checker
-//    {
-//        private RadixTreeDatabaseService rt;
-//        private const char NOLC_CAR = '*';
+namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
+{
+    public class RT_Checker
+    {
+        private const char NOLC_CAR = '*';
+        private RadixTree _rt;
+        public RT_Checker(RadixTree rt)
+        {
+            _rt = rt;
+        }
 
-//        public RT_Checker(RadixTreeDatabaseService rt)
-//        {
-//            this.rt = rt;
-//        }
+        public bool HasWord(string word)
+        {
+            word = Encoding.GetEncoding("iso-8859-1").GetString(Encoding.UTF8.GetBytes(word));
+            return NodeCheck(_rt.GetRoot(), word);
+        }
 
-//        public bool HasWord(string word)
-//        {
-//            byte[] bytes = Encoding.GetEncoding("iso-8859-1").GetBytes(word);
-//            return NodeCheck(rt.GetRoot(), bytes);
-//        }
+        public string[] GetWordsED1(string word)
+        {
+            word = Encoding.GetEncoding("iso-8859-1").GetString(Encoding.UTF8.GetBytes(word));
+            return GetWords(_rt.GetRoot(), word)
+                .Select(w => Encoding.UTF8.GetString(Encoding.GetEncoding("iso-8859-1").GetBytes(w)))
+                .ToArray();
+        }
 
-//        public List<string> GetWordsEd1(string word)
-//        {
-//            byte[] bytes = Encoding.GetEncoding("iso-8859-1").GetBytes(word);
-//            List<string> words = new List<string>();
-//            foreach (string decoded in GetWords(rt.GetRoot(), bytes))
-//            {
-//                byte[] encoded = Encoding.GetEncoding("iso-8859-1").GetBytes(decoded);
-//                words.Add(Encoding.UTF8.GetString(encoded));
-//            }
-//            return words;
-//        }
+        //private bool NodeCheck(RadixTreeNode node, string suffix)
+        //{
+        //    while (node.GetNextEdge() != null)
+        //    {
+        //        RadixTreeEdge edge = node.GetNextEdge();
+        //        node = edge.GetNode();
 
-//        private bool NodeCheck(RadixTreeNode node, byte[] suffix)
-//        {
-//            RadixTreeEdge edge = node.GetNextEdge();
-//            while (edge != null)
-//            {
-//                byte[] label = Encoding.GetEncoding("iso-8859-1").GetBytes(edge.GetString());
-//                int lenConf = Math.Min(label.Length, suffix.Length);
-//                int resConf = string.Compare(Encoding.GetEncoding("iso-8859-1").GetString(label, 0, lenConf), Encoding.GetEncoding("iso-8859-1").GetString(suffix, 0, lenConf));
-//                if (resConf == -1)
-//                {
-//                    edge = node.GetNextEdge();
-//                }
-//                else if (resConf == 1)
-//                {
-//                    return false;
-//                }
-//                else
-//                {
-//                    if (label.Length > suffix.Length)
-//                    {
-//                        return false;
-//                    }
-//                    else if (label.Length == suffix.Length)
-//                    {
-//                        return edge.IsWord();
-//                    }
-//                    else
-//                    {
-//                        if (edge.IsLeaf())
-//                        {
-//                            return false;
-//                        }
-//                        else
-//                        {
-//                            return NodeCheck(edge.GetNode(), Encoding.GetEncoding("iso-8859-1").GetBytes(Encoding.GetEncoding("iso-8859-1").GetString(suffix, label.Length, suffix.Length - label.Length)));
-//                        }
-//                    }
-//                }
-//            }
-//            return false;
-//        }
+        //        string label = edge.GetString();
+        //        int len_conf = Math.Min(label.Length, suffix.Length);
+        //        int res_conf = String.CompareOrdinal(label.Substring(0, len_conf), suffix.Substring(0, len_conf));
+        //        if (res_conf < 0)
+        //        {
+        //            continue;
+        //        }
+        //        else if (res_conf > 0)
+        //        {
+        //            return false;
+        //        }
+        //        else
+        //        {
+        //            if (label.Length > suffix.Length)
+        //            {
+        //                return false;
+        //            }
+        //            else if (label.Length == suffix.Length)
+        //            {
+        //                return edge.IsWord();
+        //            }
+        //            else
+        //            {
+        //                if (edge.IsLeaf())
+        //                {
+        //                    return false;
+        //                }
+        //                else
+        //                {
+        //                    return NodeCheck(edge.GetNode(), suffix.Substring(label.Length));
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return false;
+        //}
 
-//        private bool EdgeCheck(RadixTreeEdge edge, byte[] suffix)
-//        {
-//            byte[] label = Encoding.GetEncoding("iso-8859-1").GetBytes(edge.GetString());
-//            int lenConf = Math.Min(label.Length, suffix.Length);
-//            int resConf = string.Compare(Encoding.GetEncoding("iso-8859-1").GetString(label, 0, lenConf),
-//                Encoding.GetEncoding("iso-8859-1").GetString(suffix, 0, lenConf));
-//            if (resConf != 0)
-//            {
-//                return false;
-//            }
-//            else
-//            {
-//                if (label.Length > suffix.Length)
-//                {
-//                    return false;
-//                }
-//                else if (label.Length == suffix.Length)
-//                {
-//                    return edge.IsWord();
-//                }
-//                else
-//                {
-//                    if (edge.IsLeaf())
-//                    {
-//                        return false;
-//                    }
-//                    else
-//                    {
-//                        return NodeCheck(edge.GetNode(), Encoding.GetEncoding("iso-8859-1").GetBytes(Encoding.GetEncoding("iso-8859-1").GetString(suffix, label.Length, suffix.Length - label.Length)));
-//                    }
-//                }
-//            }
-//        }
+        private bool NodeCheck(RadixTreeNode node, string suffix)
+        {
+            while (true)
+            {
+                RadixTreeEdge edge = node.GetNextEdge();
+                if (edge == null)
+                {
+                    return false;
+                }
 
-//        private List<string> GetWords(RadixTreeNode node, byte[] word)
-//        {
-//            var words = new List<string>();
+                string label = edge.GetString();
+                int lenConf = Math.Min(suffix.Length, label.Length);
+                int resConf = String.Compare(label.Substring(0, lenConf), suffix.Substring(0, lenConf));
 
-//            for (var i = 0; i < node.GetNumEdges(); i++)
-//            {
-//                var edge = node.GetNextEdge();
-//                var label = Encoding.GetEncoding("iso-8859-1").GetBytes(edge.GetString());
-//                var lenConf = Math.Min(label.Length, word.Length);
-//                var resConf = string.Compare(Encoding.GetEncoding("iso-8859-1").GetString(label, 0, lenConf),
-//                    Encoding.GetEncoding("iso-8859-1").GetString(word, 0, lenConf));
-//                if (resConf == 0)
-//                {
-//                    if (label.Length == word.Length)
-//                    {
-//                        if (edge.IsWord())
-//                        {
-//                            words.Add(Encoding.UTF8.GetString(label));
-//                        }
-//                    }
-//                    else if (label.Length < word.Length)
-//                    {
-//                        var suffix = word.Skip(label.Length).ToArray();
-//                        var subWords = GetWords(edge.GetNode(), suffix);
-//                        foreach (var subWord in subWords)
-//                        {
-//                            var w = Encoding.UTF8.GetString(label) + subWord;
-//                            if (edge.IsWord())
-//                            {
-//                                words.Add(w);
-//                            }
-//                            else
-//                            {
-//                                words.AddRange(GetWords(edge.GetNode(), suffix));
-//                            }
-//                        }
-//                    }
-//                }
-//                else if (resConf < 0)
-//                {
-//                    continue;
-//                }
-//                else
-//                {
-//                    break;
-//                }
-//            }
+                if (resConf < 0)
+                {
+                    continue;
+                }
+                else if (resConf > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    if (label.Length > suffix.Length)
+                    {
+                        return false;
+                    }
+                    else if (label.Length == suffix.Length)
+                    {
+                        return edge.IsWord() != 0;
+                    }
+                    else
+                    {
+                        if (edge.IsLeaf())
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return NodeCheck(edge.GetNode(), suffix.Substring(label.Length));
+                        }
+                    }
+                }
+            }
+        }
 
-//            return words;
-//        }
-//    }
-//}
+        private bool EdgeCheck(RadixTreeEdge edge, string suffix, out int caseFlag)
+        {
+            caseFlag = 0;
+            var label = edge.GetString();
+            var lenConf = Math.Min(label.Length, suffix.Length);
+            var resConf = String.Compare(label.Substring(0, lenConf), suffix.Substring(0, lenConf), StringComparison.Ordinal);
+            if (resConf != 0)
+            {
+                return false;
+            }
+            else
+            {
+                if (label.Length > suffix.Length)
+                {
+                    return false;
+                }
+                else if (label.Length == suffix.Length)
+                {
+                    caseFlag = edge.IsWord() != 0 ? (edge.IsLowerCase() ? 2 : 1) : 0;
+                    return edge.IsWord() != 0;
+                }
+                else
+                {
+                    caseFlag = edge.IsWord() != 0 ? (edge.IsLowerCase() ? 2 : 1) : 0;
+                    return true;
+                }
+            }
+        }
+
+        private List<string> GetWords(RadixTreeNode node, string word)
+        {
+            List<string> words = new List<string>();
+
+            while (node.GetNextEdge() != null)
+            {
+                RadixTreeEdge edge = node.GetNextEdge();
+                node = edge.GetNode();
+
+                string label = edge.GetString();
+                int minLen = Math.Min(label.Length, word.Length);
+                int i;
+                for (i = 0; i < minLen && label[i] == word[i]; i++) { }
+
+                if (i < minLen)
+                {
+                    string tmpWord = word.Substring(0, i) + label[i] + word.Substring(i + 1);
+                    int caseFlag;
+                    if (EdgeCheck(edge, tmpWord, out caseFlag))
+                    {
+                        words.Add(tmpWord + (caseFlag == 2 ? NOLC_CAR : ""));
+                    }
+                    tmpWord = word.Substring(0, i) + label[i] + word.Substring(i);
+                    if (EdgeCheck(edge, tmpWord, out caseFlag))
+                    {
+                        words.Add(tmpWord + (caseFlag == 2 ? NOLC_CAR : ""));
+                    }
+
+                    if (word.Length > i + 1 && label[i] == word[i + 1])
+                    {
+                        tmpWord = word.Substring(0, i) + word.Substring(i + 1);
+                        if (EdgeCheck(edge, tmpWord, out caseFlag))
+                        {
+                            words.Add(tmpWord + (caseFlag == 2 ? NOLC_CAR : ""));
+                        }
+
+                        tmpWord = word.Substring(0, i) + word[i + 1] + word[i] + word.Substring(i + 2);
+                        if (EdgeCheck(edge, tmpWord, out caseFlag))
+                        {
+                            words.Add(tmpWord + (caseFlag == 2 ? NOLC_CAR : ""));
+                        }
+                    }
+                }
+                else if (i < word.Length)
+                {
+                    if (!edge.IsLeaf())
+                    {
+                        words.AddRange(GetWords(edge.GetNode(), word.Substring(i)));
+                    }
+
+                    if (word.Length == i + 1 && edge.IsWord() != 0)
+                    {
+                        words.Add(label + (edge.IsLowerCase() ? NOLC_CAR : ""));
+                    }
+                }
+                else if (i < label.Length)
+                {
+                    if (label.Length == i + 1 && edge.IsWord() != 0)
+                    {
+                        words.Add(label + (edge.IsLowerCase() ? NOLC_CAR : ""));
+                    }
+                }
+                else
+                {
+                    if (!edge.IsLeaf())
+                    {
+                        words.AddRange(GetWords(edge.GetNode(), ""));
+                    }
+                    else if (edge.IsWord() != 0)
+                    {
+                        words.Add(label + (edge.IsLowerCase() ? NOLC_CAR : ""));
+                    }
+                }
+            }
+
+            return words;
+        }
+    }
+}
