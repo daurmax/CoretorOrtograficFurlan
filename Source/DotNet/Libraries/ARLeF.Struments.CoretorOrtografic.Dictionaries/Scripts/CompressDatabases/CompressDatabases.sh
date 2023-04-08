@@ -79,17 +79,6 @@ else
 fi
 # Words database - BerkeleyDB
 
-# Words database - LiteDB
-cd ../../../Dictionaries/WordsDatabase/LiteDB/
-if [ -e words.zip ]
-then
-  echo "LiteDB WordsDatabase archive has already been created."
-else
-  echo "LiteDB WordsDatabase archive not yet created. Creating..."
-  zip -s 5m words_split.zip words.db
-fi
-# Words database - LiteDB
-
 # Words database - SQLite
 cd ../../../Dictionaries/WordsDatabase/SQLite/
 if [ -e words.zip ]

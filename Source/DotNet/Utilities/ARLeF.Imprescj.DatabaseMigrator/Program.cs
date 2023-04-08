@@ -1,10 +1,7 @@
 ﻿using System.Data.SQLite;
 using System.Diagnostics;
-using System.IO.Compression;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using LiteDB;
 
 namespace ARLeF.Imprescj.DatabaseMigrator
 {
@@ -18,16 +15,12 @@ namespace ARLeF.Imprescj.DatabaseMigrator
     public class Program
     {
         private static readonly string ELISIONS_DB_PATH = @"elisions.db";
-        private static readonly string ELISIONS_LOG_DB_PATH = @"elisions-log.db";
 
         private static readonly string ERRORS_DB_PATH = @"errors.db";
-        private static readonly string ERRORS_LOG_DB_PATH = @"errors-log.db";
 
         private static readonly string FREC_DB_PATH = @"frec.db";
-        private static readonly string FREC_LOG_DB_PATH = @"frec-log.db";
 
         private static readonly string WORDS_DB_PATH = @"words.db";
-        private static readonly string WORDS_LOG_DB_PATH = @"words-log.db";
 
         private static readonly string ELISIONS_TEXT_FILES_FOLDER_PATH = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Elisions/TextFiles";
         private static readonly string ERRORS_TEXT_FILES_FOLDER_PATH = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Errors/TextFiles";

@@ -75,18 +75,6 @@ else
   zip -F words_split.zip --output words.zip
   unzip words.zip
 fi
-  
-# Words database - LiteDB
-cd ../../../Dictionaries/WordsDatabase/LiteDB/
-if [ -e words.db ]
-then
-  echo "LiteDB WordsDatabase dictionary has already been extrated from archive."
-else
-  echo "LiteDB WordsDatabase dictionary not yet extracted. Extracting..."
-  zip -F words_split.zip --output words.zip
-  unzip words.zip
-fi
-# Words database - LiteDB
 
 # Words database - SQLite
 cd ../../../Dictionaries/WordsDatabase/SQLite/
