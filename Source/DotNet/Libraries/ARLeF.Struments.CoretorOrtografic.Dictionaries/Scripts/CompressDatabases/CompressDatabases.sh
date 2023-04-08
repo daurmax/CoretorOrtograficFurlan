@@ -1,40 +1,72 @@
 #!/bin/bash
 
 # This script zips all the dictionaries (and radix tree) files, so that they can be stored in version control
-# Tested on macOS 12.4
 
-# Elisions 
+# Elisions - BerkeleyDB
 cd ../../Dictionaries/Elisions/BerkeleyDB/
 if [ -e elisions.zip ]
 then
-  echo "Elisions archive has already been created."
+  echo "BerkeleyDB Elisions archive has already been created."
 else
-  echo "Elisions archive not yet created. Creating..."
+  echo "BerkeleyDB Elisions archive not yet created. Creating..."
   zip -s 5m elisions.zip elisions.db
 fi
-# Elisions
+# Elisions - BerkeleyDB
 
-# Errors 
+# Elisions - SQLite
+cd ../../../Dictionaries/Elisions/SQLite/
+if [ -e elisions.zip ]
+then
+  echo "SQLite Elisions archive has already been created."
+else
+  echo "SQLite Elisions archive not yet created. Creating..."
+  zip -s 5m elisions.zip elisions.db
+fi
+# Elisions - SQLite
+
+# Errors - BerkeleyDB
 cd ../../../Dictionaries/Errors/BerkeleyDB/
 if [ -e errors.zip ]
 then
-  echo "Errors archive has already been created."
+  echo "BerkeleyDB Errors archive has already been created."
 else
-  echo "Errors archive not yet created. Creating..."
+  echo "BerkeleyDB Errors archive not yet created. Creating..."
   zip -s 5m errors.zip errors.db
 fi
-# Errors
+# Errors - BerkeleyDB
 
-# Frec 
+# Errors - SQLite
+cd ../../../Dictionaries/Errors/SQLite/
+if [ -e errors.zip ]
+then
+  echo "SQLite Errors archive has already been created."
+else
+  echo "SQLite Errors archive not yet created. Creating..."
+  zip -s 5m errors.zip errors.db
+fi
+# Errors - SQLite
+
+# Frec - BerkeleyDB
 cd ../../../Dictionaries/Frec/BerkeleyDB/
 if [ -e frec.zip ]
 then
-  echo "Frec archive has already been created."
+  echo "BerkeleyDB Frec archive has already been created."
 else
-  echo "Frec archive not yet created. Creating..."
+  echo "BerkeleyDB Frec archive not yet created. Creating..."
   zip -s 5m frec.zip frec.db
 fi
-# Frec
+# Frec - BerkeleyDB
+
+# Frec - SQLite
+cd ../../../Dictionaries/Frec/SQLite/
+if [ -e frec.zip ]
+then
+  echo "SQLite Frec archive has already been created."
+else
+  echo "SQLite Frec archive not yet created. Creating..."
+  zip -s 5m frec.zip frec.db
+fi
+# Frec - SQLite
 
 # Words database - BerkeleyDB
 cd ../../../Dictionaries/WordsDatabase/BerkeleyDB/

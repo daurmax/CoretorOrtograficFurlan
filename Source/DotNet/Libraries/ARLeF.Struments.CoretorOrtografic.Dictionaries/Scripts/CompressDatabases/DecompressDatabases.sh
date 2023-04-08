@@ -1,52 +1,80 @@
 #!/bin/bash
 
-# This script zips all the dictionaries (and radix tree) files, so that they can be stored in version control
-# Tested on macOS 12.4
+# This script extracts all the dictionaries (and radix tree) files from the archives
 
-# Elisions 
+# Elisions - BerkeleyDB
 cd ../../Dictionaries/Elisions/BerkeleyDB/
 if [ -e elisions.db ]
 then
-  echo "Elisions dictionary has already been extrated from archive."
+  echo "BerkeleyDB Elisions dictionary has already been extracted from archive."
 else
-  echo "Elisions dictionary not yet extracted. Extracting..."
+  echo "BerkeleyDB Elisions dictionary not yet extracted. Extracting..."
   unzip elisions.zip
 fi
-# Elisions
 
-# Errors
+# Elisions - SQLite
+cd ../../../Dictionaries/Elisions/SQLite/
+if [ -e elisions.db ]
+then
+  echo "SQLite Elisions dictionary has already been extracted from archive."
+else
+  echo "SQLite Elisions dictionary not yet extracted. Extracting..."
+  zip -F elisions_split.zip --output elisions.zip
+  unzip elisions.zip
+fi
+
+# Errors - BerkeleyDB
 cd ../../../Dictionaries/Errors/BerkeleyDB/
 if [ -e errors.db ]
 then
-  echo "Errors dictionary has already been extrated from archive."
+  echo "BerkeleyDB Errors dictionary has already been extracted from archive."
 else
-  echo "Errors dictionary not yet extracted. Extracting..."
+  echo "BerkeleyDB Errors dictionary not yet extracted. Extracting..."
   unzip errors.zip
 fi
-# Errors
 
-# Frec
+# Errors - SQLite
+cd ../../../Dictionaries/Errors/SQLite/
+if [ -e errors.db ]
+then
+  echo "SQLite Errors dictionary has already been extracted from archive."
+else
+  echo "SQLite Errors dictionary not yet extracted. Extracting..."
+  zip -F errors_split.zip --output errors.zip
+  unzip errors.zip
+fi
+
+# Frec - BerkeleyDB
 cd ../../../Dictionaries/Frec/BerkeleyDB/
 if [ -e frec.db ]
 then
-  echo "Frec dictionary has already been extrated from archive."
+  echo "BerkeleyDB Frec dictionary has already been extracted from archive."
 else
-  echo "Frec dictionary not yet extracted. Extracting..."
+  echo "BerkeleyDB Frec dictionary not yet extracted. Extracting..."
   unzip frec.zip
 fi
-# Frec
+
+# Frec - SQLite
+cd ../../../Dictionaries/Frec/SQLite/
+if [ -e frec.db ]
+then
+  echo "SQLite Frec dictionary has already been extracted from archive."
+else
+  echo "SQLite Frec dictionary not yet extracted. Extracting..."
+  zip -F frec_split.zip --output frec.zip
+  unzip frec.zip
+fi
 
 # Words database - BerkeleyDB
 cd ../../../Dictionaries/WordsDatabase/BerkeleyDB/
 if [ -e words.db ]
 then
-  echo "BerkeleyDB WordsDatabase dictionary has already been extrated from archive."
+  echo "BerkeleyDB WordsDatabase dictionary has already been extracted from archive."
 else
   echo "BerkeleyDB WordsDatabase dictionary not yet extracted. Extracting..."
   zip -F words_split.zip --output words.zip
   unzip words.zip
 fi
-# Words database - BerkeleyDB
   
 # Words database - LiteDB
 cd ../../../Dictionaries/WordsDatabase/LiteDB/
