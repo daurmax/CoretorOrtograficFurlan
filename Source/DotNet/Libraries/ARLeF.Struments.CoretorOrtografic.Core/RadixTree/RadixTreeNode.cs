@@ -5,53 +5,51 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 {
     public class RadixTreeNode
     {
-        private readonly byte[] _tree;
-        public int Pos { get; }
-        private const int NNEDGE = 2;
-        private const int NNEXT_POS = 3;
-        private const int NNEXT_NUM = 4;
-        public int? NumEdges => GetNumEdges();
-        public int NextPos { get; set; } = 1;
-        public int NextNum { get; set; } = 0;
+        private const int NTree = 0;
+        private const int NPos = 1;
+        private const int NnEdge = 2;
+        private const int NNextPos = 3;
+        private const int NNextNum = 4;
 
-        public RadixTreeNode(int pos, byte[] tree)
+        private readonly byte[] _tree;
+        private readonly int _position;
+        private readonly int _numberOfEdges;
+        private int _nextEdgePosition;
+        private int _nextEdgeNumber;
+
+        public RadixTreeNode(int position, byte[] tree)
         {
             _tree = tree;
-            Pos = pos;
-            NextPos = 1;
-            NextNum = 0;
+            _position = position;
+            _numberOfEdges = tree[position];
+            _nextEdgePosition = position + 1;
+            _nextEdgeNumber = 0;
         }
 
-        public int? GetNumEdges()
+        public int GetNumberOfEdges()
         {
-            try
-            {
-                return _tree[Pos];
-            }
-            catch (IndexOutOfRangeException ex)
-            {
-                return null;
-            }
+            return _numberOfEdges;
         }
 
         public RadixTreeEdge GetNextEdge()
         {
-            if (NumEdges <= NextNum)
+            if (_nextEdgeNumber >= _numberOfEdges)
             {
-                NextNum = 0;
-                NextPos = 1;
+                _nextEdgeNumber = 0;
+                _nextEdgePosition = 1;
                 return null;
             }
 
-            NextNum++;
-            var edge = new RadixTreeEdge(NextPos, _tree);
-            NextPos += edge.GetDimension();
+            RadixTreeEdge edge = new RadixTreeEdge(_nextEdgePosition, _tree);
+            _nextEdgePosition += edge.GetDimension();
+            _nextEdgeNumber++;
+
             return edge;
         }
 
         public RadixTreeNode Copy()
         {
-            return new RadixTreeNode(Pos, _tree);
+            return new RadixTreeNode(_position, _tree);
         }
     }
 }

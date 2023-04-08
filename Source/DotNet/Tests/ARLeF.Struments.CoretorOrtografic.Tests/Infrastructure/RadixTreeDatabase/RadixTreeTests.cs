@@ -27,7 +27,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTreeDataba
 
             // Act
             var rootNode = _radixTree.GetRoot();
-            int? actualEdgeNumber = rootNode.GetNumEdges();
+            int? actualEdgeNumber = rootNode.GetNumberOfEdges();
 
             // Assert
             Assert.AreEqual(expectedEdgeNumber, actualEdgeNumber);
@@ -40,7 +40,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTreeDataba
             var rootNode = _radixTree.GetRoot();
 
             // Print the content of the root node
-            var numEdges = rootNode.GetNumEdges();
+            var numEdges = rootNode.GetNumberOfEdges();
             Assert.AreEqual(38, numEdges);
 
             // Print the content of each edge of the root node
@@ -58,7 +58,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTreeDataba
                 Console.WriteLine($"\tIs Leaf: {isLeaf}");
                 Console.WriteLine($"\tIs Word: {isWord}");
                 Console.WriteLine($"\tNext Node:");
-                Console.WriteLine($"\t\tNumber of Edges: {edge.GetNode().GetNumEdges()}");
+                Console.WriteLine($"\t\tNumber of Edges: {edge.GetNode().GetNumberOfEdges()}");
             }
         }
     }

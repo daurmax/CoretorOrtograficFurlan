@@ -15,10 +15,14 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
         public RadixTree(string file)
         {
             _file = file;
-            using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read))
-            using (var br = new BinaryReader(fs))
+            try
             {
-                _data = br.ReadBytes((int)fs.Length);
+                _data = File.ReadAllBytes(file);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading file: {ex.Message}");
+                throw;
             }
         }
 
@@ -29,17 +33,19 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 
         public void PrintFirstNBytes(int n)
         {
-            using (var fs = new FileStream(_file, FileMode.Open, FileAccess.Read))
+            if (_data == null || n <= 0) return;
+
+            for (int i = 0; i < n && i < _data.Length; i++)
             {
-                byte[] data = new byte[n];
-                fs.Read(data, 0, n);
-                Console.WriteLine(string.Join("-", Array.ConvertAll(data, b => $"{b:X2}")));
+                Console.Write($"{_data[i]:X2}-");
             }
+            Console.WriteLine();
         }
 
         public void PrintTotalBytes()
         {
-            Console.WriteLine("Total number of bytes: " + _data.Length);
+            if (_data == null) return;
+            Console.WriteLine($"Total number of bytes: {_data.Length}");
         }
     }
 }

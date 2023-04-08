@@ -10,12 +10,14 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 {
     public class RT_Checker
     {
-        private const char NOLC_CAR = '*';
         private RadixTree _rt;
+
         public RT_Checker(RadixTree rt)
         {
             _rt = rt;
         }
+
+        public const char NOLC_CAR = '*';
 
         public bool HasWord(string word)
         {
