@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ARLeF.Struments.CoretorOrtografic.Core.Enums;
+using ARLeF.Struments.CoretorOrtografic.Core.Extensions;
 
 namespace ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements
 {
@@ -37,6 +33,23 @@ namespace ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElement
         {
             get => _correct;
             set => _correct = value;
+        }
+
+        public WordType Case
+        {
+            get
+            {
+                string word = _original;
+                string lcWord = _original.ToLower();
+                string ucWord = _original.ToUpper();
+                string ucfWord = _original.ToFirstCharacterUpper();
+
+                if (word == lcWord) return WordType.Lowercase;
+                if (word == ucfWord) return WordType.FirstLetterUppercase;
+                if (word == ucWord) return WordType.Uppercase;
+
+                return default;
+            }
         }
 
         public override string ToString()
