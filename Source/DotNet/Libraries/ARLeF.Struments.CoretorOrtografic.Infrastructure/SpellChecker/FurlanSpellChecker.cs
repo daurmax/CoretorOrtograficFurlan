@@ -3,6 +3,7 @@ using ARLeF.Struments.CoretorOrtografic.Core.Constants;
 using ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
 using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
 using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
+using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
             _processedElements = ProcessText(text);
             foreach (ProcessedWord word in ProcessedWords)
             {
-                word.Correct = CheckWordCorrectness(word).Result;
+                word.Correct = CheckWord(word).Result;
             }
         }
         public void CleanSpellChecker()
@@ -52,35 +53,51 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
             _processedElements = new List<IProcessedElement>();
         }
 
-        public async Task<bool> CheckWordCorrectness(ProcessedWord word)
+        public async Task<bool> CheckWord(ProcessedWord word)
         {
             return await Task<bool>.Factory.StartNew(() =>
             {
-                (string, string) wordHashes = FurlanPhoneticAlgorithm.GetPhoneticHashesByWord(word.ToString());
+                string wordAsString = word.Original;
+                string lcWord = wordAsString.ToLower();
+
+                if (Regex.IsMatch(wordAsString, @"\d|^[^" + FriulianConstants.WORD_LETTERS + "]+$"))
+                {
+                    return true;
+                }
+
+                (string, string) wordHashes = FurlanPhoneticAlgorithm.GetPhoneticHashesByWord(lcWord);
 
                 var retrievedValue1 = _keyValueDatabase.GetValueAsStringByKey(wordHashes.Item1);
                 var retrievedValue2 = _keyValueDatabase.GetValueAsStringByKey(wordHashes.Item2);
-                if (retrievedValue1 is null && retrievedValue2 is null)
+                List<string> suggestedWords = new();
+
+                if (retrievedValue1 is not null && retrievedValue1 != String.Empty)
                 {
-                    return false;
+                    suggestedWords.AddRange(retrievedValue1.Split(','));
+                }
+                if (retrievedValue2 is not null && retrievedValue2 != String.Empty)
+                {
+                    suggestedWords.AddRange(retrievedValue2.Split(','));
+                }
+
+                bool wordFoundInSuggestions = suggestedWords.Any(s => s.ToLower() == lcWord);
+
+                if (wordFoundInSuggestions)
+                {
+                    return true;
+                }
+                else if (lcWord.Length > 2 && lcWord.StartsWith("l'"))
+                {
+                    ProcessedWord dx = new ProcessedWord(wordAsString.Substring(2));
+                    return CheckWord(dx).Result;
                 }
                 else
                 {
-                    List<string> suggestedWords = new();
-                    if (retrievedValue1 is not null && retrievedValue1 != String.Empty)
-                    {
-                        suggestedWords.AddRange(retrievedValue1.Split(','));
-                    }
-                    if (retrievedValue2 is not null && retrievedValue2 != String.Empty)
-                    {
-                        suggestedWords.AddRange(retrievedValue2.Split(','));
-                    }
-
-                    return suggestedWords.Contains(word.ToString());
+                    return false;
                 }
             });
         }
-        public async Task<ICollection<string>> GetWordSuggestions(ProcessedWord word)
+        public async Task<ICollection<string>> GetPhoneticSuggestions(ProcessedWord word)
         {
             return await Task<ICollection<string>>.Factory.StartNew(() =>
             {
@@ -108,6 +125,50 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 }
             });
         }
+        public async Task<ICollection<string>> GetRadixTreeSuggestions(ProcessedWord word)
+        {
+            return await Task<ICollection<string>>.Factory.StartNew(() =>
+            {
+                var _rt = new ARLeF.Struments.CoretorOrtografic.Core.RadixTree.RadixTree(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH);
+                var _checker = new RT_Checker(_rt);
+
+                var wordStr = word.ToString();
+                var suggestions = _checker.GetWordsED1(wordStr);
+
+                List<string> result = new List<string>();
+                foreach (var suggestion in suggestions)
+                {
+                    if (suggestion.EndsWith(RT_Checker.NOLC_CAR.ToString()))
+                    {
+                        var caseWords = GetCaseWords(suggestion.TrimEnd(RT_Checker.NOLC_CAR)).Result;
+                        result.AddRange(caseWords);
+                    }
+                    else
+                    {
+                        result.Add(suggestion);
+                    }
+                }
+
+                return result;
+            });
+        }
+        private async Task<IEnumerable<string>> GetCaseWords(string word)
+        {
+            word = word.ToLower();
+            List<string> words = new List<string>();
+
+            var phoneticSuggestions = await GetPhoneticSuggestions(new ProcessedWord(word));
+
+            foreach (var suggestion in phoneticSuggestions)
+            {
+                if (suggestion.ToLower() == word)
+                {
+                    words.Add(suggestion);
+                }
+            }
+
+            return words;
+        }
 
         public void SwapWordWithSuggested(ProcessedWord originalWord, string suggestedWord)
         {
@@ -124,8 +185,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 
         private ICollection<IProcessedElement> ProcessText(string text)
         {
-            List<string> words = Regex.Split(text, @$"(!?[{FriulianConstants.FRIULIAN_LETTERS}]*)").Where(x => !String.IsNullOrEmpty(x)).ToList();
-            //String.Join(String.Empty, _processedElementsList)
+            List<string> words = Regex.Split(text, @"\s+").Where(x => !string.IsNullOrEmpty(x)).ToList();
 
             foreach (string word in words)
             {
