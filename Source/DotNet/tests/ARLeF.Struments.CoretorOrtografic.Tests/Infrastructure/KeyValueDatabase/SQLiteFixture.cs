@@ -8,7 +8,6 @@ using Autofac;
 using ARLeF.Struments.CoretorOrtografic.Core.Input;
 using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
 using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
-using LiteDB;
 using System.Linq;
 using System.Data.SQLite;
 using System.Collections.Generic;
