@@ -1,12 +1,104 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
 using ARLeF.Struments.CoretorOrtografic.Core.Constants;
 
 namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
 {
 	public static class FurlanPhoneticAlgorithm
 	{
+        public static int Levenshtein(string source, string target)
+        {
+            int sourceLength = source.Length;
+            int targetLength = target.Length;
+            int[,] distanceMatrix = new int[sourceLength + 1, targetLength + 1];
+
+            if (sourceLength == 0)
+            {
+                return targetLength;
+            }
+
+            if (targetLength == 0)
+            {
+                return sourceLength;
+            }
+
+            for (int i = 0; i <= sourceLength; i++)
+            {
+                distanceMatrix[i, 0] = i;
+            }
+
+            for (int j = 0; j <= targetLength; j++)
+            {
+                distanceMatrix[0, j] = j;
+            }
+
+            for (int i = 1; i <= sourceLength; i++)
+            {
+                char sourceChar = source[i - 1];
+                for (int j = 1; j <= targetLength; j++)
+                {
+                    char targetChar = target[j - 1];
+                    int cost;
+
+                    if (sourceChar == targetChar)
+                    {
+                        cost = 0;
+                    }
+                    else
+                    {
+                        if (
+                            !(FriulianConstants.VOWELS_A.ContainsKey(sourceChar) && FriulianConstants.VOWELS_A.ContainsKey(targetChar)) &&
+                            !(FriulianConstants.VOWELS_E.ContainsKey(sourceChar) && FriulianConstants.VOWELS_E.ContainsKey(targetChar)) &&
+                            !(FriulianConstants.VOWELS_I.ContainsKey(sourceChar) && FriulianConstants.VOWELS_I.ContainsKey(targetChar)) &&
+                            !(FriulianConstants.VOWELS_O.ContainsKey(sourceChar) && FriulianConstants.VOWELS_O.ContainsKey(targetChar)) &&
+                            !(FriulianConstants.VOWELS_U.ContainsKey(sourceChar) && FriulianConstants.VOWELS_U.ContainsKey(targetChar))
+                           )
+                        {
+                            cost = 1;
+                        }
+                        else
+                        {
+                            cost = 0;
+                        }
+                    }
+
+                    distanceMatrix[i, j] = Min(distanceMatrix[i - 1, j] + 1, distanceMatrix[i, j - 1] + 1, distanceMatrix[i - 1, j - 1] + cost);
+                }
+            }
+
+            return distanceMatrix[sourceLength, targetLength];
+        }
+
+        public static List<string> SortFriulian(List<string> words)
+        {
+            return words.OrderBy(word => TranslateWordForSorting(word)).ToList();
+        }
+
+        public static bool FirstIsUc(string word)
+        {
+            if (string.IsNullOrEmpty(word))
+            {
+                return false;
+            }
+
+            char firstLetter = word[0];
+
+            if (firstLetter == '\'')
+            {
+                if (word.Length == 1)
+                {
+                    return false;
+                }
+                firstLetter = word[1];
+            }
+
+            return char.IsUpper(firstLetter);
+        }
+
         public static (string, string) GetPhoneticHashesByWord(string word)
         {
             return GetPhoneticHashesByOriginal(PrepareOriginalWord(word));
@@ -235,6 +327,33 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
             secondHash = Regex.Replace(secondHash, "d", "9");
 
             return (firstHash, secondHash);
+        }
+
+        private static string TranslateWordForSorting(string word)
+        {
+            string translatedWord = string.Empty;
+            string originalChars = "0123456789âäàáÄÁÂÀAaBCçÇDéêëèÉÊËÈEeFGHïîìíÍÎÏÌIiJKLMNôöòóÓÔÒÖOoPQRSTÚÙÛÜúûùüuUVWXYZ";
+            string sortedChars = "\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39aaaaaaaaaabcccdeeeeeeeeeefghiiiiiiiiiijklmnoooooooooopqrstuuuuuuuuuuvwxyz";
+
+            foreach (char c in word)
+            {
+                int index = originalChars.IndexOf(c);
+                if (index >= 0)
+                {
+                    translatedWord += sortedChars[index];
+                }
+                else
+                {
+                    translatedWord += c;
+                }
+            }
+
+            return translatedWord.Replace("^'s", "s");
+        }
+
+        private static int Min(int a, int b, int c)
+        {
+            return Math.Min(Math.Min(a, b), c);
         }
     }
 }
