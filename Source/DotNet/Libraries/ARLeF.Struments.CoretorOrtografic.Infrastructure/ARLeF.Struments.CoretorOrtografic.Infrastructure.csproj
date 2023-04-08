@@ -17,4 +17,7 @@
     <None Remove="RadixTreeReader\" />
     <None Remove="System.Data.SQLite" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
 </Project>

@@ -12,6 +12,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.Enums
         Errors,
         Frec,
         System,
-        User
+        UserDictionary,
+        UserExceptions,
     }
 }
