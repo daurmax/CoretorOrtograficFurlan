@@ -7,7 +7,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
 {
 	public static class FurlanPhoneticAlgorithm
 	{
-		public static (string, string) GetPhoneticHashesByWord(string word)
+        public static (string, string) GetPhoneticHashesByWord(string word)
         {
             return GetPhoneticHashesByOriginal(PrepareOriginalWord(word));
         }
@@ -238,4 +238,3 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
         }
     }
 }
-
