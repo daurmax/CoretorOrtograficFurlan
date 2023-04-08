@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ARLeF.Struments.CoretorOrtografic.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase
         /// </summary>
         /// <param name="id">key associated with a value</param>
         /// <returns>Value associated to a key</returns>
-        string GetValueAsStringByKey(string key);
+        string GetValueAsStringByKey(DictionaryType dictionaryType, string key);
     }
 }

@@ -1,4 +1,5 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
+﻿using ARLeF.Struments.CoretorOrtografic.Core.Enums;
+using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
 using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
 {
     public class SQLiteKeyValueDatabase : IKeyValueDatabase
     {
-        public string GetValueAsStringByKey(string key)
+        public string GetValueAsStringByKey(DictionaryType dictionaryType, string key)
         {
-            using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_WORDS_DATABASE_FILE_PATH}"))
+            using (var connection = new SQLiteConnection($"Data Source={GetDictionaryPathByDictionaryType(dictionaryType)}"))
             {
                 connection.Open();
 
@@ -67,6 +68,22 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
             retval = Regex.Replace(retval, @"\\f9", "ù");
 
             return retval;
+        }
+        private string GetDictionaryPathByDictionaryType(DictionaryType dictionaryType)
+        {
+            switch (dictionaryType)
+            {
+                case DictionaryType.Elisions:
+                    return DictionaryFilePaths.SQLITE_ELISIONS_DATABASE_FILE_PATH;
+                case DictionaryType.Errors:
+                    return DictionaryFilePaths.SQLITE_ERRORS_DATABASE_FILE_PATH;
+                case DictionaryType.Frec:
+                    return DictionaryFilePaths.SQLITE_FREC_DATABASE_FILE_PATH;
+                case DictionaryType.System:
+                    return DictionaryFilePaths.SQLITE_WORDS_DATABASE_FILE_PATH;
+                default:
+                    throw new NotImplementedException("Selected dictionary type is not yet implemented.");
+            }
         }
     }
 }

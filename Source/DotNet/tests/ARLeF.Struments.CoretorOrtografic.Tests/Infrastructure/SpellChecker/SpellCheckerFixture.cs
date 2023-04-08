@@ -11,6 +11,7 @@ using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using ARLeF.Struments.CoretorOrtografic.Core.Enums;
 
 namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.SpellChecker
 {
@@ -35,9 +36,9 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.SpellChecker
                 var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
 
                 var key1 = "g6v7";
-                var value1 = keyValueDatabaseReader.GetValueAsStringByKey(key1);
+                var value1 = keyValueDatabaseReader.GetValueAsStringByKey(DictionaryType.System, key1);
                 var key2 = "E6v7";
-                var value2 = keyValueDatabaseReader.GetValueAsStringByKey(key2);
+                var value2 = keyValueDatabaseReader.GetValueAsStringByKey(DictionaryType.System, key2);
 
                 List<string> result = new();
                 if (value1 != null)
