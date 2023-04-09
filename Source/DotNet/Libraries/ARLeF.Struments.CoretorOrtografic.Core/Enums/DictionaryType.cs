@@ -9,9 +9,9 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.Enums
     public enum DictionaryType
     {
         Elisions,
-        Errors,
         Frec,
-        System,
+        SystemDictionary,
+        SystemErrors,
         UserDictionary,
         UserExceptions,
     }

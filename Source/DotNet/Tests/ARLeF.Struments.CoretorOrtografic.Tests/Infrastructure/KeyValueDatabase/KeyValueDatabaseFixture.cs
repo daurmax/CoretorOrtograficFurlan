@@ -32,9 +32,34 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
             {
                 var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
 
-                var key = "A6p7";
-                var value = keyValueDatabaseReader.GetValueAsStringByKey(DictionaryType.System, key);
-                var expectedResult = "lincinariurindi";
+                var key = "65g8A6597Y7";
+                var value = keyValueDatabaseReader.GetValueAsStringByKey(DictionaryType.SystemDictionary, key);
+                var expectedResult = "angossantjure";
+
+                Console.WriteLine($"Key is: [{key}]");
+                Console.WriteLine($"Value is: [{value}]");
+
+                Assert.NotNull(value);
+                Assert.AreEqual(value, expectedResult);
+            }
+
+            timer.Stop();
+            Console.WriteLine(timer.Elapsed);
+        }
+
+        [Test]
+        public void ReadValueFromKeyFromFrecDBTest()
+        {
+            var timer = new Stopwatch();
+            timer.Start();
+
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
+
+                var key = "Lessi";
+                var value = keyValueDatabaseReader.GetValueAsStringByKey(DictionaryType.Frec, key);
+                var expectedResult = @"\15";
 
                 Console.WriteLine($"Key is: [{key}]");
                 Console.WriteLine($"Value is: [{value}]");

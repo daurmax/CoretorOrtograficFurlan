@@ -21,7 +21,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                 var command = connection.CreateCommand();
                 command.CommandText =
                 @"SELECT *
-                  FROM Words
+                  FROM Data
                   WHERE Key = $key
                 ";
                 command.Parameters.AddWithValue("$key", key);
@@ -75,11 +75,11 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
             {
                 case DictionaryType.Elisions:
                     return DictionaryFilePaths.SQLITE_ELISIONS_DATABASE_FILE_PATH;
-                case DictionaryType.Errors:
+                case DictionaryType.SystemErrors:
                     return DictionaryFilePaths.SQLITE_ERRORS_DATABASE_FILE_PATH;
                 case DictionaryType.Frec:
                     return DictionaryFilePaths.SQLITE_FREC_DATABASE_FILE_PATH;
-                case DictionaryType.System:
+                case DictionaryType.SystemDictionary:
                     return DictionaryFilePaths.SQLITE_WORDS_DATABASE_FILE_PATH;
                 default:
                     throw new NotImplementedException("Selected dictionary type is not yet implemented.");
