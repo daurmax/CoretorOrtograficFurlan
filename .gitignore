@@ -451,3 +451,5 @@ errors.db
 elisions.db
 words.zip
 frequencies.sqlite
+errors.sqlite
+elisions.sqlite

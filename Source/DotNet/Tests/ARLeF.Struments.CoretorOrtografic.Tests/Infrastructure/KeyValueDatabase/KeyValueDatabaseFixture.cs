@@ -48,6 +48,31 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
         }
 
         [Test]
+        public void FindInSystemErrorsDatabase_WithExistingKey()
+        {
+            var timer = new Stopwatch();
+            timer.Start();
+
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
+
+                var key = "adincuatri";
+                var value = keyValueDatabaseReader.FindInSystemErrorsDatabase(key);
+                var expectedResult = "ad in cuatri";
+
+                Console.WriteLine($"Key is: [{key}]");
+                Console.WriteLine($"Value is: [{value}]");
+
+                Assert.NotNull(value);
+                Assert.AreEqual(value, expectedResult);
+            }
+
+            timer.Stop();
+            Console.WriteLine(timer.Elapsed);
+        }
+
+        [Test]
         public void FindInFrequenciesDatabase_WithExistingKey()
         {
             var timer = new Stopwatch();
@@ -90,6 +115,23 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
         }
 
         [Test]
+        public void FindInSystemErrorsDatabase_WithNonExistentKey()
+        {
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
+
+                var key = "ad in cuatri";
+                var value = keyValueDatabaseReader.FindInSystemErrorsDatabase(key);
+
+                Console.WriteLine($"Key is: [{key}]");
+                Console.WriteLine($"Value is: [{value}]");
+
+                Assert.IsNull(value);
+            }
+        }
+
+        [Test]
         public void FindInFrequenciesDatabase_WithNonExistentKey()
         {
             using (var scope = Container.BeginLifetimeScope())
@@ -114,6 +156,17 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
                 var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
 
                 Assert.Throws<ArgumentNullException>(() => keyValueDatabaseReader.FindInSystemDatabase(null));
+            }
+        }
+
+        [Test]
+        public void FindInSystemErrorsDatabase_WithNullKey()
+        {
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
+
+                Assert.Throws<ArgumentNullException>(() => keyValueDatabaseReader.FindInSystemErrorsDatabase(null));
             }
         }
 

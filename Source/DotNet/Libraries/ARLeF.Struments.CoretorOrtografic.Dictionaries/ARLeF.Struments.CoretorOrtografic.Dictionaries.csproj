@@ -29,6 +29,9 @@
     <None Update="Dictionaries\Errors\SQLite\errors.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Dictionaries\Errors\SQLite\errors.sqlite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Dictionaries\Frec\frec.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

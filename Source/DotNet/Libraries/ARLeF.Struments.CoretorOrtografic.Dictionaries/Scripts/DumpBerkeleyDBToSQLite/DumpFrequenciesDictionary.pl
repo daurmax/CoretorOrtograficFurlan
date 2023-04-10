@@ -1,3 +1,7 @@
+# This Perl script reads in a frequency hash from a BerkeleyDB file, inserts the data into a SQLite database, 
+# and then creates a zip archive containing the resulting SQLite file. It also includes a check to ensure 
+# that the frequency data was inserted correctly.
+
 #!/usr/bin/perl
 use strict;
 use warnings;

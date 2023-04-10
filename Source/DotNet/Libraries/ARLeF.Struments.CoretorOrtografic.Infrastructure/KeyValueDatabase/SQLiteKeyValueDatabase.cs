@@ -18,19 +18,16 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
         /// <summary>
         /// Finds a value in the system dictionary given a phonetic hash key.
         /// </summary>
-        /// <param name="key">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
+        /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
         /// <returns>The value corresponding to the given key, or null if not found.</returns>
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
-        public string FindInSystemDatabase(string key)
+        public string FindInSystemDatabase(string phoneticHash)
         {
-            if (string.IsNullOrEmpty(key)) throw new ArgumentNullException();
+            if (string.IsNullOrEmpty(phoneticHash)) throw new ArgumentNullException();
 
             using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_WORDS_DATABASE_FILE_PATH}"))
             {
                 connection.Open();
-
-                // Get all table names in the database
-                GetAllTableNames(connection);
 
                 var command = connection.CreateCommand();
                 command.CommandText =
@@ -38,7 +35,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                   FROM Data
                   WHERE Key = $key
                 ";
-                command.Parameters.AddWithValue("$key", key);
+                command.Parameters.AddWithValue("$key", phoneticHash);
 
                 List<KeyValuePair<string, string>> retrievedData = new();
 
@@ -60,27 +57,24 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                 }
                 else
                 {
-                    throw new InvalidDataException($"The provided key '{key}' returned more than one result.");
+                    throw new InvalidDataException($"The provided key '{phoneticHash}' returned more than one result.");
                 }
             }
         }
 
         /// <summary>
-        /// Finds a frequency value in the frequencies database given a word key.
+        /// Finds the corrected word in the system errors database given a commonly mistaken word.
         /// </summary>
-        /// <param name="key">The word to search in the frequencies database.</param>
-        /// <returns>The frequency value corresponding to the given key, or null if not found.</returns>
+        /// <param name="key">The commonly mistaken word to search in the errors database.</param>
+        /// <returns>The corrected word corresponding to the given key, or null if not found.</returns>
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
-        public int? FindInFrequenciesDatabase(string key)
+        public string FindInSystemErrorsDatabase(string word)
         {
-            if (string.IsNullOrEmpty(key)) throw new ArgumentNullException();
+            if (string.IsNullOrEmpty(word)) throw new ArgumentNullException();
 
-            using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_FREC_DATABASE_FILE_PATH}"))
+            using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_ERRORS_DATABASE_FILE_PATH}"))
             {
                 connection.Open();
-
-                // Get all table names in the database
-                GetAllTableNames(connection);
 
                 var command = connection.CreateCommand();
                 command.CommandText =
@@ -88,7 +82,54 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                   FROM Data
                   WHERE Key = $key
                 ";
-                command.Parameters.AddWithValue("$key", key);
+                command.Parameters.AddWithValue("$key", word);
+
+                List<KeyValuePair<string, string>> retrievedData = new();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        retrievedData.Add(new KeyValuePair<string, string>(reader.GetString(0), reader.GetString(1)));
+                    }
+                }
+
+                if (retrievedData.Count == 1)
+                {
+                    return ReplaceWordUnicodeCodesWithSpecialCharacters(retrievedData.Single().Value);
+                }
+                else if (!retrievedData.Any())
+                {
+                    return null;
+                }
+                else
+                {
+                    throw new InvalidDataException($"The provided key '{word}' returned more than one result.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finds a frequency value in the frequencies database given a word key.
+        /// </summary>
+        /// <param name="word">The word to search in the frequencies database.</param>
+        /// <returns>The frequency value corresponding to the given key, or null if not found.</returns>
+        /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
+        public int? FindInFrequenciesDatabase(string word)
+        {
+            if (string.IsNullOrEmpty(word)) throw new ArgumentNullException();
+
+            using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_FREC_DATABASE_FILE_PATH}"))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText =
+                @"SELECT *
+                  FROM Data
+                  WHERE Key = $key
+                ";
+                command.Parameters.AddWithValue("$key", word);
 
                 List<KeyValuePair<string, int>> retrievedData = new();
 
@@ -110,30 +151,9 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                 }
                 else
                 {
-                    throw new InvalidDataException($"The provided key '{key}' returned more than one result.");
+                    throw new InvalidDataException($"The provided key '{word}' returned more than one result.");
                 }
             }
-        }
-
-        private List<string> GetAllTableNames(SQLiteConnection connection)
-        {
-            var tableNames = new List<string>();
-
-            var tableNamesCommand = connection.CreateCommand();
-            tableNamesCommand.CommandText =
-            @"SELECT name
-      FROM sqlite_master
-      WHERE type = 'table'";
-
-            using (var reader = tableNamesCommand.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    tableNames.Add(reader.GetString(0));
-                }
-            }
-
-            return tableNames;
         }
 
         private string ReplaceWordUnicodeCodesWithSpecialCharacters(string word)
