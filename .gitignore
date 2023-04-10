@@ -450,3 +450,4 @@ frec.db
 errors.db
 elisions.db
 words.zip
+frequencies.sqlite

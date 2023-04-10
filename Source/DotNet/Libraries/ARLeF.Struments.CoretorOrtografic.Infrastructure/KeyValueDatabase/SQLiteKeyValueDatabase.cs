@@ -10,13 +10,27 @@ using System.Text.RegularExpressions;
 
 namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
 {
+    /// <summary>
+    /// Represents a SQLite key-value database to interact with specific dictionary data.
+    /// </summary>
     public class SQLiteKeyValueDatabase : IKeyValueDatabase
     {
-        public string GetValueAsStringByKey(DictionaryType dictionaryType, string key)
+        /// <summary>
+        /// Finds a value in the system dictionary given a phonetic hash key.
+        /// </summary>
+        /// <param name="key">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
+        /// <returns>The value corresponding to the given key, or null if not found.</returns>
+        /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
+        public string FindInSystemDatabase(string key)
         {
-            using (var connection = new SQLiteConnection($"Data Source={GetDictionaryPathByDictionaryType(dictionaryType)}"))
+            if (string.IsNullOrEmpty(key)) throw new ArgumentNullException();
+
+            using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_WORDS_DATABASE_FILE_PATH}"))
             {
                 connection.Open();
+
+                // Get all table names in the database
+                GetAllTableNames(connection);
 
                 var command = connection.CreateCommand();
                 command.CommandText =
@@ -51,6 +65,77 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
             }
         }
 
+        /// <summary>
+        /// Finds a frequency value in the frequencies database given a word key.
+        /// </summary>
+        /// <param name="key">The word to search in the frequencies database.</param>
+        /// <returns>The frequency value corresponding to the given key, or null if not found.</returns>
+        /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
+        public int? FindInFrequenciesDatabase(string key)
+        {
+            if (string.IsNullOrEmpty(key)) throw new ArgumentNullException();
+
+            using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_FREC_DATABASE_FILE_PATH}"))
+            {
+                connection.Open();
+
+                // Get all table names in the database
+                GetAllTableNames(connection);
+
+                var command = connection.CreateCommand();
+                command.CommandText =
+                @"SELECT *
+                  FROM Data
+                  WHERE Key = $key
+                ";
+                command.Parameters.AddWithValue("$key", key);
+
+                List<KeyValuePair<string, int>> retrievedData = new();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        retrievedData.Add(new KeyValuePair<string, int>(reader.GetString(0), reader.GetInt32(1)));
+                    }
+                }
+
+                if (retrievedData.Count == 1)
+                {
+                    return retrievedData.Single().Value;
+                }
+                else if (!retrievedData.Any())
+                {
+                    return null;
+                }
+                else
+                {
+                    throw new InvalidDataException($"The provided key '{key}' returned more than one result.");
+                }
+            }
+        }
+
+        private List<string> GetAllTableNames(SQLiteConnection connection)
+        {
+            var tableNames = new List<string>();
+
+            var tableNamesCommand = connection.CreateCommand();
+            tableNamesCommand.CommandText =
+            @"SELECT name
+      FROM sqlite_master
+      WHERE type = 'table'";
+
+            using (var reader = tableNamesCommand.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    tableNames.Add(reader.GetString(0));
+                }
+            }
+
+            return tableNames;
+        }
+
         private string ReplaceWordUnicodeCodesWithSpecialCharacters(string word)
         {
             var retval = word;
@@ -68,22 +153,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
             retval = Regex.Replace(retval, @"\\f9", "ù");
 
             return retval;
-        }
-        private string GetDictionaryPathByDictionaryType(DictionaryType dictionaryType)
-        {
-            switch (dictionaryType)
-            {
-                case DictionaryType.Elisions:
-                    return DictionaryFilePaths.SQLITE_ELISIONS_DATABASE_FILE_PATH;
-                case DictionaryType.SystemErrors:
-                    return DictionaryFilePaths.SQLITE_ERRORS_DATABASE_FILE_PATH;
-                case DictionaryType.Frec:
-                    return DictionaryFilePaths.SQLITE_FREC_DATABASE_FILE_PATH;
-                case DictionaryType.SystemDictionary:
-                    return DictionaryFilePaths.SQLITE_WORDS_DATABASE_FILE_PATH;
-                default:
-                    throw new NotImplementedException("Selected dictionary type is not yet implemented.");
-            }
         }
     }
 }

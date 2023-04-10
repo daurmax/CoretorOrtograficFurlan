@@ -9,11 +9,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase
 {
     public interface IKeyValueDatabase
     {
-        /// <summary>
-        /// Retrive value by key
-        /// </summary>
-        /// <param name="id">key associated with a value</param>
-        /// <returns>Value associated to a key</returns>
-        string GetValueAsStringByKey(DictionaryType dictionaryType, string key);
+        string FindInSystemDatabase(string key);
+        int? FindInFrequenciesDatabase(string key);
     }
 }

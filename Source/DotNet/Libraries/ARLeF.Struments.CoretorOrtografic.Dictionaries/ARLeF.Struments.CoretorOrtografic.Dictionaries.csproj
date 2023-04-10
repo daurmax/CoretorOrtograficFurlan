@@ -35,6 +35,9 @@
     <None Update="Dictionaries\Frec\SQLite\frec.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Dictionaries\Frec\SQLite\frequencies.sqlite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Dictionaries\WordsDatabase\words.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

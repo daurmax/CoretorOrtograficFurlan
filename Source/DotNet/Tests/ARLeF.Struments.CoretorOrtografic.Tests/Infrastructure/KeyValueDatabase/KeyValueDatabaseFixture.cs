@@ -23,7 +23,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
         }
 
         [Test]
-        public void ReadValueFromKeyFromSystemDBTest()
+        public void FindInSystemDatabase_WithExistingKey()
         {
             var timer = new Stopwatch();
             timer.Start();
@@ -33,7 +33,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
                 var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
 
                 var key = "65g8A6597Y7";
-                var value = keyValueDatabaseReader.GetValueAsStringByKey(DictionaryType.SystemDictionary, key);
+                var value = keyValueDatabaseReader.FindInSystemDatabase(key);
                 var expectedResult = "angossantjure";
 
                 Console.WriteLine($"Key is: [{key}]");
@@ -48,7 +48,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
         }
 
         [Test]
-        public void ReadValueFromKeyFromFrecDBTest()
+        public void FindInFrequenciesDatabase_WithExistingKey()
         {
             var timer = new Stopwatch();
             timer.Start();
@@ -57,9 +57,9 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
             {
                 var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
 
-                var key = "Lessi";
-                var value = keyValueDatabaseReader.GetValueAsStringByKey(DictionaryType.Frec, key);
-                var expectedResult = @"\15";
+                var key = "cognossi";
+                var value = keyValueDatabaseReader.FindInFrequenciesDatabase(key);
+                var expectedResult = 140;
 
                 Console.WriteLine($"Key is: [{key}]");
                 Console.WriteLine($"Value is: [{value}]");
@@ -70,6 +70,62 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
 
             timer.Stop();
             Console.WriteLine(timer.Elapsed);
+        }
+
+        [Test]
+        public void FindInSystemDatabase_WithNonExistentKey()
+        {
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
+
+                var key = "nonExistentKey";
+                var value = keyValueDatabaseReader.FindInSystemDatabase(key);
+
+                Console.WriteLine($"Key is: [{key}]");
+                Console.WriteLine($"Value is: [{value}]");
+
+                Assert.IsNull(value);
+            }
+        }
+
+        [Test]
+        public void FindInFrequenciesDatabase_WithNonExistentKey()
+        {
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
+
+                var key = "nonExistentKey";
+                var value = keyValueDatabaseReader.FindInFrequenciesDatabase(key);
+
+                Console.WriteLine($"Key is: [{key}]");
+                Console.WriteLine($"Value is: [{value}]");
+
+                Assert.IsNull(value);
+            }
+        }
+
+        [Test]
+        public void FindInSystemDatabase_WithNullKey()
+        {
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
+
+                Assert.Throws<ArgumentNullException>(() => keyValueDatabaseReader.FindInSystemDatabase(null));
+            }
+        }
+
+        [Test]
+        public void FindInFrequenciesDatabase_WithNullKey()
+        {
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
+
+                Assert.Throws<ArgumentNullException>(() => keyValueDatabaseReader.FindInFrequenciesDatabase(null));
+            }
         }
     }
 }
