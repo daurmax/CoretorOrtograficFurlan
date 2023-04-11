@@ -37,14 +37,8 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.SpellChecker
         /// <param name="word"><see cref="ProcessedWord"/> to be checked</param>
         /// <returns>Boolean indicating if the <see cref="ProcessedWord"/> is correct</returns>
         Task<bool> CheckWord(ProcessedWord word);
-        /// <summary>
-        /// Retrieves a list of suggested words to be swapped with the given <see cref="ProcessedWord"/>
-        /// </summary>
-        /// <param name="word"><see cref="ProcessedWord"/> to be swapped with suggested ones</param>
-        /// <returns><see cref="ICollection{ProcessedWord}"/> of suggested words</returns>
-        Task<ICollection<string>> GetPhoneticSuggestions(ProcessedWord word);
 
-        Task<ICollection<string>> GetRadixTreeSuggestions(ProcessedWord word);
+        Task<ICollection<string>> GetWordSuggestions(ProcessedWord word);
 
         /// <summary>
         /// Swaps the incorrect <see cref="ProcessedWord"/> with the suggested one

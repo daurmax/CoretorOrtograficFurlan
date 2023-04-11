@@ -78,27 +78,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
             return words.OrderBy(word => TranslateWordForSorting(word)).ToList();
         }
 
-        public static bool FirstIsUc(string word)
-        {
-            if (string.IsNullOrEmpty(word))
-            {
-                return false;
-            }
-
-            char firstLetter = word[0];
-
-            if (firstLetter == '\'')
-            {
-                if (word.Length == 1)
-                {
-                    return false;
-                }
-                firstLetter = word[1];
-            }
-
-            return char.IsUpper(firstLetter);
-        }
-
         public static (string, string) GetPhoneticHashesByWord(string word)
         {
             return GetPhoneticHashesByOriginal(PrepareOriginalWord(word));

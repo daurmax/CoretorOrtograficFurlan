@@ -176,7 +176,7 @@ namespace ARLeF.Struments.CoretorOrtografic.CLI
                         Console.Write("incorrect");
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.Write(". ");
-                        var suggestedWords = _checker.GetPhoneticSuggestions(processedWord).Result;
+                        var suggestedWords = _checker.GetWordSuggestions(processedWord).Result;
                         if (suggestedWords is null || !suggestedWords.Any())
                         {
                             Console.WriteLine("There are no suggestions.");

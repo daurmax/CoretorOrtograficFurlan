@@ -1,5 +1,7 @@
 ﻿using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
 using ARLeF.Struments.CoretorOrtografic.Core.Constants;
+using ARLeF.Struments.CoretorOrtografic.Core.Enums;
+using ARLeF.Struments.CoretorOrtografic.Core.Extensions;
 using ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
 using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
 using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
@@ -7,6 +9,7 @@ using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -39,6 +42,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
             _keyValueDatabase = keyValueDatabase;
         }
 
+        #region Public methods
 
         public void ExecuteSpellCheck(string text)
         {
@@ -67,8 +71,8 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 
                 (string, string) wordHashes = FurlanPhoneticAlgorithm.GetPhoneticHashesByWord(lcWord);
 
-                var retrievedValue1 = _keyValueDatabase.GetValueAsStringByKey(wordHashes.Item1);
-                var retrievedValue2 = _keyValueDatabase.GetValueAsStringByKey(wordHashes.Item2);
+                var retrievedValue1 = _keyValueDatabase.FindInSystemDatabase(wordHashes.Item1);
+                var retrievedValue2 = _keyValueDatabase.FindInSystemDatabase(wordHashes.Item2);
                 List<string> suggestedWords = new();
 
                 if (retrievedValue1 is not null && retrievedValue1 != String.Empty)
@@ -97,14 +101,181 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 }
             });
         }
-        public async Task<ICollection<string>> GetPhoneticSuggestions(ProcessedWord word)
+        public async Task<ICollection<string>> GetWordSuggestions(ProcessedWord word)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SwapWordWithSuggested(ProcessedWord originalWord, string suggestedWord)
+        {
+            throw new NotImplementedException();
+        }
+        public void IgnoreWord(ProcessedWord word)
+        {
+            throw new NotImplementedException();
+        }
+        public void AddWord(ProcessedWord word)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetProcessedText()
+        {
+            string result = "";
+            foreach (IProcessedElement word in _processedElements)
+            {
+                result = result + word.ToString();
+            }
+            return result;
+        }
+
+        public ICollection<ProcessedWord> GetAllIncorrectWords()
+        {
+            return _processedElements.OfType<ProcessedWord>().Where(word => word.Correct == false).ToList();
+        }
+
+        #endregion Public methods
+
+        #region Private methods
+
+        private string FixCase(WordType wordCase, string word)
+        {
+            if (wordCase == WordType.Lowercase)
+            {
+                return word;
+            }
+
+            string lcWord = word.ToLower();
+            string ucWord = lcWord.ToUpper();
+            string ucfWord = word.ToFirstCharacterUpper();
+
+            if (word == lcWord || word == ucfWord)
+            {
+                return wordCase == WordType.FirstLetterUppercase ? ucfWord : ucWord;
+            }
+
+            return word;
+        }
+
+        private ICollection<IProcessedElement> ProcessText(string text)
+        {
+            List<string> words = Regex.Split(text, @"\s+").Where(x => !string.IsNullOrEmpty(x)).ToList();
+
+            foreach (string word in words)
+            {
+                if (Regex.IsMatch(word, @$"[{FriulianConstants.FRIULIAN_LETTERS}]+"))
+                {
+                    _processedElements.Add(new ProcessedWord(word));
+                }
+                else
+                {
+                    _processedElements.Add(new ProcessedPunctuation(word));
+                }
+            }
+            return _processedElements;
+        }
+
+        private async Task<Dictionary<string, List<int>>> BasicSuggestions(ProcessedWord word, bool dizWord = false)
+        {
+            if (word == null) throw new ArgumentNullException(nameof(word));
+
+            var wordText = word.ToString();
+            var lcWord = word.Original.ToLower();
+            var caseType = word.Case;
+
+            var list = new Dictionary<string, List<int>>();
+            var sugg = new Dictionary<string, int>();
+
+            foreach (var suggestedWord in await GetSystemDictionaryPhoneticSuggestions(word))
+            {
+                sugg[suggestedWord] = 5;
+            }
+            //if (Settings.HasUserDictionary)
+            if (false)
+            {
+                foreach (var suggestedWord in await GetUserDictionaryPhoneticSuggestions(word))
+                {
+                    sugg[suggestedWord] = 4;
+                }
+            }
+
+            foreach (var suggestedWord in await GetRadixTreeSuggestions(word))
+            {
+                sugg[suggestedWord] = 3;
+            }
+
+            var cor = FindInExceptions(word, true);
+            if (cor != null)
+            {
+                sugg[cor] = 2;
+            }
+
+            //if (Settings.HasExceptionsDictionary)
+            if (false)
+            {
+                //var cor = FindInExc(word, "user");
+                //if (cor != null)
+                //{
+                //    sugg[cor] = 1;
+                //}
+            }
+
+            foreach (var (p, type) in sugg)
+            {
+                var fixedP = FixCase(caseType, p);
+                if (!list.ContainsKey(fixedP))
+                {
+                    var vals = new List<int>();
+                    var lcP = p.ToLower();
+                    if (lcWord == lcP)
+                    {
+                        vals.Add((int)SuggestionOriginPriorityValue.Same);
+                        vals.Add(1);
+                    }
+                    else if (type == 1)
+                    {
+                        vals.Add((int)SuggestionOriginPriorityValue.UserException);
+                        vals.Add(0);
+                    }
+                    else if (type == 2)
+                    {
+                        vals.Add((int)SuggestionOriginPriorityValue.SystemErrors);
+                        vals.Add(0);
+                    }
+                    else if (type == 3)
+                    {
+                        //vals.Add(data.GetFreq[p] ?? 0);
+                        vals.Add(1);
+                    }
+                    else if (type == 4)
+                    {
+                        vals.Add((int)SuggestionOriginPriorityValue.UserDictionary);
+                        vals.Add(FurlanPhoneticAlgorithm.Levenshtein(lcWord, p));
+                    }
+                    else
+                    {
+                        //vals.Add(data.GetFreq[p] ?? 0);
+                        vals.Add(FurlanPhoneticAlgorithm.Levenshtein(lcWord, p));
+                    }
+                    if (dizWord)
+                    {
+                        //vals.Add(p);
+                    }
+                    list[fixedP] = vals;
+                }
+            }
+
+            return list;
+        }
+
+        private async Task<ICollection<string>> GetSystemDictionaryPhoneticSuggestions(ProcessedWord word)
         {
             return await Task<ICollection<string>>.Factory.StartNew(() =>
             {
                 (string, string) wordHashes = FurlanPhoneticAlgorithm.GetPhoneticHashesByWord(word.ToString());
 
-                var retrievedValue1 = _keyValueDatabase.GetValueAsStringByKey(wordHashes.Item1);
-                var retrievedValue2 = _keyValueDatabase.GetValueAsStringByKey(wordHashes.Item2);
+                var retrievedValue1 = _keyValueDatabase.FindInSystemDatabase(wordHashes.Item1);
+                var retrievedValue2 = _keyValueDatabase.FindInSystemDatabase(wordHashes.Item2);
                 if (retrievedValue1 is null && retrievedValue2 is null)
                 {
                     return null;
@@ -125,7 +296,20 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 }
             });
         }
-        public async Task<ICollection<string>> GetRadixTreeSuggestions(ProcessedWord word)
+        private async Task<ICollection<string>> GetUserDictionaryPhoneticSuggestions(ProcessedWord word)
+        {
+            // Not yet implemented
+            return new List<String>();
+        }
+        private async Task<int?> GetFrequenciesValue(string word)
+        {
+            return await Task<int?>.Factory.StartNew(() =>
+            {
+                return _keyValueDatabase.FindInFrequenciesDatabase(word);
+            });
+        }
+
+        private async Task<ICollection<string>> GetRadixTreeSuggestions(ProcessedWord word)
         {
             return await Task<ICollection<string>>.Factory.StartNew(() =>
             {
@@ -152,12 +336,13 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 return result;
             });
         }
+
         private async Task<IEnumerable<string>> GetCaseWords(string word)
         {
             word = word.ToLower();
             List<string> words = new List<string>();
 
-            var phoneticSuggestions = await GetPhoneticSuggestions(new ProcessedWord(word));
+            var phoneticSuggestions = await GetSystemDictionaryPhoneticSuggestions(new ProcessedWord(word));
 
             foreach (var suggestion in phoneticSuggestions)
             {
@@ -169,58 +354,49 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 
             return words;
         }
-
-        public void SwapWordWithSuggested(ProcessedWord originalWord, string suggestedWord)
+        private string FindInExceptions(ProcessedWord answer, bool system)
         {
+            //DictionaryType dictionaryType = system ? DictionaryType.SystemErrors : DictionaryType.UserExceptions;
+
+            //string retval = _keyValueDatabase.GetValueAsStringByKey(dictionaryType, answer.Original);
+
+            //if (!string.IsNullOrEmpty(retval))
+            //{
+            //    return retval;
+            //}
+            //else
+            //{
+            //    string cor;
+
+            //    if (answer.Case == WordType.Lowercase)
+            //    {
+            //        return null;
+            //    }
+            //    else if (answer.Case == WordType.FirstLetterUppercase)
+            //    {
+            //        string lcWord = answer.Original.ToLower();
+            //        return _keyValueDatabase.GetValueAsStringByKey(dictionaryType, lcWord);
+            //    }
+            //    else
+            //    {
+            //        string lcWord = answer.Original.ToLower();
+            //        cor = _keyValueDatabase.GetValueAsStringByKey(dictionaryType, lcWord);
+
+            //        if (!string.IsNullOrEmpty(cor))
+            //        {
+            //            return cor;
+            //        }
+            //        else
+            //        {
+            //            string ucFirstWord = answer.Original.ToFirstCharacterUpper();
+            //            return _keyValueDatabase.GetValueAsStringByKey(dictionaryType, ucFirstWord);
+            //        }
+            //    }
+            //}
+
             throw new NotImplementedException();
         }
-        public void IgnoreWord(ProcessedWord word)
-        {
-            throw new NotImplementedException();
-        }
-        public void AddWord(ProcessedWord word)
-        {
-            throw new NotImplementedException();
-        }
 
-        private ICollection<IProcessedElement> ProcessText(string text)
-        {
-            List<string> words = Regex.Split(text, @"\s+").Where(x => !string.IsNullOrEmpty(x)).ToList();
-
-            foreach (string word in words)
-            {
-                if (Regex.IsMatch(word, @$"[{FriulianConstants.FRIULIAN_LETTERS}]+"))
-                {
-                    _processedElements.Add(new ProcessedWord(word));
-                }
-                else
-                {
-                    _processedElements.Add(new ProcessedPunctuation(word));
-                }
-            }
-            return _processedElements;
-        }
-        public string GetProcessedText()
-        {
-            string result = "";
-            foreach (IProcessedElement word in _processedElements)
-            {
-                result = result + word.ToString();
-            }
-            return result;
-        }
-
-        //public ICollection<IProcessedElement> GetAllProcessedElementsList
-        //{
-        //    get => _processedElementsList;
-        //}
-        //public ICollection<ProcessedWord> GetAllProcessedWords
-        //{
-        //    get => _processedElementsList.OfType<ProcessedWord>().ToList();
-        //}
-        public ICollection<ProcessedWord> GetAllIncorrectWords()
-        {
-            return _processedElements.OfType<ProcessedWord>().Where(word => word.Correct == false).ToList();
-        }
+        #endregion Private methods
     }
 }

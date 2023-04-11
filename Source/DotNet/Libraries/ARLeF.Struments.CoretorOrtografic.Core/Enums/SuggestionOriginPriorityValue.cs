@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace ARLeF.Struments.CoretorOrtografic.Core.Enums
 {
-    public enum WordType
+    public enum SuggestionOriginPriorityValue
     {
-        Lowercase = 1,
-        FirstLetterUppercase = 2,
-        Uppercase = 3
+        UserException = 1000,
+        Same = 400,
+        UserDictionary = 350,
+        SystemErrors = 300,
     }
 }
