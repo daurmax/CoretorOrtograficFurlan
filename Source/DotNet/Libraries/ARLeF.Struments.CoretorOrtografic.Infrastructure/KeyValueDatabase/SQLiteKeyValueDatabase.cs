@@ -1,4 +1,5 @@
 ﻿using ARLeF.Struments.CoretorOrtografic.Core.Enums;
+using ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
 using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
 using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
 using System;
@@ -16,6 +17,17 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
     public class SQLiteKeyValueDatabase : IKeyValueDatabase
     {
         /// <summary>
+        /// Finds a value in the user dictionary given a phonetic hash key.
+        /// </summary>
+        /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
+        /// <returns>The value corresponding to the given key, or null if not found.</returns>
+        /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
+        public string FindInUserDatabase(string phoneticHash)
+        {
+            return FindInDatabase(DictionaryFilePaths.SQLITE_USER_DATABASE_FILE_PATH, phoneticHash, false);
+        }
+
+        /// <summary>
         /// Finds a value in the system dictionary given a phonetic hash key.
         /// </summary>
         /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
@@ -23,43 +35,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
         public string FindInSystemDatabase(string phoneticHash)
         {
-            if (string.IsNullOrEmpty(phoneticHash)) throw new ArgumentNullException();
-
-            using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_WORDS_DATABASE_FILE_PATH}"))
-            {
-                connection.Open();
-
-                var command = connection.CreateCommand();
-                command.CommandText =
-                @"SELECT *
-                  FROM Data
-                  WHERE Key = $key
-                ";
-                command.Parameters.AddWithValue("$key", phoneticHash);
-
-                List<KeyValuePair<string, string>> retrievedData = new();
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        retrievedData.Add(new KeyValuePair<string, string>(reader.GetString(0), reader.GetString(1)));
-                    }
-                }
-
-                if (retrievedData.Count == 1)
-                {
-                    return ReplaceWordUnicodeCodesWithSpecialCharacters(retrievedData.Single().Value);
-                }
-                else if (!retrievedData.Any())
-                {
-                    return null;
-                }
-                else
-                {
-                    throw new InvalidDataException($"The provided key '{phoneticHash}' returned more than one result.");
-                }
-            }
+            return FindInDatabase(DictionaryFilePaths.SQLITE_SYSTEM_DATABASE_FILE_PATH, phoneticHash, false);
         }
 
         /// <summary>
@@ -70,43 +46,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
         public string FindInSystemErrorsDatabase(string word)
         {
-            if (string.IsNullOrEmpty(word)) throw new ArgumentNullException();
-
-            using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_ERRORS_DATABASE_FILE_PATH}"))
-            {
-                connection.Open();
-
-                var command = connection.CreateCommand();
-                command.CommandText =
-                @"SELECT *
-                  FROM Data
-                  WHERE Key = $key
-                ";
-                command.Parameters.AddWithValue("$key", word);
-
-                List<KeyValuePair<string, string>> retrievedData = new();
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        retrievedData.Add(new KeyValuePair<string, string>(reader.GetString(0), reader.GetString(1)));
-                    }
-                }
-
-                if (retrievedData.Count == 1)
-                {
-                    return ReplaceWordUnicodeCodesWithSpecialCharacters(retrievedData.Single().Value);
-                }
-                else if (!retrievedData.Any())
-                {
-                    return null;
-                }
-                else
-                {
-                    throw new InvalidDataException($"The provided key '{word}' returned more than one result.");
-                }
-            }
+            return FindInDatabase(DictionaryFilePaths.SQLITE_ERRORS_DATABASE_FILE_PATH, word, true);
         }
 
         /// <summary>
@@ -156,6 +96,129 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
             }
         }
 
+        /// <summary>
+        /// Adds a word to the user dictionary.
+        /// </summary>
+        /// <param name="word">The word to be added to the user dictionary.</param>
+        /// <returns>A value indicating the result of the operation.</returns>
+        public AddWordToUserDatabaseReturnValue AddToUserDatabase(string word)
+        {
+            if (string.IsNullOrEmpty(word))
+            {
+                return AddWordToUserDatabaseReturnValue.UserDatabaseNotExists;
+            }
+
+            using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_USER_DATABASE_FILE_PATH}"))
+            {
+                connection.Open();
+
+                (string, string) wordHashes = FurlanPhoneticAlgorithm.GetPhoneticHashesByWord(word);
+                string codeA = wordHashes.Item1;
+                string codeB = wordHashes.Item2;
+
+                foreach (string code in codeA.Equals(codeB) ? new[] { codeA } : new[] { codeA, codeB })
+                {
+                    string foundWord = FindInUserDatabase(code);
+
+                    if (foundWord == null)
+                    {
+                        var insertCommand = connection.CreateCommand();
+                        insertCommand.CommandText =
+                        @"INSERT INTO Data (Key, Value)
+                  VALUES ($key, $value)
+                ";
+                        insertCommand.Parameters.AddWithValue("$key", code);
+                        insertCommand.Parameters.AddWithValue("$value", word);
+                        insertCommand.ExecuteNonQuery();
+                    }
+                    else if (!foundWord.Equals(word))
+                    {
+                        string newWordList = $"{foundWord},{word}";
+
+                        var updateCommand = connection.CreateCommand();
+                        updateCommand.CommandText =
+                        @"UPDATE Data
+                  SET Value = $value
+                  WHERE Key = $key
+                ";
+                        updateCommand.Parameters.AddWithValue("$key", code);
+                        updateCommand.Parameters.AddWithValue("$value", newWordList);
+                        updateCommand.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        return AddWordToUserDatabaseReturnValue.AlreadyPresent;
+                    }
+                }
+            }
+
+            return AddWordToUserDatabaseReturnValue.Success;
+        }
+
+        /// <summary>
+        /// Finds a value in the specified database given a key.
+        /// </summary>
+        /// <param name="databaseFilePath">The file path of the SQLite database to search in.</param>
+        /// <param name="key">The key to search for in the database.</param>
+        /// <param name="searchForErrors">Indicates whether the search is being performed in the errors database.</param>
+        /// <returns>The value corresponding to the given key, or null if not found or the database does not exist.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the provided key is null or empty.</exception>
+        /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
+        private string FindInDatabase(string databaseFilePath, string key, bool searchForErrors)
+        {
+            if (string.IsNullOrEmpty(key)) throw new ArgumentNullException();
+
+            if (!File.Exists(databaseFilePath))
+            {
+                return null;
+            }
+
+            using (var connection = new SQLiteConnection($"Data Source={databaseFilePath}"))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText =
+                @"SELECT *
+          FROM Data
+          WHERE Key = $key
+        ";
+                command.Parameters.AddWithValue("$key", key);
+
+                List<KeyValuePair<string, string>> retrievedData = new();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        retrievedData.Add(new KeyValuePair<string, string>(reader.GetString(0), reader.GetString(1)));
+                    }
+                }
+
+                if (retrievedData.Count == 1)
+                {
+                    return ReplaceWordUnicodeCodesWithSpecialCharacters(retrievedData.Single().Value);
+                }
+                else if (!retrievedData.Any())
+                {
+                    return null;
+                }
+                else
+                {
+                    string exceptionMessage = searchForErrors
+                        ? $"The provided key '{key}' returned more than one result in the errors database."
+                        : $"The provided key '{key}' returned more than one result.";
+
+                    throw new InvalidDataException(exceptionMessage);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Replaces the Unicode codes in a word with their corresponding special characters.
+        /// </summary>
+        /// <param name="word">The word with Unicode codes to replace.</param>
+        /// <returns>The word with special characters.</returns>
         private string ReplaceWordUnicodeCodesWithSpecialCharacters(string word)
         {
             var retval = word;

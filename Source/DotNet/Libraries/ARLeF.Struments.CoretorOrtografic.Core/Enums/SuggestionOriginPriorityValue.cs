@@ -11,6 +11,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.Enums
         UserException = 1000,
         Same = 400,
         UserDictionary = 350,
-        SystemErrors = 300,
+        SystemErrors = 300
     }
 }

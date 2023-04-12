@@ -59,7 +59,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 
         public async Task<bool> CheckWord(ProcessedWord word)
         {
-            return await Task<bool>.Factory.StartNew(() =>
+            return await Task.Run(async () =>
             {
                 string wordAsString = word.Original;
                 string lcWord = wordAsString.ToLower();
@@ -71,20 +71,9 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 
                 (string, string) wordHashes = FurlanPhoneticAlgorithm.GetPhoneticHashesByWord(lcWord);
 
-                var retrievedValue1 = _keyValueDatabase.FindInSystemDatabase(wordHashes.Item1);
-                var retrievedValue2 = _keyValueDatabase.FindInSystemDatabase(wordHashes.Item2);
-                List<string> suggestedWords = new();
+                ICollection<string> suggestedWords = await GetSystemDictionaryPhoneticSuggestions(word);
 
-                if (retrievedValue1 is not null && retrievedValue1 != String.Empty)
-                {
-                    suggestedWords.AddRange(retrievedValue1.Split(','));
-                }
-                if (retrievedValue2 is not null && retrievedValue2 != String.Empty)
-                {
-                    suggestedWords.AddRange(retrievedValue2.Split(','));
-                }
-
-                bool wordFoundInSuggestions = suggestedWords.Any(s => s.ToLower() == lcWord);
+                bool wordFoundInSuggestions = suggestedWords is not null && suggestedWords.Any(s => s.ToLower() == lcWord);
 
                 if (wordFoundInSuggestions)
                 {
@@ -97,7 +86,9 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 }
                 else
                 {
-                    return false;
+                    var userSearchResult = await GetUserDictionaryPhoneticSuggestions(word);
+                    bool userWordFound = userSearchResult is not null && userSearchResult.Any();
+                    return userWordFound;
                 }
             });
         }
@@ -298,8 +289,31 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
         }
         private async Task<ICollection<string>> GetUserDictionaryPhoneticSuggestions(ProcessedWord word)
         {
-            // Not yet implemented
-            return new List<String>();
+            return await Task<ICollection<string>>.Factory.StartNew(() =>
+            {
+                (string, string) wordHashes = FurlanPhoneticAlgorithm.GetPhoneticHashesByWord(word.ToString());
+
+                var retrievedValue1 = _keyValueDatabase.FindInUserDatabase(wordHashes.Item1);
+                var retrievedValue2 = _keyValueDatabase.FindInUserDatabase(wordHashes.Item2);
+                if (retrievedValue1 is null && retrievedValue2 is null)
+                {
+                    return null;
+                }
+                else
+                {
+                    List<string> suggestedWords = new();
+                    if (retrievedValue1 is not null && retrievedValue1 != String.Empty)
+                    {
+                        suggestedWords.AddRange(retrievedValue1.Split(','));
+                    }
+                    if (retrievedValue2 is not null && retrievedValue2 != String.Empty)
+                    {
+                        suggestedWords.AddRange(retrievedValue2.Split(','));
+                    }
+
+                    return suggestedWords;
+                }
+            });
         }
         private async Task<int?> GetFrequenciesValue(string word)
         {

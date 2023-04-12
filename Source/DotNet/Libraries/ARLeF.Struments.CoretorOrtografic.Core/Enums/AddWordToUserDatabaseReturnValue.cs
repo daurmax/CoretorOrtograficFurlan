@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace ARLeF.Struments.CoretorOrtografic.Core.Enums
 {
-    public enum DictionaryType
+    public enum AddWordToUserDatabaseReturnValue
     {
-        Elisions,
-        Frec,
-        SystemDictionary,
-        SystemErrors,
-        UserDictionary,
-        UserExceptions
+        UserDatabaseNotExists,
+        AlreadyPresent,
+        Success
     }
 }

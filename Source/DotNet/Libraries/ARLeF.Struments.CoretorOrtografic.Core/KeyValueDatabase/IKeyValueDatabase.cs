@@ -11,6 +11,14 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase
     public interface IKeyValueDatabase
     {
         /// <summary>
+        /// Finds a value in the user dictionary given a phonetic hash key.
+        /// </summary>
+        /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
+        /// <returns>The value corresponding to the given key, or null if not found.</returns>
+        /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
+        public string FindInUserDatabase(string phoneticHash);
+
+        /// <summary>
         /// Finds a value in the system dictionary given a phonetic hash key.
         /// </summary>
         /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
@@ -33,5 +41,12 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase
         /// <returns>The frequency value corresponding to the given key, or null if not found.</returns>
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
         int? FindInFrequenciesDatabase(string word);
+
+        /// <summary>
+        /// Adds a word to the user dictionary.
+        /// </summary>
+        /// <param name="word">The word to be added to the user dictionary.</param>
+        /// <returns>A value indicating the result of the operation.</returns>
+        public AddWordToUserDatabaseReturnValue AddToUserDatabase(string word);
     }
 }
