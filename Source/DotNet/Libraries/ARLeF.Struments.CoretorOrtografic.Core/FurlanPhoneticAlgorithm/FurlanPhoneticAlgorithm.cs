@@ -72,12 +72,10 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
 
             return distanceMatrix[sourceLength, targetLength];
         }
-
         public static List<string> SortFriulian(List<string> words)
         {
             return words.OrderBy(word => TranslateWordForSorting(word)).ToList();
         }
-
         public static (string, string) GetPhoneticHashesByWord(string word)
         {
             return GetPhoneticHashesByOriginal(PrepareOriginalWord(word));
@@ -176,7 +174,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
 
             return original;
         }
-
         private static (string, string) GetPhoneticHashesByOriginal(string original)
         {
             string firstHash = original;
@@ -307,7 +304,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
 
             return (firstHash, secondHash);
         }
-
         private static string TranslateWordForSorting(string word)
         {
             string translatedWord = string.Empty;
@@ -329,7 +325,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
 
             return translatedWord.Replace("^'s", "s");
         }
-
         private static int Min(int a, int b, int c)
         {
             return Math.Min(Math.Min(a, b), c);
