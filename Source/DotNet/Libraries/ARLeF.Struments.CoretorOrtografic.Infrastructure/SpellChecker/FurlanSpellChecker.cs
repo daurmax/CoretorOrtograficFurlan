@@ -96,7 +96,23 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
         }
         public async Task<ICollection<string>> GetWordSuggestions(ProcessedWord word)
         {
-            throw new NotImplementedException();
+            if (word == null) throw new ArgumentNullException(nameof(word));
+
+            var (weights, suggestions) = await SuggestRaw(word);
+            var sortedSuggestions = new List<string>();
+
+            foreach (var f in weights.Keys.OrderByDescending(k => k))
+            {
+                foreach (var d in weights[f].Keys.OrderBy(k => k))
+                {
+                    foreach (var index in weights[f][d])
+                    {
+                        sortedSuggestions.Add(suggestions[index]);
+                    }
+                }
+            }
+
+            return sortedSuggestions;
         }
 
         public void SwapWordWithSuggested(ProcessedWord originalWord, string suggestedWord)
@@ -168,6 +184,41 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
             return _processedElements;
         }
 
+        private async Task<(Dictionary<int, Dictionary<int, List<int>>>, List<string>)> SuggestRaw(ProcessedWord word)
+        {
+            if (word == null) throw new ArgumentNullException(nameof(word));
+
+            var list = await BuildSuggestions(word);
+
+            var foundWords = new List<string>();
+            foreach (var p in list.Keys)
+            {
+                foundWords.Add(p);
+            }
+
+            foundWords = FurlanPhoneticAlgorithm.SortFriulian(foundWords);
+            var wordsHamming = new Dictionary<int, Dictionary<int, List<int>>>();
+
+            for (int wordIndex = 0; wordIndex < foundWords.Count; wordIndex++)
+            {
+                var y = foundWords[wordIndex];
+                var vals = list[y];
+
+                if (!wordsHamming.ContainsKey(vals[0]))
+                {
+                    wordsHamming[vals[0]] = new Dictionary<int, List<int>>();
+                }
+
+                if (!wordsHamming[vals[0]].ContainsKey(vals[1]))
+                {
+                    wordsHamming[vals[0]][vals[1]] = new List<int>();
+                }
+
+                wordsHamming[vals[0]][vals[1]].Add(wordIndex);
+            }
+
+            return (wordsHamming, foundWords);
+        }
         private async Task<Dictionary<string, List<int>>> BuildSuggestions(ProcessedWord word)
         {
             if (word == null) throw new ArgumentNullException(nameof(word));
@@ -185,7 +236,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 var dxList = await BasicSuggestions(dxWord);
                 foreach (var (p, vals) in dxList)
                 {
-                    string fixedP = FixCase(caseType, sx + " " + p);
+                    string fixedP = FixCase(caseType, sx + " " + p);    
                     vals[1]++;
                     list[fixedP] = vals;
                 }
@@ -200,9 +251,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 var dxList = await BasicSuggestions(dxWord, true);
                 foreach (var (p, vals) in dxList)
                 {
-                    int freq = vals[0];
-                    string pInDiz = ""; // You might need to get the original word from the dictionary
-                    string sx = _keyValueDatabase.HasElisions(pInDiz) ? sxAp : sxNoAp;
+                    string sx = _keyValueDatabase.HasElisions(p) ? sxAp : sxNoAp;
                     string fixedP = FixCase(caseType, sx + p);
                     vals[1]++;
                     list[fixedP] = vals;
