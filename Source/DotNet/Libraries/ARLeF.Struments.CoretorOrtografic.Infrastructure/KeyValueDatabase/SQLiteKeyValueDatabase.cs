@@ -24,7 +24,20 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
         public string FindInUserDatabase(string phoneticHash)
         {
-            return FindInDatabase(DictionaryFilePaths.SQLITE_USER_DATABASE_FILE_PATH, phoneticHash, false);
+            return FindInDatabase(DictionaryFilePaths.SQLITE_USER_DATABASE_FILE_PATH, DictionaryType.UserDictionary, phoneticHash, false);
+        }
+
+        /// <summary>
+        /// Finds a value in the user dictionary given a phonetic hash key.
+        /// </summary>
+        /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
+        /// <returns>The value corresponding to the given key, or null if not found.</returns>
+        /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the provided key is null or empty.</exception>
+        /// <exception cref="FileNotFoundException">Thrown when the user dictionary database file is not found.</exception>
+        public string FindInUserErrorsDatabase(string word)
+        {
+            return FindInDatabase(DictionaryFilePaths.SQLITE_USER_ERRORS_DATABASE_FILE_PATH, DictionaryType.UserExceptions, word, true);
         }
 
         /// <summary>
@@ -33,9 +46,11 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
         /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
         /// <returns>The value corresponding to the given key, or null if not found.</returns>
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the provided key is null or empty.</exception>
+        /// <exception cref="FileNotFoundException">Thrown when the system dictionary database file is not found.</exception>
         public string FindInSystemDatabase(string phoneticHash)
         {
-            return FindInDatabase(DictionaryFilePaths.SQLITE_SYSTEM_DATABASE_FILE_PATH, phoneticHash, false);
+            return FindInDatabase(DictionaryFilePaths.SQLITE_SYSTEM_DATABASE_FILE_PATH, DictionaryType.SystemDictionary, phoneticHash, false);
         }
 
         /// <summary>
@@ -44,9 +59,11 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
         /// <param name="key">The commonly mistaken word to search in the errors database.</param>
         /// <returns>The corrected word corresponding to the given key, or null if not found.</returns>
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the provided key is null or empty.</exception>
+        /// <exception cref="FileNotFoundException">Thrown when the system errors dictionary database file is not found.</exception>
         public string FindInSystemErrorsDatabase(string word)
         {
-            return FindInDatabase(DictionaryFilePaths.SQLITE_ERRORS_DATABASE_FILE_PATH, word, true);
+            return FindInDatabase(DictionaryFilePaths.SQLITE_ERRORS_DATABASE_FILE_PATH, DictionaryType.SystemErrors, word, true);
         }
 
         /// <summary>
@@ -55,6 +72,8 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
         /// <param name="word">The word to search in the frequencies database.</param>
         /// <returns>The frequency value corresponding to the given key, or null if not found.</returns>
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the provided key is null or empty.</exception>
+        /// <exception cref="FileNotFoundException">Thrown when the frequencies database file is not found.</exception>
         public int? FindInFrequenciesDatabase(string word)
         {
             if (string.IsNullOrEmpty(word)) throw new ArgumentNullException();
@@ -92,6 +111,41 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                 else
                 {
                     throw new InvalidDataException($"The provided key '{word}' returned more than one result.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks if the given word exists in the elisions database.
+        /// </summary>
+        /// <param name="word">The word to search for in the elisions database.</param>
+        /// <returns>True if the word is found in the elisions database; otherwise, false.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the provided word is null or empty.</exception>
+        /// <exception cref="FileNotFoundException">Thrown when the elisions database file is not found.</exception>
+        public bool HasElisions(string word)
+        {
+            if (string.IsNullOrEmpty(word)) throw new ArgumentNullException();
+
+            if (!File.Exists(DictionaryFilePaths.SQLITE_ELISIONS_DATABASE_FILE_PATH))
+            {
+                throw new FileNotFoundException($"{DictionaryType.Elisions} database was not found at '{Path.GetFullPath(DictionaryFilePaths.SQLITE_ELISIONS_DATABASE_FILE_PATH)}'");
+            }
+
+            using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_ELISIONS_DATABASE_FILE_PATH}"))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText =
+                @"SELECT *
+          FROM Data
+          WHERE Word = $word
+        ";
+                command.Parameters.AddWithValue("$word", word);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    return reader.Read();
                 }
             }
         }
@@ -164,13 +218,13 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
         /// <returns>The value corresponding to the given key, or null if not found or the database does not exist.</returns>
         /// <exception cref="ArgumentNullException">Thrown when the provided key is null or empty.</exception>
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
-        private string FindInDatabase(string databaseFilePath, string key, bool searchForErrors)
+        private string FindInDatabase(string databaseFilePath, DictionaryType dictionaryType, string key, bool searchForErrors)
         {
             if (string.IsNullOrEmpty(key)) throw new ArgumentNullException();
 
             if (!File.Exists(databaseFilePath))
             {
-                return null;
+                throw new FileNotFoundException($"{dictionaryType} database was not found at '{Path.GetFullPath(DictionaryFilePaths.SQLITE_ELISIONS_DATABASE_FILE_PATH)}'");
             }
 
             using (var connection = new SQLiteConnection($"Data Source={databaseFilePath}"))

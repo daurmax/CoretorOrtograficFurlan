@@ -1,7 +1,3 @@
-# This Perl script reads in a frequency hash from a BerkeleyDB file, inserts the data into a SQLite database, 
-# and then creates a zip archive containing the resulting SQLite file. It also includes a check to ensure 
-# that the frequency data was inserted correctly.
-
 #!/usr/bin/perl
 use strict;
 use warnings;
@@ -47,8 +43,7 @@ my $dbh = DBI->connect("dbi:SQLite:dbname=$sqlite_file", "", "", {
 print "Creating SQLite table...\n";
 $dbh->do(<<'SQL');
 CREATE TABLE IF NOT EXISTS Data (
-    Key TEXT PRIMARY KEY,
-    Value INTEGER
+    Word TEXT PRIMARY KEY
 )
 SQL
 
@@ -57,8 +52,8 @@ print "Inserting elisions into SQLite database...\n";
 $dbh->begin_work;
 
 # Insert the elisions from the elisions hash into the SQLite database
-while (my ($word, $value) = each %elisions_hash) {
-    $dbh->do("INSERT OR REPLACE INTO Data (Key, Value) VALUES (?, ?)", undef, $word, $value);
+while (my ($word) = each %elisions_hash) {
+    $dbh->do("INSERT OR REPLACE INTO Data (Word) VALUES (?)", undef, $word);
 }
 
 # Commit the transaction
@@ -68,31 +63,13 @@ $dbh->commit;
 # Check if the words exist in the elisions database
 print "Checking if words exist in the elisions database...\n";
 my @words = ('analfabetementri', 'antagonisim', 'onomatopeichementri');
-
 foreach my $word (@words) {
-    my $value = $dbh->selectrow_array("SELECT Value FROM Data WHERE Key = ?", undef, $word);
-    if (defined $value) {
-        print "'$word' exists in the elisions database with value: $value\n";
-    } else {
-        print "'$word' does not exist in the elisions database\n";
+    my $is_present = $dbh->selectrow_array("SELECT EXISTS(SELECT 1 FROM Data WHERE Word = ?)", undef, $word);
+    if ($is_present) {
+        print "'$word' exists in the elisions database.\n";
+    } else {s
+        print "'$word' does not exist in the elisions database.\n";
     }
-}
-
-# Check if there are pairs with a value different than 1
-print "Checking if there are pairs with a value different than 1...\n";
-my $sth = $dbh->prepare("SELECT Key, Value FROM Data WHERE Value != 1");
-$sth->execute();
-my $pair_count = 0;
-
-while (my ($key, $value) = $sth->fetchrow_array()) {
-    print "Key: $key, Value: $value\n";
-    $pair_count++;
-}
-
-if ($pair_count == 0) {
-    print "No pairs with a value different than 1 were found.\n";
-} else {
-    print "Total pairs with a value different than 1: $pair_count\n";
 }
 
 # Clean up
@@ -105,7 +82,7 @@ print "Creating zip archive...\n";
 my $zip = Archive::Zip->new();
 $zip->addFile($sqlite_file, 'elisions.sqlite');
 unless ($zip->writeToFileNamed($zip_file) == AZ_OK) {
-die("Error creating zip archive '$zip_file'\n");
+    die("Error creating zip archive '$zip_file'\n");
 }
 
 print "Done!\n";

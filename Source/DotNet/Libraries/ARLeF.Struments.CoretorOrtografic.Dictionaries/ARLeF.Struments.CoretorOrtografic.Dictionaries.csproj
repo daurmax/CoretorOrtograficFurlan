@@ -20,7 +20,7 @@
     <None Update="Dictionaries\Elisions\elisions.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Dictionaries\Elisions\SQLite\elisions.db">
+    <None Update="Dictionaries\Elisions\SQLite\elisions.sqlite">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Dictionaries\Errors\errors.db">

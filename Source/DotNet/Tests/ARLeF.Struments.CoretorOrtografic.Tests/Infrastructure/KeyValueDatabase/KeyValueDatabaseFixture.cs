@@ -98,6 +98,31 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
         }
 
         [Test]
+        public void HasElisions_WithExistingKey()
+        {
+            var timer = new Stopwatch();
+            timer.Start();
+
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
+
+                var key = "analfabetementri";
+                var value = keyValueDatabaseReader.HasElisions(key);
+                var expectedResult = true;
+
+                Console.WriteLine($"Key is: [{key}]");
+                Console.WriteLine($"Value is: [{value}]");
+
+                Assert.NotNull(value);
+                Assert.AreEqual(value, expectedResult);
+            }
+
+            timer.Stop();
+            Console.WriteLine(timer.Elapsed);
+        }
+
+        [Test]
         public void FindInSystemDatabase_WithNonExistentKey()
         {
             using (var scope = Container.BeginLifetimeScope())
@@ -149,6 +174,25 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
         }
 
         [Test]
+        public void HasElisions_WithNonExistentKey()
+        {
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
+
+                var key = "nonExistentKey";
+                var value = keyValueDatabaseReader.HasElisions(key);
+                var expectedResult = false;
+
+                Console.WriteLine($"Key is: [{key}]");
+                Console.WriteLine($"Value is: [{value}]");
+
+                Assert.NotNull(value);
+                Assert.AreEqual(value, expectedResult);
+            }
+        }
+
+        [Test]
         public void FindInSystemDatabase_WithNullKey()
         {
             using (var scope = Container.BeginLifetimeScope())
@@ -178,6 +222,17 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabas
                 var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
 
                 Assert.Throws<ArgumentNullException>(() => keyValueDatabaseReader.FindInFrequenciesDatabase(null));
+            }
+        }
+
+        [Test]
+        public void HasElisions_WithNullKey()
+        {
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                var keyValueDatabaseReader = scope.Resolve<IKeyValueDatabase>();
+
+                Assert.Throws<ArgumentNullException>(() => keyValueDatabaseReader.HasElisions(null));
             }
         }
     }
