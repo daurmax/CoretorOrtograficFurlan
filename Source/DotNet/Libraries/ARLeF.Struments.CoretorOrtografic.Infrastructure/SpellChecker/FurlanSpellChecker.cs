@@ -294,25 +294,38 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
             var list = new Dictionary<string, List<int>>();
             var sugg = new Dictionary<string, int>();
 
-            foreach (var suggestedWord in await GetSystemDictionaryPhoneticSuggestions(word))
+            var systemDictionarySuggestions = await GetSystemDictionaryPhoneticSuggestions(word);
+            if (systemDictionarySuggestions != null)
             {
-                sugg[suggestedWord] = 5;
-            }
-            //if (Settings.HasUserDictionary)
-            if (false)
-            {
-                foreach (var suggestedWord in await GetUserDictionaryPhoneticSuggestions(word))
+                foreach (var suggestedWord in await GetSystemDictionaryPhoneticSuggestions(word))
                 {
-                    sugg[suggestedWord] = 4;
+                    sugg[suggestedWord] = 5;
                 }
             }
 
-            foreach (var suggestedWord in await GetRadixTreeSuggestions(word))
+            //if (Settings.HasUserDictionary)
+            if (false)
             {
-                sugg[suggestedWord] = 3;
+                var userDictionarySuggestions = await GetUserDictionaryPhoneticSuggestions(word);
+                if (userDictionarySuggestions != null)
+                {
+                    foreach (var suggestedWord in await GetUserDictionaryPhoneticSuggestions(word))
+                    {
+                        sugg[suggestedWord] = 4;
+                    }
+                }
             }
 
-            var cor = await FindInExceptions(word, true);
+            var radixTreeSuggestions = await GetRadixTreeSuggestions(word);
+            if (radixTreeSuggestions != null)
+            {
+                foreach (var suggestedWord in await GetRadixTreeSuggestions(word))
+                {
+                    sugg[suggestedWord] = 3;
+                }
+            }
+
+            var cor = await FindInExceptions(word: word, isSystemDictionary: true);
             if (cor != null)
             {
                 sugg[cor] = 2;
@@ -321,7 +334,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
             //if (Settings.HasExceptionsDictionary)
             if (false)
             {
-                //var cor = FindInExc(word, "user");
+                //var cor = await FindInExceptions(word: word, isSystemDictionary: false);
                 //if (cor != null)
                 //{
                 //    sugg[cor] = 1;
