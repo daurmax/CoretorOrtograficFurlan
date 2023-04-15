@@ -24,6 +24,11 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
         public string FindInUserDatabase(string phoneticHash)
         {
+            if (!File.Exists(DictionaryFilePaths.SQLITE_USER_DATABASE_FILE_PATH))
+            {
+                CreateUserDatabase();
+            }
+
             return FindInDatabase(DictionaryFilePaths.SQLITE_USER_DATABASE_FILE_PATH, DictionaryType.UserDictionary, phoneticHash, false);
         }
 
@@ -264,6 +269,34 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                         : $"The provided key '{key}' returned more than one result.";
 
                     throw new InvalidDataException(exceptionMessage);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates the user database if it does not already exist.
+        /// </summary>
+        /// <returns>A value indicating whether the database was created or already exists.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the operation to create the database fails.</exception>
+        public void CreateUserDatabase()
+        {
+            if (!File.Exists(DictionaryFilePaths.SQLITE_USER_DATABASE_FILE_PATH))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(DictionaryFilePaths.SQLITE_USER_DATABASE_FILE_PATH));
+                SQLiteConnection.CreateFile(DictionaryFilePaths.SQLITE_USER_DATABASE_FILE_PATH);
+
+                using (var connection = new SQLiteConnection($"Data Source={DictionaryFilePaths.SQLITE_USER_DATABASE_FILE_PATH}"))
+                {
+                    connection.Open();
+
+                    var createTableCommand = connection.CreateCommand();
+                    createTableCommand.CommandText =
+                    @"CREATE TABLE IF NOT EXISTS Data (
+              Key TEXT NOT NULL,
+              Value TEXT NOT NULL,
+              PRIMARY KEY (Key, Value)
+            )";
+                    createTableCommand.ExecuteNonQuery();
                 }
             }
         }
