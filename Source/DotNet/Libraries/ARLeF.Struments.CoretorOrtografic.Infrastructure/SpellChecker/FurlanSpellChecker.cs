@@ -432,13 +432,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 }
             });
         }
-        private async Task<int?> GetFrequenciesValue(string word)
-        {
-            return await Task<int?>.Factory.StartNew(() =>
-            {
-                return _keyValueDatabase.FindInFrequenciesDatabase(word);
-            });
-        }
         private async Task<string> FindInExceptions(ProcessedWord word, bool isSystemDictionary)
         {
             return await Task<string>.Factory.StartNew(() =>
