@@ -6,8 +6,10 @@ using ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
 using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
 using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
 using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
+using ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
@@ -166,6 +168,72 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
             return _processedElements;
         }
 
+        private async Task<Dictionary<string, List<int>>> BuildSuggestions(ProcessedWord word)
+        {
+            if (word == null) throw new ArgumentNullException(nameof(word));
+
+            var list = new Dictionary<string, List<int>>(await BasicSuggestions(word));
+            var lcWord = word.Original.ToLower();
+            var caseType = word.Case;
+
+            if (lcWord.StartsWith("d'") || lcWord.StartsWith("un'"))
+            {
+                int pos = lcWord.StartsWith("d'") ? 2 : 3;
+                string sx = pos == 2 ? "di" : "une";
+                var dxWord = new ProcessedWord(word.Original.Substring(pos));
+
+                var dxList = await BasicSuggestions(dxWord);
+                foreach (var (p, vals) in dxList)
+                {
+                    string fixedP = FixCase(caseType, sx + " " + p);
+                    vals[1]++;
+                    list[fixedP] = vals;
+                }
+            }
+            else if (lcWord.StartsWith("l'"))
+            {
+                var dxWord = new ProcessedWord(word.Original.Substring(2));
+
+                var sxAp = FixCase(caseType, "l'");
+                var sxNoAp = FixCase(caseType, "la") + " ";
+
+                var dxList = await BasicSuggestions(dxWord, true);
+                foreach (var (p, vals) in dxList)
+                {
+                    int freq = vals[0];
+                    string pInDiz = ""; // You might need to get the original word from the dictionary
+                    string sx = _keyValueDatabase.HasElisions(pInDiz) ? sxAp : sxNoAp;
+                    string fixedP = FixCase(caseType, sx + p);
+                    vals[1]++;
+                    list[fixedP] = vals;
+                }
+            }
+
+            if (word.Original.Contains("-"))
+            {
+                string[] parts = word.Original.Split('-');
+                var sxWord = new ProcessedWord(parts[0]);
+                var dxWord = new ProcessedWord(parts[1]);
+
+                var sxList = await BasicSuggestions(sxWord);
+                var dxList = await BasicSuggestions(dxWord);
+
+                foreach (var (sxP, sxVals) in sxList)
+                {
+                    foreach (var (dxP, dxVals) in dxList)
+                    {
+                        string combinedP = $"{sxP} {dxP}";
+                        list[combinedP] = new List<int>
+                {
+                    sxVals[0] + dxVals[0],
+                    sxVals[1] + dxVals[1]
+                };
+                    }
+                }
+            }
+
+            return list;
+        }
         private async Task<Dictionary<string, List<int>>> BasicSuggestions(ProcessedWord word, bool dizWord = false)
         {
             if (word == null) throw new ArgumentNullException(nameof(word));
@@ -195,7 +263,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 sugg[suggestedWord] = 3;
             }
 
-            var cor = FindInExceptions(word, true);
+            var cor = await FindInExceptions(word, true);
             if (cor != null)
             {
                 sugg[cor] = 2;
@@ -235,7 +303,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                     }
                     else if (type == 3)
                     {
-                        //vals.Add(data.GetFreq[p] ?? 0);
+                        vals.Add(_keyValueDatabase.FindInFrequenciesDatabase(p) ?? 0);
                         vals.Add(1);
                     }
                     else if (type == 4)
@@ -245,12 +313,12 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                     }
                     else
                     {
-                        //vals.Add(data.GetFreq[p] ?? 0);
+                        vals.Add(_keyValueDatabase.FindInFrequenciesDatabase(p) ?? 0);
                         vals.Add(FurlanPhoneticAlgorithm.Levenshtein(lcWord, p));
                     }
                     if (dizWord)
                     {
-                        //vals.Add(p);
+                        vals.Add(type); 
                     }
                     list[fixedP] = vals;
                 }
@@ -322,7 +390,46 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 return _keyValueDatabase.FindInFrequenciesDatabase(word);
             });
         }
+        private async Task<string> FindInExceptions(ProcessedWord word, bool isSystemDictionary)
+        {
+            return await Task<string>.Factory.StartNew(() =>
+            {
+                string wordStr = word.ToString();
+                string correction = isSystemDictionary ? _keyValueDatabase.FindInSystemErrorsDatabase(wordStr) : _keyValueDatabase.FindInUserErrorsDatabase(wordStr);
 
+                if (correction != null)
+                {
+                    return correction;
+                }
+                else
+                {
+                    WordType caseType = word.Case;
+                    if (caseType == WordType.Uppercase)
+                    {
+                        return null;
+                    }
+                    else if (caseType == WordType.Lowercase)
+                    {
+                        correction = isSystemDictionary ? _keyValueDatabase.FindInSystemErrorsDatabase(word.ToString().ToLower()) : _keyValueDatabase.FindInUserDatabase(word.ToString().ToLower());
+                        return correction;
+                    }
+                    else
+                    {
+                        correction = isSystemDictionary ? _keyValueDatabase.FindInSystemErrorsDatabase(word.ToString().ToLower()) : _keyValueDatabase.FindInUserDatabase(word.ToString().ToLower());
+
+                        if (correction != null)
+                        {
+                            return correction;
+                        }
+                        else
+                        {
+                            correction = isSystemDictionary ? _keyValueDatabase.FindInSystemErrorsDatabase(word.ToString().ToFirstCharacterUpper()) : _keyValueDatabase.FindInUserDatabase(word.ToString().ToFirstCharacterUpper());
+                            return correction;
+                        }
+                    }
+                }
+            });
+        }
         private async Task<ICollection<string>> GetRadixTreeSuggestions(ProcessedWord word)
         {
             return await Task<ICollection<string>>.Factory.StartNew(() =>
@@ -367,48 +474,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
             }
 
             return words;
-        }
-        private string FindInExceptions(ProcessedWord answer, bool system)
-        {
-            //DictionaryType dictionaryType = system ? DictionaryType.SystemErrors : DictionaryType.UserExceptions;
-
-            //string retval = _keyValueDatabase.GetValueAsStringByKey(dictionaryType, answer.Original);
-
-            //if (!string.IsNullOrEmpty(retval))
-            //{
-            //    return retval;
-            //}
-            //else
-            //{
-            //    string cor;
-
-            //    if (answer.Case == WordType.Lowercase)
-            //    {
-            //        return null;
-            //    }
-            //    else if (answer.Case == WordType.FirstLetterUppercase)
-            //    {
-            //        string lcWord = answer.Original.ToLower();
-            //        return _keyValueDatabase.GetValueAsStringByKey(dictionaryType, lcWord);
-            //    }
-            //    else
-            //    {
-            //        string lcWord = answer.Original.ToLower();
-            //        cor = _keyValueDatabase.GetValueAsStringByKey(dictionaryType, lcWord);
-
-            //        if (!string.IsNullOrEmpty(cor))
-            //        {
-            //            return cor;
-            //        }
-            //        else
-            //        {
-            //            string ucFirstWord = answer.Original.ToFirstCharacterUpper();
-            //            return _keyValueDatabase.GetValueAsStringByKey(dictionaryType, ucFirstWord);
-            //        }
-            //    }
-            //}
-
-            throw new NotImplementedException();
         }
 
         #endregion Private methods
