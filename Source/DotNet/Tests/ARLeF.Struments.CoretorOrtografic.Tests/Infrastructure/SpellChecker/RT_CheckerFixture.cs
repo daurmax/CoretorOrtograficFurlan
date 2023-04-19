@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
 
-namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTreeDatabase
+namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.SpellChecker
 {
-    public class RT_CheckerTests
+    public class RT_CheckerFixture
     {
         private Core.RadixTree.RadixTree _rt;
         private RT_Checker _checker;
@@ -18,7 +18,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTreeDataba
         [SetUp]
         public void Setup()
         {
-            _rt = new ARLeF.Struments.CoretorOrtografic.Core.RadixTree.RadixTree(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH);
+            _rt = new Core.RadixTree.RadixTree(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH);
             _checker = new RT_Checker(_rt);
         }
 
@@ -36,6 +36,23 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.RadixTreeDataba
             var word = "orange";
             bool actual = _checker.HasWord(word);
             Assert.IsFalse(actual);
+        }
+
+        [Test]
+        public void GetWordsEd1_CorrectSuggestionsForCjupe()
+        {
+            var word = "cjupe";
+            var expectedSuggestions = new List<string> { "cjape", "cjepe", "cjope", "clupe", "crupe" };
+            var actualSuggestions = _checker.GetWordsED1(word);
+            CollectionAssert.AreEquivalent(expectedSuggestions, actualSuggestions);
+        }
+
+        [Test]
+        public void GetWordsEd1_NoSuggestionsForInvalidWord()
+        {
+            var word = "invalidwordnosuggestions";
+            var actualSuggestions = _checker.GetWordsED1(word);
+            Assert.IsEmpty(actualSuggestions);
         }
     }
 }
