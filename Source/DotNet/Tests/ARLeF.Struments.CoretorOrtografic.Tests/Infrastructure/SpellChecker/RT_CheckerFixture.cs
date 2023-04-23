@@ -12,13 +12,13 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.SpellChecker
 {
     public class RT_CheckerFixture
     {
-        private Core.RadixTree.RadixTree _rt;
+        private ARLeF.Struments.CoretorOrtografic.Core.RadixTree.RadixTree _rt;
         private RT_Checker _checker;
 
         [SetUp]
         public void Setup()
         {
-            _rt = new Core.RadixTree.RadixTree(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH);
+            _rt = new ARLeF.Struments.CoretorOrtografic.Core.RadixTree.RadixTree(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH);
             _checker = new RT_Checker(_rt);
         }
 
