@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
+using System.IO;
 
 namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.SpellChecker
 {
@@ -41,9 +42,28 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.SpellChecker
         [Test]
         public void GetWordsEd1_CorrectSuggestionsForCjupe()
         {
-            var word = "cjupe";
-            var expectedSuggestions = new List<string> { "cjape", "cjepe", "cjope", "clupe", "crupe" };
-            var actualSuggestions = _checker.GetWordsED1(word);
+            // Redirect console output to a text file
+            string outputFile = "GetWordsEd1_CorrectSuggestionsForCjupe.txt";
+            List<string> expectedSuggestions = new();
+            List<string> actualSuggestions = new();
+            using (StreamWriter writer = new StreamWriter(outputFile))
+            {
+                Console.SetOut(writer);
+
+                var word = "cjupe";
+                expectedSuggestions = new List<string> { "cjape", "cjepe", "cjope", "clupe", "crupe" };
+                actualSuggestions = _checker.GetWordsED1(word).ToList();
+
+                writer.WriteLine("Word: " + word);
+                writer.WriteLine("Expected suggestions: " + string.Join(", ", expectedSuggestions));
+                writer.WriteLine("Actual suggestions: " + string.Join(", ", actualSuggestions));
+            }
+
+            // Reset console output to its original output stream
+            StreamWriter standardOut = new StreamWriter(Console.OpenStandardOutput());
+            standardOut.AutoFlush = true;
+            Console.SetOut(standardOut);
+
             CollectionAssert.AreEquivalent(expectedSuggestions, actualSuggestions);
         }
 
