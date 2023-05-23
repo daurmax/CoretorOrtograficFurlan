@@ -87,7 +87,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
         {
             Console.WriteLine($"C# - Called GetNextEdge by node with position {_position}"); // Debugging statement
 
-            if (_nextEdgeNumber >= GetNumberOfEdges() || _nextEdgePosition < 0 || _nextEdgePosition >= _tree.Length)
+            if (_nextEdgeNumber > GetNumberOfEdges() || _nextEdgePosition < 0 || _nextEdgePosition >= _tree.Length)
             {
                 _nextEdgeNumber = 0;
                 _nextEdgePosition = 1;
@@ -148,7 +148,9 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 
         public bool IsLeaf()
         {
-            return (_edgeHeader & IsLeafFlag) != 0;
+            bool isLeaf = (_edgeHeader & IsLeafFlag) != 0;
+            Console.WriteLine($"C# - IsLeaf called on edge at position {_position}, value: {isLeaf}");
+            return isLeaf;
         }
 
         public int GetLengthOfString()

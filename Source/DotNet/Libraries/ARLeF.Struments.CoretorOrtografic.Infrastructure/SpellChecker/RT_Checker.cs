@@ -139,7 +139,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
             while (node != null && (edge = node.GetNextEdge()) != null)
             {
                 if (edge.GetNode() == null)
-                    break;
+                    continue;
 
                 string label = edge.GetString();
                 int minLen = Math.Min(label.Length, word.Length);
