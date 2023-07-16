@@ -152,11 +152,13 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                     int caseFlag;
                     if (EdgeCheck(edge, tmpWord, out caseFlag))
                     {
+                        Console.WriteLine("Adding word: " + tmpWord);
                         words.Add(tmpWord + (caseFlag == 2 ? NOLC_CAR : ""));
                     }
                     tmpWord = word.Substring(0, i) + label[i] + word.Substring(i);
                     if (EdgeCheck(edge, tmpWord, out caseFlag))
                     {
+                        Console.WriteLine("Adding word: " + tmpWord);
                         words.Add(tmpWord + (caseFlag == 2 ? NOLC_CAR : ""));
                     }
 
@@ -165,12 +167,14 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                         tmpWord = word.Substring(0, i) + word.Substring(i + 1);
                         if (EdgeCheck(edge, tmpWord, out caseFlag))
                         {
+                            Console.WriteLine("Adding word: " + tmpWord);
                             words.Add(tmpWord + (caseFlag == 2 ? NOLC_CAR : ""));
                         }
 
                         tmpWord = word.Substring(0, i) + word[i + 1] + word[i] + word.Substring(i + 2);
                         if (EdgeCheck(edge, tmpWord, out caseFlag))
                         {
+                            Console.WriteLine("Adding word: " + tmpWord);
                             words.Add(tmpWord + (caseFlag == 2 ? NOLC_CAR : ""));
                         }
                     }
@@ -179,11 +183,14 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 {
                     if (!edge.IsLeaf())
                     {
-                        words.AddRange(GetWords(edge.GetNode(), word.Substring(i)));
+                        var newWords = GetWords(edge.GetNode(), word.Substring(i));
+                        Console.WriteLine("DEBUG_INDEX_LESS_THAN_WORD_LENGTH: New words from recursive call: " + string.Join(", ", newWords));
+                        words.AddRange(newWords.Select(w => label + w));
                     }
 
                     if (word.Length == i + 1 && edge.IsWord() != 0)
                     {
+                        Console.WriteLine("Adding word: " + label);
                         words.Add(label + (edge.IsLowerCase() ? NOLC_CAR : ""));
                     }
                 }
@@ -191,6 +198,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 {
                     if (label.Length == i + 1 && edge.IsWord() != 0)
                     {
+                        Console.WriteLine("Adding word: " + label);
                         words.Add(label + (edge.IsLowerCase() ? NOLC_CAR : ""));
                     }
                 }
@@ -198,15 +206,14 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 {
                     if (!edge.IsLeaf())
                     {
-                        words.AddRange(GetWords(edge.GetNode(), ""));
-                    }
-                    else if (edge.IsWord() != 0)
-                    {
-                        words.Add(label + (edge.IsLowerCase() ? NOLC_CAR : ""));
+                        var newWords = GetWords(edge.GetNode(), "");
+                        Console.WriteLine("DEBUG_ELSE_CASE: New words from recursive call: " + string.Join(", ", newWords));
+                        words.AddRange(newWords.Select(w => label + w));
                     }
                 }
             }
 
+            Console.WriteLine("Final words before returning: " + string.Join(", ", words));
             return words;
         }
     }
