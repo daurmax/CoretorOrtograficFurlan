@@ -123,6 +123,8 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
         private readonly byte[] _tree;
         private readonly byte _edgeHeader;
 
+        public int Position => _position;
+
         public RadixTreeEdge(int position, byte[] tree)
         {
             Console.WriteLine($"C# - Initializing RadixTreeEdge at position {position}"); // Debugging statement
@@ -133,11 +135,22 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 
         public int IsWord()
         {
-            Console.WriteLine("C# - Called IsWord"); // Debugging statement
-            return (_edgeHeader & IsWordFlag) != 0
-                ?
-                     ((_edgeHeader & CaseFlag) != 0 ? 2 : 1)
+            string edgeString = GetString();
+            Console.WriteLine($"C# - Called IsWord on string: {edgeString}"); // Debugging statement
+
+            bool isWordFlagSet = (_edgeHeader & IsWordFlag) != 0;
+            Console.WriteLine($"C# - IsWordFlag set: {isWordFlagSet}");
+
+            bool caseFlagSet = (_edgeHeader & CaseFlag) != 0;
+            Console.WriteLine($"C# - CaseFlag set: {caseFlagSet}");
+
+            int result = isWordFlagSet
+                ? (caseFlagSet ? 2 : 1)
                 : 0;
+
+            Console.WriteLine($"C# - Final value before returning: {result}"); // Added debugging statement
+
+            return result;
         }
 
         public bool IsLowerCase()
