@@ -96,6 +96,34 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.SpellChecker
         }
 
         [Test]
+        public void GetWordsEd1_CorrectSuggestionsFor_purfit_()
+        {
+            // Redirect console output to a text file
+            string outputFile = "GetWordsEd1_CorrectSuggestionsForPurfit.txt";
+            List<string> expectedSuggestions = new();
+            List<string> actualSuggestions = new();
+            using (StreamWriter writer = new StreamWriter(outputFile))
+            {
+                Console.SetOut(writer);
+
+                var word = "purfit";
+                expectedSuggestions = new List<string> { "perfit", "purcit" };
+                actualSuggestions = _checker.GetWordsED1(word).ToList();
+
+                writer.WriteLine("Word: " + word);
+                writer.WriteLine("Expected suggestions: " + string.Join(", ", expectedSuggestions));
+                writer.WriteLine("Actual suggestions: " + string.Join(", ", actualSuggestions));
+            }
+
+            // Reset console output to its original output stream
+            StreamWriter standardOut = new StreamWriter(Console.OpenStandardOutput());
+            standardOut.AutoFlush = true;
+            Console.SetOut(standardOut);
+
+            CollectionAssert.AreEquivalent(expectedSuggestions, actualSuggestions);
+        }
+
+        [Test]
         public void GetWordsEd1_NoSuggestionsForInvalidWord()
         {
             var word = "invalidwordnosuggestions";

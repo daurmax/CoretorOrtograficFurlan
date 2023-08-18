@@ -178,7 +178,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 
         public string GetString()
         {
-            string edgeString = Encoding.ASCII.GetString(_tree, _position + 1, GetLengthOfString());
+            string edgeString = Encoding.Latin1.GetString(_tree, _position + 1, GetLengthOfString());
 
             return edgeString;
         }

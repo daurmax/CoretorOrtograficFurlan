@@ -30,9 +30,9 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
         {
             Console.WriteLine($"Called 'GetWordsED1' with word: {word}"); // Debugging statement
             word = Encoding.GetEncoding("ISO-8859-1").GetString(Encoding.UTF8.GetBytes(word));
-            return GetWords(_rt.GetRoot(), word)
-                .Select(w => Encoding.UTF8.GetString(Encoding.GetEncoding("ISO-8859-1").GetBytes(w)))
-                .ToArray();
+            var getWordsResult = GetWords(_rt.GetRoot(), word);
+            var getWordsSelect = getWordsResult.Select(w => Encoding.UTF8.GetString(Encoding.GetEncoding("ISO-8859-1").GetBytes(w)));
+            return getWordsSelect.ToArray();
         }
 
         private bool NodeCheck(RadixTreeNode node, string suffix, out int isWordValue)
@@ -163,7 +163,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                     {
                         string finalWord = tmpWord + (caseFlag == 2 ? NOLC_CAR : "");
                         Console.WriteLine($"Adding word: {finalWord} (Original: {tmpWord}, Case: {caseFlag})");
-                         words.Add(finalWord);
+                        words.Add(finalWord);
                     }
 
                     if (word.Length > i + 1 && label[i] == word[i + 1])
