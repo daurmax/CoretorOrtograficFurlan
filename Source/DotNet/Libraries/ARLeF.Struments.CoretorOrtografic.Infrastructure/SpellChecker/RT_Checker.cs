@@ -101,7 +101,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
             var resConf = String.Compare(label.Substring(0, lenConf), suffix.Substring(0, lenConf), StringComparison.Ordinal);
             if (resConf != 0)
             {
-                Console.WriteLine("EdgeCheck returning:  false (1st return)"); // Debugging statement
+                Console.WriteLine("EdgeCheck returning: false (1st return)"); // Debugging statement
                 return false;
             }
             else

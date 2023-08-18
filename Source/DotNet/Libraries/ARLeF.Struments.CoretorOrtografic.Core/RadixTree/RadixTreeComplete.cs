@@ -155,8 +155,13 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 
         public bool IsLowerCase()
         {
-            Console.WriteLine("Called 'IsLowerCase'"); // Debugging statement
-            return (_edgeHeader & CaseFlag) == 0;
+            Console.WriteLine("C# - Called 'IsLowerCase'"); // Debugging statement
+
+            bool isLowerCase = (_edgeHeader & CaseFlag) != 0;
+
+            Console.WriteLine($"C# - Final value before returning: {isLowerCase}"); // Added debugging statement
+
+            return isLowerCase;
         }
 
         public bool IsLeaf()
