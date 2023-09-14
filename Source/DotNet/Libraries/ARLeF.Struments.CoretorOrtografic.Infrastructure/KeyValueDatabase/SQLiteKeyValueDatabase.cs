@@ -101,7 +101,10 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                 {
                     while (reader.Read())
                     {
-                        retrievedData.Add(new KeyValuePair<string, int>(reader.GetString(0), reader.GetInt32(1)));
+                        if (reader.GetValue(1).GetType() != typeof(System.DBNull))
+                        {
+                            retrievedData.Add(new KeyValuePair<string, int>(reader.GetString(0), reader.GetInt32(1)));
+                        }
                     }
                 }
 
@@ -184,8 +187,8 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                         var insertCommand = connection.CreateCommand();
                         insertCommand.CommandText =
                         @"INSERT INTO Data (Key, Value)
-                  VALUES ($key, $value)
-                ";
+                          VALUES ($key, $value)
+                        ";
                         insertCommand.Parameters.AddWithValue("$key", code);
                         insertCommand.Parameters.AddWithValue("$value", word);
                         insertCommand.ExecuteNonQuery();
@@ -197,9 +200,9 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                         var updateCommand = connection.CreateCommand();
                         updateCommand.CommandText =
                         @"UPDATE Data
-                  SET Value = $value
-                  WHERE Key = $key
-                ";
+                          SET Value = $value
+                          WHERE Key = $key
+                        ";
                         updateCommand.Parameters.AddWithValue("$key", code);
                         updateCommand.Parameters.AddWithValue("$value", newWordList);
                         updateCommand.ExecuteNonQuery();

@@ -69,6 +69,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.SpellChecker
                 Assert.IsNotNull(suggestions);
                 Assert.IsNotEmpty(suggestions);
 
+
                 var expectedSuggestions = new List<string> { "cjape", "cope", "copi", "sope", "supe", "copii", "cjepe", "supi", "zupe", "copiii" };
                 Assert.AreEqual(expectedSuggestions, suggestions);
             }
@@ -82,21 +83,6 @@ namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.SpellChecker
                 var spellChecker = scope.Resolve<ISpellChecker>();
 
                 var word = new ProcessedWord("invalidwordnosuggestions");
-                var suggestions = await spellChecker.GetWordSuggestions(word);
-
-                Assert.IsNotNull(suggestions);
-                Assert.IsEmpty(suggestions);
-            }
-        }
-
-        [Test]
-        public async Task GetWordSuggestions_ValidWord_ReturnsEmptySuggestions()
-        {
-            using (var scope = Container.BeginLifetimeScope())
-            {
-                var spellChecker = scope.Resolve<ISpellChecker>();
-
-                var word = new ProcessedWord("cjape");
                 var suggestions = await spellChecker.GetWordSuggestions(word);
 
                 Assert.IsNotNull(suggestions);

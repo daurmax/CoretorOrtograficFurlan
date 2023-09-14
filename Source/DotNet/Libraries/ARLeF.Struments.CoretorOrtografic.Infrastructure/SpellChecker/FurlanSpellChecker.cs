@@ -20,6 +20,8 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 {
     public class FurlanSpellChecker : ISpellChecker
     {
+        private const int MAX_SUGGESTIONS = 10;
+
         private readonly IKeyValueDatabase _keyValueDatabase;
 
         private ICollection<IProcessedElement> _processedElements = new List<IProcessedElement>();
@@ -38,7 +40,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 return _processedElements.Where(element => element.GetType() == typeof(ProcessedWord)).ToList().AsReadOnly();
             }
         }
-
+        
         public FurlanSpellChecker(IKeyValueDatabase keyValueDatabase)
         {
             _keyValueDatabase = keyValueDatabase;
@@ -107,12 +109,12 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 {
                     foreach (var index in weights[f][d])
                     {
-                        sortedSuggestions.Add(suggestions[index]);
+                        sortedSuggestions.Add(suggestions[index]); 
                     }
                 }
             }
 
-            return sortedSuggestions;
+            return sortedSuggestions.Take(MAX_SUGGESTIONS).ToList();
         }
 
         public void SwapWordWithSuggested(ProcessedWord originalWord, string suggestedWord)
