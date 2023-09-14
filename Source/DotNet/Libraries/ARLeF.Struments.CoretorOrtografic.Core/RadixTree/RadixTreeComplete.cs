@@ -11,7 +11,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 
         public RadixTree(string file)
         {
-            Console.WriteLine("C# - Initializing RadixTree"); // Debugging statement
+            //Console.WriteLine("C# - Initializing RadixTree"); // Debugging statement
             _file = file;
             try
             {
@@ -26,7 +26,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 
         public RadixTreeNode GetRoot()
         {
-            Console.WriteLine("C# - Called GetRoot"); // Debugging statement
+            //Console.WriteLine("C# - Called GetRoot"); // Debugging statement
             return new RadixTreeNode(0, _data);
         }
 
@@ -41,12 +41,12 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
                     sb.Append('-');
                 }
             }
-            Console.WriteLine(sb.ToString()); // Debugging statement
+            //Console.WriteLine(sb.ToString()); // Debugging statement
         }
 
         public void PrintTotalBytes()
         {
-            Console.WriteLine($"Total number of bytes: {_data.Length}"); // Debugging statement
+            //Console.WriteLine($"Total number of bytes: {_data.Length}"); // Debugging statement
         }
     }
 
@@ -60,7 +60,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 
         public RadixTreeNode(int position, byte[] tree)
         {
-            Console.WriteLine($"C# - Initializing RadixTreeNode at position {position}"); // Debugging statement
+            //Console.WriteLine($"C# - Initializing RadixTreeNode at position {position}"); // Debugging statement
             _position = position;
             _tree = tree;
 
@@ -79,13 +79,13 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 
         public int GetNumberOfEdges()
         {
-            Console.WriteLine($"C# - Called GetNumberOfEdges, returning: {_numberOfEdges}"); // Debugging statement
+            //Console.WriteLine($"C# - Called GetNumberOfEdges, returning: {_numberOfEdges}"); // Debugging statement
             return _numberOfEdges;
         }
 
         public RadixTreeEdge GetNextEdge()
         {
-            Console.WriteLine($"C# - Called GetNextEdge by node with position {_position}"); // Debugging statement
+            //Console.WriteLine($"C# - Called GetNextEdge by node with position {_position}"); // Debugging statement
 
             if (_nextEdgeNumber > GetNumberOfEdges() || _nextEdgePosition < 0 || _nextEdgePosition >= _tree.Length)
             {
@@ -97,7 +97,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
             _nextEdgeNumber++; // Increment the edge number before creating a new edge
 
             RadixTreeEdge edge = new RadixTreeEdge(_nextEdgePosition, _tree);
-            Console.WriteLine($"C# - GetNextEdge created edge at position {_nextEdgePosition} with edge number {_nextEdgeNumber - 1}"); // Debugging statement
+            //Console.WriteLine($"C# - GetNextEdge created edge at position {_nextEdgePosition} with edge number {_nextEdgeNumber - 1}"); // Debugging statement
 
             _nextEdgePosition += edge.GetDimension();
 
@@ -106,7 +106,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 
         public RadixTreeNode Copy()
         {
-            Console.WriteLine("Called 'Copy'"); // Debugging statement
+            //Console.WriteLine("Called 'Copy'"); // Debugging statement
             return new RadixTreeNode(_position, _tree);
         }
     }
@@ -127,7 +127,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
 
         public RadixTreeEdge(int position, byte[] tree)
         {
-            Console.WriteLine($"C# - Initializing RadixTreeEdge at position {position}"); // Debugging statement
+            //Console.WriteLine($"C# - Initializing RadixTreeEdge at position {position}"); // Debugging statement
             _position = position;
             _tree = tree;
             _edgeHeader = tree[position];
@@ -136,30 +136,30 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
         public int IsWord()
         {
             string edgeString = GetString();
-            Console.WriteLine($"C# - Called IsWord on string: {edgeString}"); // Debugging statement
+            //Console.WriteLine($"C# - Called IsWord on string: {edgeString}"); // Debugging statement
 
             bool isWordFlagSet = (_edgeHeader & IsWordFlag) != 0;
-            Console.WriteLine($"C# - IsWordFlag set: {isWordFlagSet}");
+            //Console.WriteLine($"C# - IsWordFlag set: {isWordFlagSet}");
 
             bool caseFlagSet = (_edgeHeader & CaseFlag) != 0;
-            Console.WriteLine($"C# - CaseFlag set: {caseFlagSet}");
+            //Console.WriteLine($"C# - CaseFlag set: {caseFlagSet}");
 
             int result = isWordFlagSet
                 ? (caseFlagSet ? 2 : 1)
                 : 0;
 
-            Console.WriteLine($"C# - Final value before returning: {result}"); // Added debugging statement
+            //Console.WriteLine($"C# - Final value before returning: {result}"); // Added debugging statement
 
             return result;
         }
 
         public bool IsLowerCase()
         {
-            Console.WriteLine("C# - Called 'IsLowerCase'"); // Debugging statement
+            //Console.WriteLine("C# - Called 'IsLowerCase'"); // Debugging statement
 
             bool isLowerCase = (_edgeHeader & CaseFlag) != 0;
 
-            Console.WriteLine($"C# - Final value before returning: {isLowerCase}"); // Added debugging statement
+            //Console.WriteLine($"C# - Final value before returning: {isLowerCase}"); // Added debugging statement
 
             return isLowerCase;
         }
@@ -167,7 +167,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
         public bool IsLeaf()
         {
             bool isLeaf = (_edgeHeader & IsLeafFlag) != 0;
-            Console.WriteLine($"C# - IsLeaf called on edge at position {_position}, value: {isLeaf}");
+            //Console.WriteLine($"C# - IsLeaf called on edge at position {_position}, value: {isLeaf}");
             return isLeaf;
         }
 

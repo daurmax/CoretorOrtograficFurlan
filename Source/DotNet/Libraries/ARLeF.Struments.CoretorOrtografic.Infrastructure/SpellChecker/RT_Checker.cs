@@ -13,7 +13,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 
         public RT_Checker(RadixTree rt)
         {
-            Console.WriteLine($"Called RT_Checker constructor with rt: {rt}"); // Debugging statement
+            //Console.WriteLine($"Called RT_Checker constructor with rt: {rt}"); // Debugging statement
             _rt = rt;
         }
 
@@ -21,14 +21,14 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
 
         public bool HasWord(string word)
         {
-            Console.WriteLine($"Called 'HasWord' with word: {word}"); // Debugging statement
+            //Console.WriteLine($"Called 'HasWord' with word: {word}"); // Debugging statement
             word = Encoding.GetEncoding("ISO-8859-1").GetString(Encoding.UTF8.GetBytes(word));
             return NodeCheck(_rt.GetRoot(), word, out _);
         }
 
         public string[] GetWordsED1(string word)
         {
-            Console.WriteLine($"Called 'GetWordsED1' with word: {word}"); // Debugging statement
+            //Console.WriteLine($"Called 'GetWordsED1' with word: {word}"); // Debugging statement
             word = Encoding.GetEncoding("ISO-8859-1").GetString(Encoding.UTF8.GetBytes(word));
             var getWordsResult = GetWords(_rt.GetRoot(), word);
             var getWordsSelect = getWordsResult.Select(w => Encoding.UTF8.GetString(Encoding.GetEncoding("ISO-8859-1").GetBytes(w)));
@@ -38,7 +38,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
         private bool NodeCheck(RadixTreeNode node, string suffix, out int isWordValue)
         {
             isWordValue = -1;
-            Console.WriteLine($"Called 'NodeCheck' with suffix: {suffix}"); // Debugging statement
+            //Console.WriteLine($"Called 'NodeCheck' with suffix: {suffix}"); // Debugging statement
             while (true)
             {
                 RadixTreeEdge edge = node.GetNextEdge();
@@ -57,33 +57,33 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 }
                 else if (resConf > 0)
                 {
-                    Console.WriteLine("NodeCheck returning: false (1st return)"); // Debugging statement
+                    //Console.WriteLine("NodeCheck returning: false (1st return)"); // Debugging statement
                     return false;
                 }
                 else
                 {
                     if (label.Length > suffix.Length)
                     {
-                        Console.WriteLine("NodeCheck returning: false (2nd return)"); // Debugging statement
+                        //Console.WriteLine("NodeCheck returning: false (2nd return)"); // Debugging statement
                         return false;
                     }
                     else if (label.Length == suffix.Length)
                     {
                         isWordValue = edge.IsWord();
                         bool isWord = isWordValue != 0;
-                        Console.WriteLine($"NodeCheck returning: {isWord} (3rd return)"); // Debugging statement
+                        //Console.WriteLine($"NodeCheck returning: {isWord} (3rd return)"); // Debugging statement
                         return isWord;
                     }
                     else
                     {
                         if (edge.IsLeaf())
                         {
-                            Console.WriteLine("NodeCheck returning: false (4th return)"); // Debugging statement
+                            //Console.WriteLine("NodeCheck returning: false (4th return)"); // Debugging statement
                             return false;
                         }
                         else
                         {
-                            Console.WriteLine($"NodeCheck calling itself with new suffix: {suffix.Substring(label.Length)}"); // Debugging statement
+                            //Console.WriteLine($"NodeCheck calling itself with new suffix: {suffix.Substring(label.Length)}"); // Debugging statement
                             return NodeCheck(edge.GetNode(), suffix.Substring(label.Length), out isWordValue);
                         }
                     }
@@ -94,40 +94,40 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
         private bool EdgeCheck(RadixTreeEdge edge, string suffix, out int caseFlag)
         {
             var position = edge.Position; // Assuming Position property exists in the RadixTreeEdge class
-            Console.WriteLine($"Called 'EdgeCheck' with suffix: {suffix} at edge position {position}"); // Debugging statement
+            //Console.WriteLine($"Called 'EdgeCheck' with suffix: {suffix} at edge position {position}"); // Debugging statement
             caseFlag = 0;
             var label = edge.GetString();
             var lenConf = Math.Min(label.Length, suffix.Length); 
             var resConf = String.Compare(label.Substring(0, lenConf), suffix.Substring(0, lenConf), StringComparison.Ordinal);
             if (resConf != 0)
             {
-                Console.WriteLine("EdgeCheck returning: false (1st return)"); // Debugging statement
+                //Console.WriteLine("EdgeCheck returning: false (1st return)"); // Debugging statement
                 return false;
             }
             else
             {
                 if (label.Length > suffix.Length)
                 {
-                    Console.WriteLine("EdgeCheck returning: false (2nd return)"); // Debugging statement
+                    //Console.WriteLine("EdgeCheck returning: false (2nd return)"); // Debugging statement
                     return false;
                 }
                 else if (label.Length == suffix.Length)
                 {
                     caseFlag = edge.IsWord() != 0 ? (edge.IsLowerCase() ? 2 : 1) : 0;
                     bool isWord = edge.IsWord() != 0;
-                    Console.WriteLine($"EdgeCheck returning: {isWord} (3rd return)"); // Debugging statement
+                    //Console.WriteLine($"EdgeCheck returning: {isWord} (3rd return)"); // Debugging statement
                     return isWord;
                 }
                 else
                 {
                     if (edge.IsLeaf())
                     {
-                        Console.WriteLine("EdgeCheck returning: false (4th return)"); // Debugging statement
+                        //Console.WriteLine("EdgeCheck returning: false (4th return)"); // Debugging statement
                         return false;
                     }
                     else
                     {
-                        Console.WriteLine($"EdgeCheck calling NodeCheck with new suffix: {suffix.Substring(label.Length)}"); // Debugging statement
+                        //Console.WriteLine($"EdgeCheck calling NodeCheck with new suffix: {suffix.Substring(label.Length)}"); // Debugging statement
                         return NodeCheck(edge.GetNode(), suffix.Substring(label.Length), out caseFlag);
                     }
                     //caseFlag = edge.IsWord() != 0 ? (edge.IsLowerCase() ? 2 : 1) : 0;
@@ -155,14 +155,14 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                     if (EdgeCheck(edge, tmpWord, out caseFlag))
                     {
                         string finalWord = tmpWord + (caseFlag == 2 ? NOLC_CAR : "");
-                        Console.WriteLine($"Adding word: {finalWord} (Original: {tmpWord}, Case: {caseFlag})");
+                        //Console.WriteLine($"Adding word: {finalWord} (Original: {tmpWord}, Case: {caseFlag})");
                         words.Add(finalWord);
                     }
                     tmpWord = word.Substring(0, i) + label[i] + word.Substring(i);
                     if (EdgeCheck(edge, tmpWord, out caseFlag))
                     {
                         string finalWord = tmpWord + (caseFlag == 2 ? NOLC_CAR : "");
-                        Console.WriteLine($"Adding word: {finalWord} (Original: {tmpWord}, Case: {caseFlag})");
+                        //Console.WriteLine($"Adding word: {finalWord} (Original: {tmpWord}, Case: {caseFlag})");
                         words.Add(finalWord);
                     }
 
@@ -172,7 +172,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                         if (EdgeCheck(edge, tmpWord, out caseFlag))
                         {
                             string finalWord = tmpWord + (caseFlag == 2 ? NOLC_CAR : "");
-                            Console.WriteLine($"Adding word: {finalWord} (Original: {tmpWord}, Case: {caseFlag})");
+                            //Console.WriteLine($"Adding word: {finalWord} (Original: {tmpWord}, Case: {caseFlag})");
                             words.Add(finalWord);
                         }
 
@@ -180,7 +180,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                         if (EdgeCheck(edge, tmpWord, out caseFlag))
                         {
                             string finalWord = tmpWord + (caseFlag == 2 ? NOLC_CAR : "");
-                            Console.WriteLine($"Adding word: {finalWord} (Original: {tmpWord}, Case: {caseFlag})");
+                            //Console.WriteLine($"Adding word: {finalWord} (Original: {tmpWord}, Case: {caseFlag})");
                             words.Add(finalWord);
                         }
                     }
@@ -196,7 +196,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                     if (word.Length == i + 1 && edge.IsWord() != 0)
                     {
                         string finalWord = label + (edge.IsLowerCase() ? NOLC_CAR : "");
-                        Console.WriteLine($"Adding word: {finalWord} (edge.IsLowerCase: {edge.IsLowerCase()})");
+                        //Console.WriteLine($"Adding word: {finalWord} (edge.IsLowerCase: {edge.IsLowerCase()})");
                         words.Add(finalWord);
                     }
                 }
@@ -205,7 +205,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                     if (label.Length == i + 1 && edge.IsWord() != 0)
                     {
                         string finalWord = label + (edge.IsLowerCase() ? NOLC_CAR : "");
-                        Console.WriteLine($"Adding word: {finalWord} (edge.IsLowerCase: {edge.IsLowerCase()})");
+                        //Console.WriteLine($"Adding word: {finalWord} (edge.IsLowerCase: {edge.IsLowerCase()})");
                         words.Add(finalWord);
                     }
                 }
@@ -219,7 +219,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
                 }
             }
 
-            Console.WriteLine("Final words before returning: " + string.Join(", ", words));
+            //Console.WriteLine("Final words before returning: " + string.Join(", ", words));
             return words;
         }
     }
