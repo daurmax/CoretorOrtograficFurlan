@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{4CA8E840-2659-4298-9580-5FF57C3EA96E}"
 EndProject
@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FC5515EF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Tests", "tests\ARLeF.Struments.CoretorOrtografic.Tests\ARLeF.Struments.CoretorOrtografic.Tests.csproj", "{D3431997-28F4-4155-8F9D-DD62CF5F49BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Struments.CoretorOrtografic.Dictionaries", "Libraries\ARLeF.Struments.CoretorOrtografic.Dictionaries\ARLeF.Struments.CoretorOrtografic.Dictionaries.csproj", "{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Dictionaries", "Libraries\ARLeF.Struments.CoretorOrtografic.Dictionaries\ARLeF.Struments.CoretorOrtografic.Dictionaries.csproj", "{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{3CFD357F-50D1-4E92-B2A0-71B28C1A2671}"
 EndProject
@@ -23,15 +23,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "macOS", "macOS", "{BAD4C009
 		Scripts\ZipFiles.sh = Scripts\ZipFiles.sh
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Struments.CoretorOrtografic.Core", "Libraries\ARLeF.Struments.CoretorOrtografic.Core\ARLeF.Struments.CoretorOrtografic.Core.csproj", "{DD44BC76-A9F3-42BF-982F-F4D26347249D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Core", "Libraries\ARLeF.Struments.CoretorOrtografic.Core\ARLeF.Struments.CoretorOrtografic.Core.csproj", "{DD44BC76-A9F3-42BF-982F-F4D26347249D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Struments.CoretorOrtografic.Infrastructure", "Libraries\ARLeF.Struments.CoretorOrtografic.Infrastructure\ARLeF.Struments.CoretorOrtografic.Infrastructure.csproj", "{C9E6D5DC-3891-4149-BA88-E315F0680D33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Infrastructure", "Libraries\ARLeF.Struments.CoretorOrtografic.Infrastructure\ARLeF.Struments.CoretorOrtografic.Infrastructure.csproj", "{C9E6D5DC-3891-4149-BA88-E315F0680D33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Struments.CoretorOrtografic.DesktopElectron", "Apps\ARLeF.Struments.CoretorOrtografic.DesktopElectron\ARLeF.Struments.CoretorOrtografic.DesktopElectron.csproj", "{6E5B41CE-EA34-437F-B397-3B32DEE6AB75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.DesktopElectron", "Apps\ARLeF.Struments.CoretorOrtografic.DesktopElectron\ARLeF.Struments.CoretorOrtografic.DesktopElectron.csproj", "{6E5B41CE-EA34-437F-B397-3B32DEE6AB75}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{9AE0B6D1-7332-40CF-97BC-1CF1CFB5B788}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Imprescj.DatabaseMigrator", "Utilities\ARLeF.Imprescj.DatabaseMigrator\ARLeF.Imprescj.DatabaseMigrator.csproj", "{61C03585-4F46-4861-8075-F6A8FB42846A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Imprescj.DatabaseMigrator", "Utilities\ARLeF.Imprescj.DatabaseMigrator\ARLeF.Imprescj.DatabaseMigrator.csproj", "{61C03585-4F46-4861-8075-F6A8FB42846A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Imprescj.CoretorOrtografic.App", "Apps\ARLeF.Imprescj.CoretorOrtografic.App\ARLeF.Imprescj.CoretorOrtografic.App.csproj", "{44FFDD1E-D410-492A-A063-035E9458A22A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,12 @@ Global
 		{61C03585-4F46-4861-8075-F6A8FB42846A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61C03585-4F46-4861-8075-F6A8FB42846A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61C03585-4F46-4861-8075-F6A8FB42846A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44FFDD1E-D410-492A-A063-035E9458A22A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44FFDD1E-D410-492A-A063-035E9458A22A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44FFDD1E-D410-492A-A063-035E9458A22A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{44FFDD1E-D410-492A-A063-035E9458A22A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44FFDD1E-D410-492A-A063-035E9458A22A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44FFDD1E-D410-492A-A063-035E9458A22A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +88,7 @@ Global
 		{C9E6D5DC-3891-4149-BA88-E315F0680D33} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
 		{6E5B41CE-EA34-437F-B397-3B32DEE6AB75} = {A4438BDA-E4B0-4C08-BAB9-E7472466E981}
 		{61C03585-4F46-4861-8075-F6A8FB42846A} = {9AE0B6D1-7332-40CF-97BC-1CF1CFB5B788}
+		{44FFDD1E-D410-492A-A063-035E9458A22A} = {A4438BDA-E4B0-4C08-BAB9-E7472466E981}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7CD579A-3C38-46ED-9B66-6AC69985CBB8}
