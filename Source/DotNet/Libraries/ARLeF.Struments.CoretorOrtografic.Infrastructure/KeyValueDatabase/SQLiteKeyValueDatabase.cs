@@ -242,7 +242,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                 var command = connection.CreateCommand();
                 command.CommandText =
                 @"SELECT *
-          FROM Data
+          FROM Words
           WHERE Key = $key
         ";
                 command.Parameters.AddWithValue("$key", key);
