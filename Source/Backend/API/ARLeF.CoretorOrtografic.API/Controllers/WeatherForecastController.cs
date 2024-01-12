@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ARLeF.Imprescj.CoretorOrtografic.API.Controllers
+namespace ARLeF.CoretorOrtografic.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

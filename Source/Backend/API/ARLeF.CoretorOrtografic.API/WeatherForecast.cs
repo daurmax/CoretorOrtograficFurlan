@@ -1,4 +1,4 @@
-namespace ARLeF.Imprescj.CoretorOrtografic.API
+namespace ARLeF.CoretorOrtografic.API
 {
     public class WeatherForecast
     {
