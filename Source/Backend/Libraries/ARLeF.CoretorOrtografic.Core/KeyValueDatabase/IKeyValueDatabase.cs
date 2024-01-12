@@ -1,4 +1,4 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Core.Enums;
+﻿using ARLeF.CoretorOrtografic.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase
+namespace ARLeF.CoretorOrtografic.Core.KeyValueDatabase
 {
     public interface IKeyValueDatabase
     {
         /// <summary>
         /// Finds a value in the user dictionary given a phonetic hash key.
         /// </summary>
-        /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
+        /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
         /// <returns>The value corresponding to the given key, or null if not found.</returns>
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
         public string FindInUserDatabase(string phoneticHash);
@@ -21,7 +21,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase
         /// <summary>
         /// Finds a value in the user dictionary given a phonetic hash key.
         /// </summary>
-        /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
+        /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
         /// <returns>The value corresponding to the given key, or null if not found.</returns>
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
         /// <exception cref="ArgumentNullException">Thrown when the provided key is null or empty.</exception>
@@ -31,7 +31,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase
         /// <summary>
         /// Finds a value in the system dictionary given a phonetic hash key.
         /// </summary>
-        /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
+        /// <param name="phoneticHash">The phonetic hash key calculated using FurlanPhoneticAlgorithm.GetPhoneticHashesByWord() method in the ARLeF.CoretorOrtografic.Core.FurlanPhoneticAlgorithm namespace.</param>
         /// <returns>The value corresponding to the given key, or null if not found.</returns>
         /// <exception cref="InvalidDataException">Thrown when the provided key returns more than one result.</exception>
         /// <exception cref="ArgumentNullException">Thrown when the provided key is null or empty.</exception>

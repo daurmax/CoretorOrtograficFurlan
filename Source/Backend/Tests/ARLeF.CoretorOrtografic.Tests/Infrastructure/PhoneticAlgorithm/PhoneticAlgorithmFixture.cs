@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
-using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
-using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
+using ARLeF.CoretorOrtografic.Dictionaries.Constants;
+using ARLeF.CoretorOrtografic.Core.RadixTree;
 using NUnit.Framework;
 using Autofac.Core;
 using Autofac;
-using ARLeF.Struments.CoretorOrtografic.Core.Input;
-using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
-using ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
+using ARLeF.CoretorOrtografic.Core.Input;
+using ARLeF.CoretorOrtografic.Core.SpellChecker;
+using ARLeF.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
 
-namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.PhoneticAlgorithm
+namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.PhoneticAlgorithm
 {
     public class PhoneticAlgorithmFixture
     {

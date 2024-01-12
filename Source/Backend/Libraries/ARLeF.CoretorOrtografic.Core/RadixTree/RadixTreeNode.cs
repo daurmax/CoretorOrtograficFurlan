@@ -1,7 +1,7 @@
 ﻿//using System;
 //using System.IO;
 
-//namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
+//namespace ARLeF.CoretorOrtografic.Core.RadixTree
 //{
 //    public class RadixTreeNode
 //    {

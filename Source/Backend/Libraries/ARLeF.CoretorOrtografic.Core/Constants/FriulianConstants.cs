@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ARLeF.Struments.CoretorOrtografic.Core.Constants
+namespace ARLeF.CoretorOrtografic.Core.Constants
 {
 	public static class FriulianConstants
 	{

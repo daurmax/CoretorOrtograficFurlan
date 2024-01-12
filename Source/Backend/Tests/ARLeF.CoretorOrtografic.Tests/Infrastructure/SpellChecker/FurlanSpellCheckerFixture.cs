@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Diagnostics;
-using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
-using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
+using ARLeF.CoretorOrtografic.Dictionaries.Constants;
+using ARLeF.CoretorOrtografic.Core.RadixTree;
 using NUnit.Framework;
 using Autofac.Core;
 using Autofac;
-using ARLeF.Struments.CoretorOrtografic.Core.Input;
-using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
-using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
+using ARLeF.CoretorOrtografic.Core.Input;
+using ARLeF.CoretorOrtografic.Core.SpellChecker;
+using ARLeF.CoretorOrtografic.Core.KeyValueDatabase;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using ARLeF.Struments.CoretorOrtografic.Core.Enums;
-using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
+using ARLeF.CoretorOrtografic.Core.Enums;
+using ARLeF.Components.CoretorOrtografic.Entities.ProcessedElements;
 using System.Threading.Tasks;
-using ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker;
+using ARLeF.CoretorOrtografic.Infrastructure.SpellChecker;
 
-namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.SpellChecker
+namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.SpellChecker
 {
     public class FurlanSpellCheckerFixture
     {

@@ -1,7 +1,7 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Core.Enums;
-using ARLeF.Struments.CoretorOrtografic.Core.Extensions;
+﻿using ARLeF.CoretorOrtografic.Core.Enums;
+using ARLeF.CoretorOrtografic.Core.Extensions;
 
-namespace ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements
+namespace ARLeF.Components.CoretorOrtografic.Entities.ProcessedElements
 {
     public class ProcessedWord : IProcessedElement
     {

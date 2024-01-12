@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.CoretorOrtografic.Core.Enums
+namespace ARLeF.CoretorOrtografic.Core.Enums
 {
     public enum AddWordToUserDatabaseReturnValue
     {

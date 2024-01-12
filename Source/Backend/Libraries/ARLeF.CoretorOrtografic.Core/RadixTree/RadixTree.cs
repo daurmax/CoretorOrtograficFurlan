@@ -5,7 +5,7 @@
 //using System.Text;
 //using System.Threading.Tasks;
 
-//namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
+//namespace ARLeF.CoretorOrtografic.Core.RadixTree
 //{
 //    public class RadixTree
 //    {

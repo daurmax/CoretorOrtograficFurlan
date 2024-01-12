@@ -1,12 +1,12 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Infrastructure.ContentReader;
-using ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase;
-using ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker;
-using ARLeF.Struments.CoretorOrtografic.Core.Input;
-using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
-using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
+﻿using ARLeF.CoretorOrtografic.Infrastructure.ContentReader;
+using ARLeF.CoretorOrtografic.Infrastructure.KeyValueDatabase;
+using ARLeF.CoretorOrtografic.Infrastructure.SpellChecker;
+using ARLeF.CoretorOrtografic.Core.Input;
+using ARLeF.CoretorOrtografic.Core.KeyValueDatabase;
+using ARLeF.CoretorOrtografic.Core.SpellChecker;
 using Autofac;
 
-namespace ARLeF.Struments.CoretorOrtografic.Business
+namespace ARLeF.CoretorOrtografic.Business
 {
     public class CoretorOrtograficDependencyModule : Module
     {

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace ARLeF.Imprescj.DatabaseMigrator
+namespace ARLeF.DatabaseMigrator
 {
     public enum FileType
     {

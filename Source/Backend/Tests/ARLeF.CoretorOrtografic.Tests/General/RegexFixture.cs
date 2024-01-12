@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Diagnostics;
-using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
-using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
+using ARLeF.CoretorOrtografic.Dictionaries.Constants;
+using ARLeF.CoretorOrtografic.Core.RadixTree;
 using NUnit.Framework;
 using Autofac.Core;
 using Autofac;
-using ARLeF.Struments.CoretorOrtografic.Core.Input;
-using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
-using ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
+using ARLeF.CoretorOrtografic.Core.Input;
+using ARLeF.CoretorOrtografic.Core.SpellChecker;
+using ARLeF.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
 using System.Text.RegularExpressions;
-using ARLeF.Struments.CoretorOrtografic.Core.Constants;
+using ARLeF.CoretorOrtografic.Core.Constants;
 using System.Text;
 using System.Linq;
 
-namespace ARLeF.Struments.CoretorOrtografic.Tests.General
+namespace ARLeF.CoretorOrtografic.Tests.General
 {
     public class RegexFixture
     {

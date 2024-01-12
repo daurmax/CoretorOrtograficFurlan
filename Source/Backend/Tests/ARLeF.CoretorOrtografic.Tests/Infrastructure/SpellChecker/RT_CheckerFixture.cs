@@ -1,25 +1,25 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker;
-using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
+﻿using ARLeF.CoretorOrtografic.Infrastructure.SpellChecker;
+using ARLeF.CoretorOrtografic.Core.RadixTree;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
+using ARLeF.CoretorOrtografic.Dictionaries.Constants;
 using System.IO;
 
-namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.SpellChecker
+namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.SpellChecker
 {
     public class RT_CheckerFixture
     {
-        private ARLeF.Struments.CoretorOrtografic.Core.RadixTree.RadixTree _rt;
+        private ARLeF.CoretorOrtografic.Core.RadixTree.RadixTree _rt;
         private RT_Checker _checker;
 
         [SetUp]
         public void Setup()
         {
-            _rt = new ARLeF.Struments.CoretorOrtografic.Core.RadixTree.RadixTree(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH);
+            _rt = new ARLeF.CoretorOrtografic.Core.RadixTree.RadixTree(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH);
             _checker = new RT_Checker(_rt);
         }
 

@@ -10,10 +10,10 @@ use File::Spec::Functions qw/rel2abs catfile/;
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
 
 # Set the directory containing the .db files
-my $dir = rel2abs('../../../ARLeF.Struments.CoretorOrtografic.Dictionaries/Dictionaries/Elisions/BerkeleyDB');
+my $dir = rel2abs('../../../ARLeF.CoretorOrtografic.Dictionaries/Dictionaries/Elisions/BerkeleyDB');
 my $elisions_file = catfile($dir, 'elisions.db');
-my $sqlite_file = rel2abs('../../../ARLeF.Struments.CoretorOrtografic.Dictionaries/Dictionaries/Elisions/SQLite/elisions.sqlite');
-my $zip_file = rel2abs('../../../ARLeF.Struments.CoretorOrtografic.Dictionaries/Dictionaries/Elisions/SQLite/elisions.zip');
+my $sqlite_file = rel2abs('../../../ARLeF.CoretorOrtografic.Dictionaries/Dictionaries/Elisions/SQLite/elisions.sqlite');
+my $zip_file = rel2abs('../../../ARLeF.CoretorOrtografic.Dictionaries/Dictionaries/Elisions/SQLite/elisions.zip');
 
 # Load the elisions hash
 print "Loading elisions hash...\n";

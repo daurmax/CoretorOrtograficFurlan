@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants
+namespace ARLeF.CoretorOrtografic.Dictionaries.Constants
 {
     public static class DictionaryFilePaths
     {

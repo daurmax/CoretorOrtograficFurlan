@@ -1,4 +1,4 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Business;
+﻿using ARLeF.CoretorOrtografic.Business;
 using Autofac;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure
+namespace ARLeF.CoretorOrtografic.Tests.Infrastructure
 {
     class CoretorOrtograficTestDependencyContainer
     {

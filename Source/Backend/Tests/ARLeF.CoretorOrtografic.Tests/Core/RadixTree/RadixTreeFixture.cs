@@ -1,6 +1,6 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
-using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
-using ARLeF.Struments.CoretorOrtografic.Infrastructure.RadixTreeDatabase;
+﻿using ARLeF.CoretorOrtografic.Core.RadixTree;
+using ARLeF.CoretorOrtografic.Dictionaries.Constants;
+using ARLeF.CoretorOrtografic.Infrastructure.RadixTreeDatabase;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,16 +9,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.CoretorOrtografic.Tests.Core.RadixTree
+namespace ARLeF.CoretorOrtografic.Tests.Core.RadixTree
 {
     public class RadixTreeFixture
     {
-        private ARLeF.Struments.CoretorOrtografic.Core.RadixTree.RadixTree _radixTree;
+        private ARLeF.CoretorOrtografic.Core.RadixTree.RadixTree _radixTree;
 
         [SetUp]
         public void Setup()
         {
-            _radixTree = new ARLeF.Struments.CoretorOrtografic.Core.RadixTree.RadixTree(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH);
+            _radixTree = new ARLeF.CoretorOrtografic.Core.RadixTree.RadixTree(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH);
         }
 
         [Test]

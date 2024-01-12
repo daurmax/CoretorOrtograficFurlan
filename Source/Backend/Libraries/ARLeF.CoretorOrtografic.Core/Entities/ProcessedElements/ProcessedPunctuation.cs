@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements
+namespace ARLeF.Components.CoretorOrtografic.Entities.ProcessedElements
 {
     public class ProcessedPunctuation : IProcessedElement
     {

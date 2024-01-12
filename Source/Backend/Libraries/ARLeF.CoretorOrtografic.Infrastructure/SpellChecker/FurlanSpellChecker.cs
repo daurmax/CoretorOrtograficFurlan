@@ -1,12 +1,12 @@
-﻿using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
-using ARLeF.Struments.CoretorOrtografic.Core.Constants;
-using ARLeF.Struments.CoretorOrtografic.Core.Enums;
-using ARLeF.Struments.CoretorOrtografic.Core.Extensions;
-using ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
-using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
-using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
-using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
-using ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase;
+﻿using ARLeF.Components.CoretorOrtografic.Entities.ProcessedElements;
+using ARLeF.CoretorOrtografic.Core.Constants;
+using ARLeF.CoretorOrtografic.Core.Enums;
+using ARLeF.CoretorOrtografic.Core.Extensions;
+using ARLeF.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
+using ARLeF.CoretorOrtografic.Core.KeyValueDatabase;
+using ARLeF.CoretorOrtografic.Core.SpellChecker;
+using ARLeF.CoretorOrtografic.Dictionaries.Constants;
+using ARLeF.CoretorOrtografic.Infrastructure.KeyValueDatabase;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -16,7 +16,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
+namespace ARLeF.CoretorOrtografic.Infrastructure.SpellChecker
 {
     public class FurlanSpellChecker : ISpellChecker
     {
@@ -491,7 +491,7 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
         {
             return await Task<ICollection<string>>.Factory.StartNew(() =>
             {
-                var _rt = new ARLeF.Struments.CoretorOrtografic.Core.RadixTree.RadixTree(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH);
+                var _rt = new ARLeF.CoretorOrtografic.Core.RadixTree.RadixTree(DictionaryFilePaths.WORDS_RADIX_TREE_FILE_PATH);
                 var _checker = new RT_Checker(_rt);
 
                 var wordStr = word.ToString();

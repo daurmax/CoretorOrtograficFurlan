@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.CoretorOrtografic.Core.Extensions
+namespace ARLeF.CoretorOrtografic.Core.Extensions
 {
     /// <summary>
     /// Provides extension methods for the <see cref="System.String"/> class.

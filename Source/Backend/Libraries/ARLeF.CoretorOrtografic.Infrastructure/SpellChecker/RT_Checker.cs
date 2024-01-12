@@ -1,11 +1,11 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
+﻿using ARLeF.CoretorOrtografic.Core.RadixTree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker
+namespace ARLeF.CoretorOrtografic.Infrastructure.SpellChecker
 {
     public class RT_Checker
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
-using ARLeF.Struments.CoretorOrtografic.Core.Constants;
+using ARLeF.Components.CoretorOrtografic.Entities.ProcessedElements;
+using ARLeF.CoretorOrtografic.Core.Constants;
 
-namespace ARLeF.Struments.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
+namespace ARLeF.CoretorOrtografic.Core.FurlanPhoneticAlgorithm
 {
 	public static class FurlanPhoneticAlgorithm
 	{

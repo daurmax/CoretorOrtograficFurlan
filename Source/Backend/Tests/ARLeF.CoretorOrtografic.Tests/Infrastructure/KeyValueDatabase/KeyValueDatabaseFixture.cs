@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
-using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
-using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
+using ARLeF.CoretorOrtografic.Dictionaries.Constants;
+using ARLeF.CoretorOrtografic.Core.RadixTree;
 using NUnit.Framework;
 using Autofac.Core;
 using Autofac;
-using ARLeF.Struments.CoretorOrtografic.Core.Input;
-using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
-using ARLeF.Struments.CoretorOrtografic.Core.KeyValueDatabase;
-using ARLeF.Struments.CoretorOrtografic.Core.Enums;
+using ARLeF.CoretorOrtografic.Core.Input;
+using ARLeF.CoretorOrtografic.Core.SpellChecker;
+using ARLeF.CoretorOrtografic.Core.KeyValueDatabase;
+using ARLeF.CoretorOrtografic.Core.Enums;
 
-namespace ARLeF.Struments.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabase
+namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabase
 {
     public class KeyValueDatabaseFixture
     {

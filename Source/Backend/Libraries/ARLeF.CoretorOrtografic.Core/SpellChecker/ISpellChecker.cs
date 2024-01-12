@@ -1,11 +1,11 @@
-﻿using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
+﻿using ARLeF.Components.CoretorOrtografic.Entities.ProcessedElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ARLeF.Struments.CoretorOrtografic.Core.SpellChecker
+namespace ARLeF.CoretorOrtografic.Core.SpellChecker
 {
     public interface ISpellChecker
     {

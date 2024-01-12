@@ -14,10 +14,10 @@ use File::Spec::Functions qw/rel2abs catfile/;
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
 
 # Set the directory containing the .db files
-my $dir = rel2abs('../../../ARLeF.Struments.CoretorOrtografic.Dictionaries/Dictionaries/Frec/BerkeleyDB');
+my $dir = rel2abs('../../../ARLeF.CoretorOrtografic.Dictionaries/Dictionaries/Frec/BerkeleyDB');
 my $freq_file = catfile($dir, 'frec.db');
-my $sqlite_file = rel2abs('../../../ARLeF.Struments.CoretorOrtografic.Dictionaries/Dictionaries/Frec/SQLite/frequencies.sqlite');
-my $zip_file = rel2abs('../../../ARLeF.Struments.CoretorOrtografic.Dictionaries/Dictionaries/Frec/SQLite/frequencies.zip');
+my $sqlite_file = rel2abs('../../../ARLeF.CoretorOrtografic.Dictionaries/Dictionaries/Frec/SQLite/frequencies.sqlite');
+my $zip_file = rel2abs('../../../ARLeF.CoretorOrtografic.Dictionaries/Dictionaries/Frec/SQLite/frequencies.zip');
 
 # Load the frequency hash
 print "Loading frequency hash...\n";

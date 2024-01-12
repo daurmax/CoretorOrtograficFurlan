@@ -1,14 +1,14 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Infrastructure.SpellChecker;
-using ARLeF.Struments.CoretorOrtografic.Core.Input;
-using ARLeF.Struments.CoretorOrtografic.Core.SpellChecker;
+﻿using ARLeF.CoretorOrtografic.Infrastructure.SpellChecker;
+using ARLeF.CoretorOrtografic.Core.Input;
+using ARLeF.CoretorOrtografic.Core.SpellChecker;
 using Autofac;
 using System;
 using System.Threading;
 using System.Linq;
 using System.Collections.Generic;
-using ARLeF.Struments.Components.CoretorOrtografic.Entities.ProcessedElements;
+using ARLeF.Components.CoretorOrtografic.Entities.ProcessedElements;
 
-namespace ARLeF.Struments.CoretorOrtografic.CLI
+namespace ARLeF.CoretorOrtografic.CLI
 {
     public class Program
     {

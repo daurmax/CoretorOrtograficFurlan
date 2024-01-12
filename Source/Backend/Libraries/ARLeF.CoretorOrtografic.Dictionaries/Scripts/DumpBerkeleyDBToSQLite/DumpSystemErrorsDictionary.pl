@@ -14,10 +14,10 @@ use File::Spec::Functions qw/rel2abs catfile/;
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
 
 # Set the directory containing the .db files
-my $dir = rel2abs('../../../ARLeF.Struments.CoretorOrtografic.Dictionaries/Dictionaries/Errors/BerkeleyDB');
+my $dir = rel2abs('../../../ARLeF.CoretorOrtografic.Dictionaries/Dictionaries/Errors/BerkeleyDB');
 my $errors_file = catfile($dir, 'errors.db');
-my $sqlite_file = rel2abs('../../../ARLeF.Struments.CoretorOrtografic.Dictionaries/Dictionaries/Errors/SQLite/errors.sqlite');
-my $zip_file = rel2abs('../../../ARLeF.Struments.CoretorOrtografic.Dictionaries/Dictionaries/Errors/SQLite/errors.zip');
+my $sqlite_file = rel2abs('../../../ARLeF.CoretorOrtografic.Dictionaries/Dictionaries/Errors/SQLite/errors.sqlite');
+my $zip_file = rel2abs('../../../ARLeF.CoretorOrtografic.Dictionaries/Dictionaries/Errors/SQLite/errors.zip');
 
 # Load the errors hash
 print "Loading errors hash...\n";

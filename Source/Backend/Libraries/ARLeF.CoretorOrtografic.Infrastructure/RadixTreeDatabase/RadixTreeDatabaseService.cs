@@ -1,5 +1,5 @@
-﻿using ARLeF.Struments.CoretorOrtografic.Core.RadixTree;
-using ARLeF.Struments.CoretorOrtografic.Dictionaries.Constants;
+﻿using ARLeF.CoretorOrtografic.Core.RadixTree;
+using ARLeF.CoretorOrtografic.Dictionaries.Constants;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.RadixTreeDatabase
+namespace ARLeF.CoretorOrtografic.Infrastructure.RadixTreeDatabase
 {
     public class RadixTreeDatabaseService
     {

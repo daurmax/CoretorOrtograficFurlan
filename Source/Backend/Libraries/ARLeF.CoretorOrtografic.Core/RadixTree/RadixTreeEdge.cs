@@ -2,7 +2,7 @@
 //using System.IO;
 //using System.Text;
 
-//namespace ARLeF.Struments.CoretorOrtografic.Core.RadixTree
+//namespace ARLeF.CoretorOrtografic.Core.RadixTree
 //{
 //    public class RadixTreeEdge
 //    {
