@@ -31,6 +31,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Imprescj.DatabaseMigrator", "Utilities\ARLeF.Imprescj.DatabaseMigrator\ARLeF.Imprescj.DatabaseMigrator.csproj", "{61C03585-4F46-4861-8075-F6A8FB42846A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{6193E197-C3FF-4E9A-97FE-927B2283697A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Imprescj.CoretorOrtografic.API", "API\ARLeF.Imprescj.CoretorOrtografic.API\ARLeF.Imprescj.CoretorOrtografic.API.csproj", "{0755A9E0-E5B1-470E-A7CC-CE03F396FD1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +65,10 @@ Global
 		{61C03585-4F46-4861-8075-F6A8FB42846A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61C03585-4F46-4861-8075-F6A8FB42846A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61C03585-4F46-4861-8075-F6A8FB42846A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0755A9E0-E5B1-470E-A7CC-CE03F396FD1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0755A9E0-E5B1-470E-A7CC-CE03F396FD1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0755A9E0-E5B1-470E-A7CC-CE03F396FD1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0755A9E0-E5B1-470E-A7CC-CE03F396FD1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +81,7 @@ Global
 		{DD44BC76-A9F3-42BF-982F-F4D26347249D} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
 		{C9E6D5DC-3891-4149-BA88-E315F0680D33} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
 		{61C03585-4F46-4861-8075-F6A8FB42846A} = {9AE0B6D1-7332-40CF-97BC-1CF1CFB5B788}
+		{0755A9E0-E5B1-470E-A7CC-CE03F396FD1B} = {6193E197-C3FF-4E9A-97FE-927B2283697A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7CD579A-3C38-46ED-9B66-6AC69985CBB8}
