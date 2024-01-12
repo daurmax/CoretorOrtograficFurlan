@@ -35,7 +35,7 @@ namespace ARLeF.CoretorOrtografic.Business
                 case CallerApplicationEnum.CLI:
                     RegisterCLIDependencies(builder);
                     break;
-                case CallerApplicationEnum.Desktop:
+                case CallerApplicationEnum.Web:
                     RegisterDesktopDependencies(builder);
                     break;
                 case CallerApplicationEnum.Mobile:
