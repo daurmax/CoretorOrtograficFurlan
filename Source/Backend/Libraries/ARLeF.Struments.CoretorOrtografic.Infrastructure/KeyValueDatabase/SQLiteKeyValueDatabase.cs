@@ -240,11 +240,9 @@ namespace ARLeF.Struments.CoretorOrtografic.Infrastructure.KeyValueDatabase
                 connection.Open();
 
                 var command = connection.CreateCommand();
-                command.CommandText =
-                @"SELECT *
-          FROM Words
-          WHERE Key = $key
-        ";
+                // Choose the table name based on the DictionaryType
+                string tableName = dictionaryType == DictionaryType.SystemDictionary ? "Words" : "Data";
+                command.CommandText = $"SELECT * FROM {tableName} WHERE Key = $key";
                 command.Parameters.AddWithValue("$key", key);
 
                 List<KeyValuePair<string, string>> retrievedData = new();
