@@ -7,13 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{A4438BDA-E4B0-4C08-BAB9-E7472466E981}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.CLI", "apps\ARLeF.Struments.CoretorOrtografic.CLI\ARLeF.Struments.CoretorOrtografic.CLI.csproj", "{26D153CC-6B10-4D5F-BCDE-04F8D02E3611}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FC5515EF-1C17-47F3-8E46-C7D97D0E37A5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Tests", "tests\ARLeF.Struments.CoretorOrtografic.Tests\ARLeF.Struments.CoretorOrtografic.Tests.csproj", "{D3431997-28F4-4155-8F9D-DD62CF5F49BA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Dictionaries", "Libraries\ARLeF.Struments.CoretorOrtografic.Dictionaries\ARLeF.Struments.CoretorOrtografic.Dictionaries.csproj", "{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{3CFD357F-50D1-4E92-B2A0-71B28C1A2671}"
 EndProject
@@ -23,17 +17,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "macOS", "macOS", "{BAD4C009
 		Scripts\ZipFiles.sh = Scripts\ZipFiles.sh
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Core", "Libraries\ARLeF.Struments.CoretorOrtografic.Core\ARLeF.Struments.CoretorOrtografic.Core.csproj", "{DD44BC76-A9F3-42BF-982F-F4D26347249D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Struments.CoretorOrtografic.Infrastructure", "Libraries\ARLeF.Struments.CoretorOrtografic.Infrastructure\ARLeF.Struments.CoretorOrtografic.Infrastructure.csproj", "{C9E6D5DC-3891-4149-BA88-E315F0680D33}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{9AE0B6D1-7332-40CF-97BC-1CF1CFB5B788}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.Imprescj.DatabaseMigrator", "Utilities\ARLeF.Imprescj.DatabaseMigrator\ARLeF.Imprescj.DatabaseMigrator.csproj", "{61C03585-4F46-4861-8075-F6A8FB42846A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{6193E197-C3FF-4E9A-97FE-927B2283697A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARLeF.Imprescj.CoretorOrtografic.API", "API\ARLeF.Imprescj.CoretorOrtografic.API\ARLeF.Imprescj.CoretorOrtografic.API.csproj", "{0755A9E0-E5B1-470E-A7CC-CE03F396FD1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.CoretorOrtografic.CLI", "Apps\ARLeF.CoretorOrtografic.CLI\ARLeF.CoretorOrtografic.CLI.csproj", "{2BDA5AEE-23A7-474C-97B0-8D9E8F0A347D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.CoretorOrtografic.Core", "Libraries\ARLeF.CoretorOrtografic.Core\ARLeF.CoretorOrtografic.Core.csproj", "{4533FB2D-FBEB-454F-87ED-BA6D8D0C826F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.CoretorOrtografic.Dictionaries", "Libraries\ARLeF.CoretorOrtografic.Dictionaries\ARLeF.CoretorOrtografic.Dictionaries.csproj", "{FAE0D383-0D09-4C67-8E54-915883A24549}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.CoretorOrtografic.Infrastructure", "Libraries\ARLeF.CoretorOrtografic.Infrastructure\ARLeF.CoretorOrtografic.Infrastructure.csproj", "{AED8F65A-C9AD-4E87-856A-4C75A204BA3E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.CoretorOrtografic.Tests", "Tests\ARLeF.CoretorOrtografic.Tests\ARLeF.CoretorOrtografic.Tests.csproj", "{368C5C52-BD76-4E39-87EE-091BC57B98E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.CoretorOrtografic.DatabaseMigrator", "Utilities\ARLeF.CoretorOrtografic.DatabaseMigrator\ARLeF.CoretorOrtografic.DatabaseMigrator.csproj", "{23F06435-E1B2-47AC-AE9D-E45F474E85F8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ARLeF.CoretorOrtografic.API", "API\ARLeF.CoretorOrtografic.API\ARLeF.CoretorOrtografic.API.csproj", "{925743F0-1C6F-423D-A6E2-66783750519D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,47 +41,47 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{26D153CC-6B10-4D5F-BCDE-04F8D02E3611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26D153CC-6B10-4D5F-BCDE-04F8D02E3611}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26D153CC-6B10-4D5F-BCDE-04F8D02E3611}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26D153CC-6B10-4D5F-BCDE-04F8D02E3611}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D3431997-28F4-4155-8F9D-DD62CF5F49BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D3431997-28F4-4155-8F9D-DD62CF5F49BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D3431997-28F4-4155-8F9D-DD62CF5F49BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D3431997-28F4-4155-8F9D-DD62CF5F49BA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD44BC76-A9F3-42BF-982F-F4D26347249D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD44BC76-A9F3-42BF-982F-F4D26347249D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD44BC76-A9F3-42BF-982F-F4D26347249D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD44BC76-A9F3-42BF-982F-F4D26347249D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C9E6D5DC-3891-4149-BA88-E315F0680D33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C9E6D5DC-3891-4149-BA88-E315F0680D33}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9E6D5DC-3891-4149-BA88-E315F0680D33}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C9E6D5DC-3891-4149-BA88-E315F0680D33}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61C03585-4F46-4861-8075-F6A8FB42846A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61C03585-4F46-4861-8075-F6A8FB42846A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61C03585-4F46-4861-8075-F6A8FB42846A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61C03585-4F46-4861-8075-F6A8FB42846A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0755A9E0-E5B1-470E-A7CC-CE03F396FD1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0755A9E0-E5B1-470E-A7CC-CE03F396FD1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0755A9E0-E5B1-470E-A7CC-CE03F396FD1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0755A9E0-E5B1-470E-A7CC-CE03F396FD1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BDA5AEE-23A7-474C-97B0-8D9E8F0A347D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BDA5AEE-23A7-474C-97B0-8D9E8F0A347D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BDA5AEE-23A7-474C-97B0-8D9E8F0A347D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BDA5AEE-23A7-474C-97B0-8D9E8F0A347D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4533FB2D-FBEB-454F-87ED-BA6D8D0C826F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4533FB2D-FBEB-454F-87ED-BA6D8D0C826F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4533FB2D-FBEB-454F-87ED-BA6D8D0C826F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4533FB2D-FBEB-454F-87ED-BA6D8D0C826F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAE0D383-0D09-4C67-8E54-915883A24549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAE0D383-0D09-4C67-8E54-915883A24549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAE0D383-0D09-4C67-8E54-915883A24549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAE0D383-0D09-4C67-8E54-915883A24549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AED8F65A-C9AD-4E87-856A-4C75A204BA3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AED8F65A-C9AD-4E87-856A-4C75A204BA3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AED8F65A-C9AD-4E87-856A-4C75A204BA3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AED8F65A-C9AD-4E87-856A-4C75A204BA3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{368C5C52-BD76-4E39-87EE-091BC57B98E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{368C5C52-BD76-4E39-87EE-091BC57B98E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{368C5C52-BD76-4E39-87EE-091BC57B98E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{368C5C52-BD76-4E39-87EE-091BC57B98E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23F06435-E1B2-47AC-AE9D-E45F474E85F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23F06435-E1B2-47AC-AE9D-E45F474E85F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23F06435-E1B2-47AC-AE9D-E45F474E85F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23F06435-E1B2-47AC-AE9D-E45F474E85F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{925743F0-1C6F-423D-A6E2-66783750519D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{925743F0-1C6F-423D-A6E2-66783750519D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{925743F0-1C6F-423D-A6E2-66783750519D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{925743F0-1C6F-423D-A6E2-66783750519D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{26D153CC-6B10-4D5F-BCDE-04F8D02E3611} = {A4438BDA-E4B0-4C08-BAB9-E7472466E981}
-		{D3431997-28F4-4155-8F9D-DD62CF5F49BA} = {FC5515EF-1C17-47F3-8E46-C7D97D0E37A5}
-		{7AD94DA6-9774-43F5-942E-B4FABAAB4DE4} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
 		{BAD4C009-211D-4056-AE20-DA39FD9E54E3} = {3CFD357F-50D1-4E92-B2A0-71B28C1A2671}
-		{DD44BC76-A9F3-42BF-982F-F4D26347249D} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
-		{C9E6D5DC-3891-4149-BA88-E315F0680D33} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
-		{61C03585-4F46-4861-8075-F6A8FB42846A} = {9AE0B6D1-7332-40CF-97BC-1CF1CFB5B788}
-		{0755A9E0-E5B1-470E-A7CC-CE03F396FD1B} = {6193E197-C3FF-4E9A-97FE-927B2283697A}
+		{2BDA5AEE-23A7-474C-97B0-8D9E8F0A347D} = {A4438BDA-E4B0-4C08-BAB9-E7472466E981}
+		{4533FB2D-FBEB-454F-87ED-BA6D8D0C826F} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
+		{FAE0D383-0D09-4C67-8E54-915883A24549} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
+		{AED8F65A-C9AD-4E87-856A-4C75A204BA3E} = {4CA8E840-2659-4298-9580-5FF57C3EA96E}
+		{368C5C52-BD76-4E39-87EE-091BC57B98E3} = {FC5515EF-1C17-47F3-8E46-C7D97D0E37A5}
+		{23F06435-E1B2-47AC-AE9D-E45F474E85F8} = {9AE0B6D1-7332-40CF-97BC-1CF1CFB5B788}
+		{925743F0-1C6F-423D-A6E2-66783750519D} = {6193E197-C3FF-4E9A-97FE-927B2283697A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7CD579A-3C38-46ED-9B66-6AC69985CBB8}

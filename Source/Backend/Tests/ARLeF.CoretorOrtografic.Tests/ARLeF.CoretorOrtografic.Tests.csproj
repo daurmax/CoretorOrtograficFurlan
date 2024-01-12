@@ -29,8 +29,8 @@
     <Folder Include="Infrastructure\KeyValueDatabase\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Core\ARLeF.Struments.CoretorOrtografic.Core.csproj" />
-    <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Infrastructure\ARLeF.Struments.CoretorOrtografic.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Libraries\ARLeF.Struments.CoretorOrtografic.Dictionaries\ARLeF.Struments.CoretorOrtografic.Dictionaries.csproj" />
+    <ProjectReference Include="..\..\Libraries\ARLeF.CoretorOrtografic.Core\ARLeF.CoretorOrtografic.Core.csproj" />
+    <ProjectReference Include="..\..\Libraries\ARLeF.CoretorOrtografic.Infrastructure\ARLeF.CoretorOrtografic.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Libraries\ARLeF.CoretorOrtografic.Dictionaries\ARLeF.CoretorOrtografic.Dictionaries.csproj" />
   </ItemGroup>
 </Project>

@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ARLeF.Struments.CoretorOrtografic.Core\ARLeF.Struments.CoretorOrtografic.Core.csproj" />
-    <ProjectReference Include="..\ARLeF.Struments.CoretorOrtografic.Dictionaries\ARLeF.Struments.CoretorOrtografic.Dictionaries.csproj" />
+    <ProjectReference Include="..\ARLeF.CoretorOrtografic.Core\ARLeF.CoretorOrtografic.Core.csproj" />
+    <ProjectReference Include="..\ARLeF.CoretorOrtografic.Dictionaries\ARLeF.CoretorOrtografic.Dictionaries.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="RadixTreeReader\" />
