@@ -1,6 +1,7 @@
 import os
 import platform
 import subprocess
+import concurrent.futures
 
 def get_appdata_path():
     if platform.system() == 'Windows':
@@ -25,6 +26,7 @@ def unzip_file(zip_path, destination_folder):
 
     # Use 7-Zip for Windows
     subprocess.run([seven_zip_path, "x", "-o" + destination_folder, zip_path])
+    print(f"Extracted {zip_path} to {destination_folder}")
 
 if __name__ == "__main__":
     appdata_folder = get_appdata_path()
@@ -39,7 +41,9 @@ if __name__ == "__main__":
         os.path.join(base_path, "WordsRadixTree", "words_split.zip")  # For split zip
     ]
 
-    for zip_file in zip_files:
-        unzip_file(zip_file, appdata_folder)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = [executor.submit(unzip_file, zip_file, appdata_folder) for zip_file in zip_files]
+        for future in concurrent.futures.as_completed(futures):
+            future.result()
 
-    print(f"Files extracted to {appdata_folder}")
+    print(f"All files extracted to {appdata_folder}")
