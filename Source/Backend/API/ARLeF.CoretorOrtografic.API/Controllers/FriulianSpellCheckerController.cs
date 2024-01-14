@@ -1,3 +1,4 @@
+using ARLeF.Components.CoretorOrtografic.Entities.ProcessedElements;
 using ARLeF.CoretorOrtografic.Core.SpellChecker;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,7 @@ namespace ARLeF.CoretorOrtografic.API.Controllers
         private readonly ISpellChecker _spellChecker;
         private readonly ILogger<FriulianSpellCheckerController> _logger;
 
-        public FriulianSpellCheckerController(ISpellChecker spellChecker, ILogger<SpellCheckerController> logger)
+        public FriulianSpellCheckerController(ISpellChecker spellChecker, ILogger<FriulianSpellCheckerController> logger)
         {
             _spellChecker = spellChecker;
             _logger = logger;
@@ -25,12 +26,12 @@ namespace ARLeF.CoretorOrtografic.API.Controllers
                 return BadRequest("Word is required.");
 
             _spellChecker.ExecuteSpellCheck(word);
-            var processedWord = _spellChecker.ProcessedWords.FirstOrDefault();
+            ProcessedWord processedWord = _spellChecker.ProcessedWords.FirstOrDefault() as ProcessedWord;
 
             if (processedWord == null)
                 return BadRequest("Error processing the word.");
 
-            return Ok(new { Word = processedWord.Original, IsCorrect = processedWord.Correct });
+            return Ok(new { Original = processedWord.Original, Current = processedWord.Current, IsCorrect = processedWord.Correct, Case = processedWord.Case });
         }
 
         [HttpGet("suggest/{word}")]
@@ -42,14 +43,14 @@ namespace ARLeF.CoretorOrtografic.API.Controllers
                 return BadRequest("Word is required.");
 
             _spellChecker.ExecuteSpellCheck(word);
-            var processedWord = _spellChecker.ProcessedWords.FirstOrDefault();
+            ProcessedWord processedWord = _spellChecker.ProcessedWords.FirstOrDefault() as ProcessedWord;
 
             if (processedWord == null)
                 return BadRequest("Error processing the word.");
 
             var suggestions = await _spellChecker.GetWordSuggestions(processedWord);
 
-            return Ok(new { Word = processedWord.Original, Suggestions = suggestions });
+            return Ok(new { Original = processedWord.Original, Suggestions = suggestions });
         }
     }
 }
