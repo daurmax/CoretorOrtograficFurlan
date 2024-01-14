@@ -5,9 +5,9 @@ import concurrent.futures
 
 def get_appdata_path():
     if platform.system() == 'Windows':
-        return os.path.join(os.getenv('APPDATA'), "CoretorOrtograficFurlan")
+        return os.path.join(os.getenv('APPDATA'), "ARLeF/CoretorOrtograficFurlan/Dictionaries")
     elif platform.system() == 'Darwin':
-        return os.path.expanduser('~/Library/Application Support/CoretorOrtograficFurlan')
+        return os.path.expanduser('~/Library/Application Support/ARLeF/CoretorOrtograficFurlan/Dictionaries')
     else:
         raise Exception("Unsupported OS")
 
