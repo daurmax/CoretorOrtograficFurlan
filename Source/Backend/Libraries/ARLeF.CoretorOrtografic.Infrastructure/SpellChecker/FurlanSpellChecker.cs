@@ -6,13 +6,9 @@ using ARLeF.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
 using ARLeF.CoretorOrtografic.Core.KeyValueDatabase;
 using ARLeF.CoretorOrtografic.Core.SpellChecker;
 using ARLeF.CoretorOrtografic.Dictionaries.Constants;
-using ARLeF.CoretorOrtografic.Infrastructure.KeyValueDatabase;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -40,7 +36,7 @@ namespace ARLeF.CoretorOrtografic.Infrastructure.SpellChecker
                 return _processedElements.Where(element => element.GetType() == typeof(ProcessedWord)).ToList().AsReadOnly();
             }
         }
-        
+
         public FurlanSpellChecker(IKeyValueDatabase keyValueDatabase)
         {
             _keyValueDatabase = keyValueDatabase;
@@ -109,7 +105,7 @@ namespace ARLeF.CoretorOrtografic.Infrastructure.SpellChecker
                 {
                     foreach (var index in weights[f][d])
                     {
-                        sortedSuggestions.Add(suggestions[index]); 
+                        sortedSuggestions.Add(suggestions[index]);
                     }
                 }
             }
@@ -238,7 +234,7 @@ namespace ARLeF.CoretorOrtografic.Infrastructure.SpellChecker
                 var dxList = await BasicSuggestions(dxWord);
                 foreach (var (p, vals) in dxList)
                 {
-                    string fixedP = FixCase(caseType, sx + " " + p);    
+                    string fixedP = FixCase(caseType, sx + " " + p);
                     vals[1]++;
                     list[fixedP] = vals;
                 }
@@ -382,7 +378,7 @@ namespace ARLeF.CoretorOrtografic.Infrastructure.SpellChecker
                     }
                     if (dizWord)
                     {
-                        vals.Add(type); 
+                        vals.Add(type);
                     }
                     list[fixedP] = vals;
                 }

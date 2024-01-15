@@ -1,3 +1,4 @@
+using ARLeF.CoretorOrtografic.API.Hubs;
 using ARLeF.CoretorOrtografic.Business;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 
 // Add services to the container
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -27,8 +29,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseRouting();
 app.UseAuthorization();
+
+app.MapHub<SpellCheckHub>("/spellcheckhub");
+
+app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
