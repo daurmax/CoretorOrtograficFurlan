@@ -1,14 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using ARLeF.CoretorOrtografic.Dictionaries.Constants;
-using ARLeF.CoretorOrtografic.Core.RadixTree;
-using NUnit.Framework;
-using Autofac.Core;
+﻿using ARLeF.CoretorOrtografic.Core.KeyValueDatabase;
 using Autofac;
-using ARLeF.CoretorOrtografic.Core.Input;
-using ARLeF.CoretorOrtografic.Core.SpellChecker;
-using ARLeF.CoretorOrtografic.Core.KeyValueDatabase;
-using ARLeF.CoretorOrtografic.Core.Enums;
+using NUnit.Framework;
+using System;
+using System.Diagnostics;
 
 namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabase
 {
@@ -39,8 +33,8 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabase
                 Console.WriteLine($"Key is: [{key}]");
                 Console.WriteLine($"Value is: [{value}]");
 
-                Assert.NotNull(value);
-                Assert.AreEqual(value, expectedResult);
+                Assert.That(value is not null);
+                Assert.That(value == expectedResult);
             }
 
             timer.Stop();
@@ -64,8 +58,8 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabase
                 Console.WriteLine($"Key is: [{key}]");
                 Console.WriteLine($"Value is: [{value}]");
 
-                Assert.NotNull(value);
-                Assert.AreEqual(value, expectedResult);
+                Assert.That(value is not null);
+                Assert.That(value == expectedResult);
             }
 
             timer.Stop();
@@ -89,8 +83,8 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabase
                 Console.WriteLine($"Key is: [{key}]");
                 Console.WriteLine($"Value is: [{value}]");
 
-                Assert.NotNull(value);
-                Assert.AreEqual(value, expectedResult);
+                Assert.That(value is not null);
+                Assert.That(value == expectedResult);
             }
 
             timer.Stop();
@@ -114,8 +108,7 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabase
                 Console.WriteLine($"Key is: [{key}]");
                 Console.WriteLine($"Value is: [{value}]");
 
-                Assert.NotNull(value);
-                Assert.AreEqual(value, expectedResult);
+                Assert.That(value == expectedResult);
             }
 
             timer.Stop();
@@ -135,7 +128,7 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabase
                 Console.WriteLine($"Key is: [{key}]");
                 Console.WriteLine($"Value is: [{value}]");
 
-                Assert.IsNull(value);
+                Assert.That(value is null);
             }
         }
 
@@ -152,7 +145,7 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabase
                 Console.WriteLine($"Key is: [{key}]");
                 Console.WriteLine($"Value is: [{value}]");
 
-                Assert.IsNull(value);
+                Assert.That(value is null);
             }
         }
 
@@ -169,7 +162,7 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabase
                 Console.WriteLine($"Key is: [{key}]");
                 Console.WriteLine($"Value is: [{value}]");
 
-                Assert.IsNull(value);
+                Assert.That(value is null);
             }
         }
 
@@ -187,8 +180,7 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.KeyValueDatabase
                 Console.WriteLine($"Key is: [{key}]");
                 Console.WriteLine($"Value is: [{value}]");
 
-                Assert.NotNull(value);
-                Assert.AreEqual(value, expectedResult);
+                Assert.That(value == expectedResult);
             }
         }
 

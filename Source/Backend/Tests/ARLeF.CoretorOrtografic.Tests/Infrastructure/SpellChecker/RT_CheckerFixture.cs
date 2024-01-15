@@ -1,13 +1,10 @@
-﻿using ARLeF.CoretorOrtografic.Infrastructure.SpellChecker;
-using ARLeF.CoretorOrtografic.Core.RadixTree;
+﻿using ARLeF.CoretorOrtografic.Dictionaries.Constants;
+using ARLeF.CoretorOrtografic.Infrastructure.SpellChecker;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ARLeF.CoretorOrtografic.Dictionaries.Constants;
 using System.IO;
+using System.Linq;
 
 namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.SpellChecker
 {
@@ -28,7 +25,7 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.SpellChecker
         {
             var word = "cjape";
             bool actual = _checker.HasWord(word);
-            Assert.IsTrue(actual);
+            Assert.That(actual);
         }
 
         [Test]
@@ -36,7 +33,7 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.SpellChecker
         {
             var word = "orange";
             bool actual = _checker.HasWord(word);
-            Assert.IsFalse(actual);
+            Assert.That(!actual);
         }
 
         [Test]
@@ -64,7 +61,7 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.SpellChecker
             standardOut.AutoFlush = true;
             Console.SetOut(standardOut);
 
-            CollectionAssert.AreEquivalent(expectedSuggestions, actualSuggestions);
+            Assert.That(actualSuggestions, Is.EqualTo(expectedSuggestions));
         }
 
         [Test]
@@ -92,7 +89,7 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.SpellChecker
             standardOut.AutoFlush = true;
             Console.SetOut(standardOut);
 
-            CollectionAssert.AreEquivalent(expectedSuggestions, actualSuggestions);
+            Assert.That(actualSuggestions, Is.EqualTo(expectedSuggestions));
         }
 
         [Test]
@@ -120,7 +117,7 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.SpellChecker
             standardOut.AutoFlush = true;
             Console.SetOut(standardOut);
 
-            CollectionAssert.AreEquivalent(expectedSuggestions, actualSuggestions);
+            Assert.That(actualSuggestions, Is.EqualTo(expectedSuggestions));
         }
 
         [Test]
@@ -128,7 +125,7 @@ namespace ARLeF.CoretorOrtografic.Tests.Infrastructure.SpellChecker
         {
             var word = "invalidwordnosuggestions";
             var actualSuggestions = _checker.GetWordsED1(word);
-            Assert.IsEmpty(actualSuggestions);
+            Assert.That(!actualSuggestions.Any());
         }
     }
 }

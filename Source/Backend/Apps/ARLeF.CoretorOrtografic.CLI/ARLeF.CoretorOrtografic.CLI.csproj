@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>ARLeF.Apps.CoretorOrtografic.CLI</AssemblyName>
     <RootNamespace>ARLeF.Apps.CoretorOrtografic.CLI</RootNamespace>
     <PackageId>ARLeF.Apps.CoretorOrtografic.CLI</PackageId>
@@ -31,7 +31,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.3.0" />
+    <PackageReference Include="Autofac" Version="7.1.0" />
   </ItemGroup>
 
   <ItemGroup>

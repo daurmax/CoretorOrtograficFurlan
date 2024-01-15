@@ -1,17 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using ARLeF.CoretorOrtografic.Dictionaries.Constants;
-using ARLeF.CoretorOrtografic.Core.RadixTree;
-using NUnit.Framework;
-using Autofac.Core;
+﻿using ARLeF.CoretorOrtografic.Core.Constants;
 using Autofac;
-using ARLeF.CoretorOrtografic.Core.Input;
-using ARLeF.CoretorOrtografic.Core.SpellChecker;
-using ARLeF.CoretorOrtografic.Core.FurlanPhoneticAlgorithm;
-using System.Text.RegularExpressions;
-using ARLeF.CoretorOrtografic.Core.Constants;
+using NUnit.Framework;
+using System;
 using System.Text;
-using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ARLeF.CoretorOrtografic.Tests.General
 {
@@ -27,11 +19,11 @@ namespace ARLeF.CoretorOrtografic.Tests.General
         {
             string input = "‘’‘’";
             string expected = "''''";
-            Assert.AreNotEqual(input, expected);
+            Assert.That(!input.Equals(expected));
 
             string result = Regex.Replace(input, FriulianConstants.UNCOMMON_APOSTROPHES, "'");
 
-            Assert.AreEqual(expected, result);
+            Assert.That(expected.Equals(result));
         }
 
         [Test]
@@ -42,7 +34,7 @@ namespace ARLeF.CoretorOrtografic.Tests.General
 
             string result = Regex.Replace(input, "e ", "'");
 
-            Assert.AreEqual(expected, result);
+            Assert.That(expected.Equals(result));
         }
 
         [Test]
@@ -53,7 +45,7 @@ namespace ARLeF.CoretorOrtografic.Tests.General
 
             string result = Regex.Replace(input, " ", "");
 
-            Assert.AreEqual(expected, result);
+            Assert.That(expected.Equals(result));
         }
 
         [Test]
@@ -79,8 +71,8 @@ namespace ARLeF.CoretorOrtografic.Tests.General
             }
             var tripleResult = triplesStrResult.ToString();
 
-            Assert.AreEqual(doubleResult, expectedResult);
-            Assert.AreEqual(tripleResult, expectedResult);
+            Assert.That(doubleResult.Equals(expectedResult));
+            Assert.That(tripleResult.Equals(expectedResult));
         }
 
         [Test]
@@ -91,7 +83,7 @@ namespace ARLeF.CoretorOrtografic.Tests.General
             var triples = "supppellettile";
             var triplesToCharArray = triples.ToCharArray();
             var expectedResult = "supellettile";
-            var letterToRemove = 'p'; 
+            var letterToRemove = 'p';
             var doublesStrResult = new StringBuilder();
             var triplesStrResult = new StringBuilder();
 
@@ -133,8 +125,8 @@ namespace ARLeF.CoretorOrtografic.Tests.General
             }
             var tripleResult = triplesStrResult.ToString();
 
-            Assert.AreEqual(doubleResult, expectedResult);
-            Assert.AreEqual(tripleResult, expectedResult);
+            Assert.That(doubleResult.Equals(expectedResult));
+            Assert.That(tripleResult.Equals(expectedResult));
         }
 
         [Test]
@@ -150,7 +142,7 @@ namespace ARLeF.CoretorOrtografic.Tests.General
             result = Regex.Replace(result, FriulianConstants.SMALL_O_VARIANTS, "o");
             result = Regex.Replace(result, FriulianConstants.SMALL_U_VARIANTS, "u");
 
-            Assert.AreEqual(expected, result);
+            Assert.That(expected.Equals(result));
         }
     }
 }
