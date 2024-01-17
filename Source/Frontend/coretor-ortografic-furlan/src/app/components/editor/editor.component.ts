@@ -1,25 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { SignalRService } from 'src/app/services/SignalR/SignalRService';
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.css']
+  styleUrls: ['./editor.component.scss'],
 })
 export class EditorComponent implements OnInit {
   public Editor = ClassicEditor;
-  public editorContent: string | null = null;
+  public editorContent = {
+    editorData: '<p>Hello, world!</p>',
+  };
 
-  constructor(private signalRService: SignalRService) { }
+  constructor(private signalRService: SignalRService) {}
 
   ngOnInit(): void {
-    this.editorContent = "<p>Type here...</p>";
     this.initializeSignalR();
   }
 
   initializeSignalR(): void {
-    this.signalRService.startConnection(); 
+    this.signalRService.startConnection();
 
     this.signalRService.registerWordCheckCallback((result) => {
       // TODO: Handle the result for word check
@@ -33,7 +34,7 @@ export class EditorComponent implements OnInit {
   }
 
   onTextChange(event: any): void {
-    const text = event.editor.getData();
+    const text = event.editorData;
     // TODO: Extract and send individual words to the SignalR service for checking
     // You might want to throttle or debounce this action to avoid sending too many requests
   }
