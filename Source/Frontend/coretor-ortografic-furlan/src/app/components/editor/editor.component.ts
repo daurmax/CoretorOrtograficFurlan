@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { SignalRService } from 'src/app/services/SignalR/SignalRService';
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
 
 @Component({
   selector: 'app-editor',
@@ -11,7 +11,7 @@ export class EditorComponent implements OnInit {
   private wordsState: { [word: string]: { isCorrect: boolean, suggestions: string[] } } = {};
   private debounceTimer: any;
 
-  public Editor = ClassicEditor;
+  public editor: any = Editor;
   public editorContent = '<p>Hello, world!</p>';
 
   constructor(private signalRService: SignalRService) {}
