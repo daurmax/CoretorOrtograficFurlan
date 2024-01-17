@@ -8,12 +8,13 @@ import { SignalRService } from 'src/app/services/SignalR/SignalRService';
   styleUrls: ['./editor.component.scss'],
 })
 export class EditorComponent implements OnInit {
+  private wordsState: { [word: string]: { isCorrect: boolean, suggestions: string[] } } = {};
+  private debounceTimer: any;
+
   public Editor = ClassicEditor;
   public editorContent = '<p>Hello, world!</p>';
 
   constructor(private signalRService: SignalRService) {}
-
-  private debounceTimer: any;
 
   ngOnInit(): void {
     this.initializeSignalR();
@@ -22,14 +23,8 @@ export class EditorComponent implements OnInit {
   initializeSignalR(): void {
     this.signalRService.startConnection();
 
-    this.signalRService.registerWordCheckCallback((result) => {
-      console.log(result);
-      // Handle the result for word check
-    });
-
-    this.signalRService.registerSuggestionsCallback((suggestions) => {
-      console.log(suggestions);
-      // Handle the suggestions
+    this.signalRService.registerSuggestionsCallback((result) => {
+      this.updateWordState(result.word, result.isCorrect, result.suggestions);
     });
   }
 
@@ -45,14 +40,31 @@ export class EditorComponent implements OnInit {
     const words = text.trim().split(/\s+/);
     const lastWord = words[words.length - 1];
     if (lastWord) {
-      this.signalRService.checkWord(lastWord);
+      this.signalRService.suggestWords(lastWord);
     }
+  }
+
+  private updateWordState(word: string, isCorrect: boolean, suggestions: string[] = []): void {
+    this.wordsState[word] = { isCorrect, suggestions };
+    this.updateEditorContent();
+  }
+
+  private updateEditorContent(): void {
+    let content = this.extractAndCleanTextFromHTML(this.editorContent);
+  
+    for (const [word, state] of Object.entries(this.wordsState)) {
+      if (!state.isCorrect) {
+        const styledWord = `<span class="incorrect-word">${word}</span>`;
+        content = content.replace(new RegExp(`\\b${word}\\b`, 'g'), styledWord);
+      }
+    }
+  
+    this.editorContent = content;
   }
 
   private extractAndCleanTextFromHTML(htmlContent: string): string {
     const doc = new DOMParser().parseFromString(htmlContent, 'text/html');
     let text = doc.body.textContent || '';
-    // Remove punctuation using regular expression
     text = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
     return text;
   }

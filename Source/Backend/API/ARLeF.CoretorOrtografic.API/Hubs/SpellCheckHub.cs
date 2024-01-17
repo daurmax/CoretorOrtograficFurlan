@@ -51,7 +51,7 @@ namespace ARLeF.CoretorOrtografic.API.Hubs
             }
 
             var suggestions = await _spellChecker.GetWordSuggestions(processedWord);
-            await Clients.Caller.SendAsync("ReceiveSuggestWordsResult", new { Original = processedWord.Original, Suggestions = suggestions });
+            await Clients.Caller.SendAsync("ReceiveSuggestWordsResult", new { Word = processedWord.Original, Suggestions = suggestions, IsCorrect = processedWord.Correct });
         }
     }
 }
