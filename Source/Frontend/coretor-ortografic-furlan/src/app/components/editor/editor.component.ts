@@ -9,11 +9,11 @@ import { SignalRService } from 'src/app/services/SignalR/SignalRService';
 })
 export class EditorComponent implements OnInit {
   public Editor = ClassicEditor;
-  public editorContent = {
-    editorData: '<p>Hello, world!</p>',
-  };
+  public editorContent = '<p>Hello, world!</p>';
 
   constructor(private signalRService: SignalRService) {}
+
+  private debounceTimer: any;
 
   ngOnInit(): void {
     this.initializeSignalR();
@@ -23,19 +23,37 @@ export class EditorComponent implements OnInit {
     this.signalRService.startConnection();
 
     this.signalRService.registerWordCheckCallback((result) => {
-      // TODO: Handle the result for word check
-      // This is where you handle the response from the server
+      console.log(result);
+      // Handle the result for word check
     });
 
     this.signalRService.registerSuggestionsCallback((suggestions) => {
-      // TODO: Handle the suggestions
-      // This is where you handle the suggestions response from the server
+      console.log(suggestions);
+      // Handle the suggestions
     });
   }
 
-  onTextChange(event: any): void {
-    const text = event.editorData;
-    // TODO: Extract and send individual words to the SignalR service for checking
-    // You might want to throttle or debounce this action to avoid sending too many requests
+  onTextChange(): void {
+    clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => {
+      this.checkLastWord(this.editorContent);
+    }, 500);
+  }
+
+  private checkLastWord(htmlContent: string): void {
+    const text = this.extractAndCleanTextFromHTML(htmlContent);
+    const words = text.trim().split(/\s+/);
+    const lastWord = words[words.length - 1];
+    if (lastWord) {
+      this.signalRService.checkWord(lastWord);
+    }
+  }
+
+  private extractAndCleanTextFromHTML(htmlContent: string): string {
+    const doc = new DOMParser().parseFromString(htmlContent, 'text/html');
+    let text = doc.body.textContent || '';
+    // Remove punctuation using regular expression
+    text = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+    return text;
   }
 }
