@@ -52,5 +52,32 @@ namespace ARLeF.CoretorOrtografic.API.Controllers
 
             return Ok(new { Original = processedWord.Original, Suggestions = suggestions });
         }
+
+        [HttpPost("checkText")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult CheckText([FromBody] string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return BadRequest("Text is required.");
+
+            _spellChecker.ExecuteSpellCheck(text);
+
+            var processedTextResults = _spellChecker.ProcessedElements
+                                                    .OfType<ProcessedWord>()
+                                                    .Select(pw => new
+                                                    {
+                                                        pw.Original,
+                                                        pw.Current,
+                                                        pw.Correct,
+                                                        pw.Case,
+                                                        pw.Suggestions
+                                                    }).ToList();
+
+            if (processedTextResults.Count == 0)
+                return BadRequest("Error processing the text.");
+
+            return Ok(processedTextResults);
+        }
     }
 }

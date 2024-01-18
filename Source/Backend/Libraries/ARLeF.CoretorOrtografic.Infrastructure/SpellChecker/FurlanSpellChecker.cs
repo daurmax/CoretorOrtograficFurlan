@@ -49,7 +49,28 @@ namespace ARLeF.CoretorOrtografic.Infrastructure.SpellChecker
             _processedElements = ProcessText(text);
             foreach (ProcessedWord word in ProcessedWords)
             {
-                word.Correct = CheckWord(word).Result;
+                try
+                {
+                    // Skip single-character words
+                    if (word.Original.Length > 1)
+                    {
+                        word.Correct = CheckWord(word).Result;
+                        if (!word.Correct)
+                        {
+                            word.Suggestions = GetWordSuggestions(word).Result.ToList();
+                        }
+                    }
+                    else
+                    {
+                        word.Correct = true;
+                    }
+                }
+                catch (Exception)
+                {
+                    word.Correct = false;
+
+                    word.Suggestions = new List<string>();
+                }
             }
         }
         public void CleanSpellChecker()

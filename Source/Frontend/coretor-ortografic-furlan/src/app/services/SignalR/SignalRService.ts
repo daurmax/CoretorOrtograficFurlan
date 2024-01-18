@@ -3,7 +3,7 @@ import * as signalR from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SignalRService {
   private hubConnection: signalR.HubConnection | null = null;
@@ -17,12 +17,12 @@ export class SignalRService {
     this.hubConnection
       .start()
       .then(() => console.log('Connection started'))
-      .catch(err => {
+      .catch((err) => {
         console.error('Error while starting connection: ', err);
         this.handleStartConnectionError(err);
       });
 
-    this.hubConnection.onclose(err => {
+    this.hubConnection.onclose((err) => {
       console.error('Connection closed: ', err);
       this.handleConnectionClose(err);
     });
@@ -53,19 +53,35 @@ export class SignalRService {
     });
   }
 
-  public registerSuggestionsCallback(callback: (suggestions: any) => void): void {
+  public registerSuggestionsCallback(
+    callback: (suggestions: any) => void
+  ): void {
     this.hubConnection?.on('ReceiveSuggestWordsResult', (data) => {
       callback(data);
     });
   }
 
+  public registerTextCheckCallback(callback: (result: any) => void): void {
+    this.hubConnection?.on('ReceiveCheckTextResult', (data) => {
+      callback(data);
+    });
+  }
+
   public checkWord(word: string): void {
-    this.hubConnection?.invoke('CheckWord', word)
-      .catch(err => console.error(err));
+    this.hubConnection
+      ?.invoke('CheckWord', word)
+      .catch((err) => console.error(err));
   }
 
   public suggestWords(word: string): void {
-    this.hubConnection?.invoke('SuggestWords', word)
-      .catch(err => console.error(err));
+    this.hubConnection
+      ?.invoke('SuggestWords', word)
+      .catch((err) => console.error(err));
+  }
+
+  public checkText(text: string): void {
+    this.hubConnection
+      ?.invoke('CheckText', text)
+      .catch((err) => console.error(err));
   }
 }

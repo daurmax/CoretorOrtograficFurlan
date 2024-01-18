@@ -8,11 +8,13 @@ import Editor from 'ckeditor5-custom-build/build/ckeditor';
   styleUrls: ['./editor.component.scss'],
 })
 export class EditorComponent implements OnInit {
-  private wordsState: { [word: string]: { isCorrect: boolean, suggestions: string[] } } = {};
+  private wordsState: {
+    [word: string]: { isCorrect: boolean; suggestions: string[] };
+  } = {};
   private debounceTimer: any;
 
   public editor: any = Editor;
-  public editorContent = '<p>Hello, world!</p>';
+  public editorContent = '';
 
   constructor(private signalRService: SignalRService) {}
 
@@ -26,13 +28,25 @@ export class EditorComponent implements OnInit {
     this.signalRService.registerSuggestionsCallback((result) => {
       this.updateWordState(result.word, result.isCorrect, result.suggestions);
     });
+
+    this.signalRService.registerTextCheckCallback((result) => {
+      this.handleTextCheckResult(result);
+    });
   }
 
   onTextChange(): void {
     clearTimeout(this.debounceTimer);
     this.debounceTimer = setTimeout(() => {
-      this.checkLastWord(this.editorContent);
+      const cleanContent = this.cleanHtmlContent(this.editorContent);
+      this.signalRService.checkText(cleanContent);
     }, 500);
+  }
+
+  private handleTextCheckResult(result: any): void {
+    result.forEach((wordResult: any) => {
+      this.updateWordState(wordResult.original, wordResult.correct, wordResult.suggestions);
+    });
+    this.updateEditorContent();
   }
 
   private checkLastWord(htmlContent: string): void {
@@ -44,39 +58,55 @@ export class EditorComponent implements OnInit {
     }
   }
 
-  private updateWordState(word: string, isCorrect: boolean, suggestions: string[] = []): void {
+  private updateWordState(
+    word: string,
+    isCorrect: boolean,
+    suggestions: string[] = []
+  ): void {
     this.wordsState[word] = { isCorrect, suggestions };
+    // Now, handle the suggestions. For example, you could display them in a tooltip or a dropdown.
     this.updateEditorContent();
   }
 
   private updateEditorContent(): void {
     let content = this.editorContent;
-  
+
     for (const [word, state] of Object.entries(this.wordsState)) {
       if (!state.isCorrect) {
-        // Create a regex to check if the word is already wrapped in a span with the style
-        const styledWordRegex = new RegExp(`<span style="color:hsl\\(0, 75%, 60%\\);">${word}</span>`, 'g');
-  
-        // Check if the word is already wrapped
-        if (!styledWordRegex.test(content)) {
-          // If not, wrap it
+        // More complex regex to avoid already wrapped words
+        const regex = new RegExp(
+          `(?!<span[^>]*?>)\\b${word}\\b(?!<\/span>)`,
+          'g'
+        );
+
+        if (regex.test(content)) {
+          // Wrap the word if it's not already within a <span>
           const styledWord = `<span style="color:hsl(0, 75%, 60%);">${word}</span>`;
-          content = content.replace(new RegExp(`\\b${word}\\b`, 'g'), styledWord);
-  
-          // Log the action
+          content = content.replace(regex, styledWord);
           console.log(`Wrapping word '${word}' with style.`);
         } else {
-          // Log that the word is already wrapped
           console.log(`Word '${word}' is already styled. No action taken.`);
         }
       }
     }
-  
-    this.editorContent = content;
+
+    if (this.editorContent !== content) {
+      this.editorContent = content;
+    }
   }
-  
+
   private extractAndCleanTextFromHTML(htmlContent: string): string {
     const doc = new DOMParser().parseFromString(htmlContent, 'text/html');
     return doc.body.textContent || '';
+  }
+
+  private cleanHtmlContent(htmlContent: string): string {
+    const doc = new DOMParser().parseFromString(htmlContent, 'text/html');
+    let textContent = doc.body.textContent || '';
+
+    // Replace HTML entities like &nbsp; with a space
+    textContent = textContent.replace(/&nbsp;/g, ' ');
+
+    return textContent;
   }
 }

@@ -1,5 +1,6 @@
 ﻿using ARLeF.CoretorOrtografic.Core.Enums;
 using ARLeF.CoretorOrtografic.Core.Extensions;
+using System.Collections.Generic;
 
 namespace ARLeF.Components.CoretorOrtografic.Entities.ProcessedElements
 {
@@ -10,7 +11,7 @@ namespace ARLeF.Components.CoretorOrtografic.Entities.ProcessedElements
         private bool _checked;
         private bool _correct;
 
-        public ProcessedWord(string word) 
+        public ProcessedWord(string word)
         {
             _original = _current = word;
         }
@@ -19,7 +20,7 @@ namespace ARLeF.Components.CoretorOrtografic.Entities.ProcessedElements
         public string Current
         {
             get => _current;
-            set 
+            set
             {
                 _current = value;
             }
@@ -51,6 +52,8 @@ namespace ARLeF.Components.CoretorOrtografic.Entities.ProcessedElements
                 return default;
             }
         }
+
+        public List<string> Suggestions { get; set; } = new List<string>();
 
         public override string ToString()
         {

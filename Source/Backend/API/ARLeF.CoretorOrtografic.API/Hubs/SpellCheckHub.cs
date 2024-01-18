@@ -53,5 +53,36 @@ namespace ARLeF.CoretorOrtografic.API.Hubs
             var suggestions = await _spellChecker.GetWordSuggestions(processedWord);
             await Clients.Caller.SendAsync("ReceiveSuggestWordsResult", new { Word = processedWord.Original, Suggestions = suggestions, IsCorrect = processedWord.Correct });
         }
+
+        public async Task CheckText(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                await Clients.Caller.SendAsync("Error", "Text is required.");
+                return;
+            }
+
+            _spellChecker.ExecuteSpellCheck(text);
+
+            // Process results and construct response
+            var processedTextResults = _spellChecker.ProcessedElements
+                                                    .OfType<ProcessedWord>()
+                                                    .Select(pw => new
+                                                    {
+                                                        pw.Original,
+                                                        pw.Current,
+                                                        pw.Correct,
+                                                        pw.Case,
+                                                        pw.Suggestions
+                                                    }).ToList();
+
+            if (processedTextResults.Count == 0)
+            {
+                await Clients.Caller.SendAsync("Error", "Error processing the text.");
+                return;
+            }
+
+            await Clients.Caller.SendAsync("ReceiveCheckTextResult", processedTextResults);
+        }
     }
 }
