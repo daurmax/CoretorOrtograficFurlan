@@ -16,6 +16,11 @@ export class EditorComponent implements OnInit {
   public editor: any = Editor;
   public editorContent = '';
 
+  public config = {
+    placeholder: 'Tache a scrivi alc...',
+    disableNativeSpellChecker: true
+  };
+
   constructor(private signalRService: SignalRService) {}
 
   ngOnInit(): void {
