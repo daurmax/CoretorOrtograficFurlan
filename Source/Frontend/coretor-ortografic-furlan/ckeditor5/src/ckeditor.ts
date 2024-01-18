@@ -5,13 +5,14 @@
 
 import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 
-import { Bold, Italic } from '@ckeditor/ckeditor5-basic-styles';
+import { Autoformat } from '@ckeditor/ckeditor5-autoformat';
+import { Bold, Italic, Underline } from '@ckeditor/ckeditor5-basic-styles';
 import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
 import { CKBox } from '@ckeditor/ckeditor5-ckbox';
 import { CloudServices } from '@ckeditor/ckeditor5-cloud-services';
 import type { EditorConfig } from '@ckeditor/ckeditor5-core';
 import { Essentials } from '@ckeditor/ckeditor5-essentials';
-import { FontColor, FontFamily, FontSize } from '@ckeditor/ckeditor5-font';
+import { FontColor } from '@ckeditor/ckeditor5-font';
 import { Heading } from '@ckeditor/ckeditor5-heading';
 import {
 	Image,
@@ -36,14 +37,13 @@ import { Undo } from '@ckeditor/ckeditor5-undo';
 
 class Editor extends ClassicEditor {
 	public static override builtinPlugins = [
+		Autoformat,
 		BlockQuote,
 		Bold,
 		CKBox,
 		CloudServices,
 		Essentials,
 		FontColor,
-		FontFamily,
-		FontSize,
 		Heading,
 		Image,
 		ImageCaption,
@@ -61,18 +61,17 @@ class Editor extends ClassicEditor {
 		Table,
 		TableToolbar,
 		TextTransformation,
+		Underline,
 		Undo
 	];
 
 	public static override defaultConfig: EditorConfig = {
 		toolbar: {
 			items: [
-				'fontColor',
-				'fontFamily',
-				'fontSize',
-				'|',
 				'bold',
 				'italic',
+				'underline',
+				'fontColor',
 				'|',
 				'undo',
 				'redo'
