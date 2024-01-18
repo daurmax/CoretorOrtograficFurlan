@@ -50,22 +50,33 @@ export class EditorComponent implements OnInit {
   }
 
   private updateEditorContent(): void {
-    let content = this.extractAndCleanTextFromHTML(this.editorContent);
+    let content = this.editorContent;
   
     for (const [word, state] of Object.entries(this.wordsState)) {
       if (!state.isCorrect) {
-        const styledWord = `<span class="incorrect-word">${word}</span>`;
-        content = content.replace(new RegExp(`\\b${word}\\b`, 'g'), styledWord);
+        // Create a regex to check if the word is already wrapped in a span with the style
+        const styledWordRegex = new RegExp(`<span style="color:hsl\\(0, 75%, 60%\\);">${word}</span>`, 'g');
+  
+        // Check if the word is already wrapped
+        if (!styledWordRegex.test(content)) {
+          // If not, wrap it
+          const styledWord = `<span style="color:hsl(0, 75%, 60%);">${word}</span>`;
+          content = content.replace(new RegExp(`\\b${word}\\b`, 'g'), styledWord);
+  
+          // Log the action
+          console.log(`Wrapping word '${word}' with style.`);
+        } else {
+          // Log that the word is already wrapped
+          console.log(`Word '${word}' is already styled. No action taken.`);
+        }
       }
     }
   
     this.editorContent = content;
   }
-
+  
   private extractAndCleanTextFromHTML(htmlContent: string): string {
     const doc = new DOMParser().parseFromString(htmlContent, 'text/html');
-    let text = doc.body.textContent || '';
-    text = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
-    return text;
+    return doc.body.textContent || '';
   }
 }
