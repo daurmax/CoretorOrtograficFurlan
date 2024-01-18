@@ -17,8 +17,7 @@ export class EditorComponent implements OnInit {
   public editorContent = '';
 
   public config = {
-    placeholder: 'Tache a scrivi alc...',
-    disableNativeSpellChecker: true
+    placeholder: 'Tache a scrivi alc...'
   };
 
   constructor(private signalRService: SignalRService) {}
