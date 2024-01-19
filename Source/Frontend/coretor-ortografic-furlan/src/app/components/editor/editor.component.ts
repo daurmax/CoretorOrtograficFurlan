@@ -85,11 +85,9 @@ export class EditorComponent implements OnInit {
 
         if (regex.test(content)) {
           // Wrap the word if it's not already within a <span>
-          const styledWord = `<span style="color:hsl(0, 75%, 60%);">${word}</span>`;
+          const styledWord = `<span style="color:hsl(0, 75%, 60%); text-decoration: underline;">${word}</span>`;
           content = content.replace(regex, styledWord);
           console.log(`Wrapping word '${word}' with style.`);
-        } else {
-          console.log(`Word '${word}' is already styled. No action taken.`);
         }
       }
     }
