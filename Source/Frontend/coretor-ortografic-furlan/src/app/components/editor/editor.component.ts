@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SignalRService } from 'src/app/services/SignalR/SignalRService';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
 
 @Component({
   selector: 'app-editor',
@@ -13,9 +13,7 @@ export class EditorComponent implements OnInit {
   } = {};
   private debounceTimer: any;
 
-  public Editor = ClassicEditor;
-  public editorInstance: any;
-
+  public editor: any = Editor;
   public editorContent = '';
 
   public config = {
@@ -26,11 +24,6 @@ export class EditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeSignalR();
-  }
-
-  onEditorReady(editor: any): void {
-    this.editorInstance = editor;
-    // Now you have access to the editor instance
   }
 
   initializeSignalR(): void {
@@ -58,21 +51,6 @@ export class EditorComponent implements OnInit {
       this.updateWordState(wordResult.original, wordResult.correct, wordResult.suggestions);
     });
     this.updateEditorContent();
-
-    this.moveCursorToEnd();
-  }
-
-  private moveCursorToEnd(): void {
-    if (this.editorInstance) {
-      const model = this.editorInstance.model;
-      const doc = model.document;
-      const root = doc.getRoot();
-      const endPosition = model.createPositionAt(root, 'end');
-
-      model.change((writer: { setSelection: (arg0: any) => void; }) => {
-        writer.setSelection(endPosition);
-      });
-    }
   }
 
   private checkLastWord(htmlContent: string): void {
