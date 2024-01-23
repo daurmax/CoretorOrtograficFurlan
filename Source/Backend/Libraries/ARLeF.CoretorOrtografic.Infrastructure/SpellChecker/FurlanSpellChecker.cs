@@ -539,11 +539,14 @@ namespace ARLeF.CoretorOrtografic.Infrastructure.SpellChecker
 
             var phoneticSuggestions = await GetSystemDictionaryPhoneticSuggestions(new ProcessedWord(word));
 
-            foreach (var suggestion in phoneticSuggestions)
+            if (phoneticSuggestions != null)
             {
-                if (suggestion.ToLower() == word)
+                foreach (var suggestion in phoneticSuggestions)
                 {
-                    words.Add(suggestion);
+                    if (suggestion.ToLower() == word)
+                    {
+                        words.Add(suggestion);
+                    }
                 }
             }
 

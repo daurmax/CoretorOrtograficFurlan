@@ -26,8 +26,10 @@
     "@ckeditor/ckeditor5-utils": "^40.2.0",
     "@ckeditor/ckeditor5-watchdog": "^40.2.0",
     "@microsoft/signalr": "^8.0.0",
+    "@tinymce/tinymce-angular": "^7.0.0",
     "ckeditor5-custom-build": "file:ckeditor5",
     "rxjs": "~7.8.0",
+    "tinymce": "^6.8.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
   },

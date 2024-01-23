@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SignalRService } from 'src/app/services/SignalR/SignalRService';
-import Editor from 'ckeditor5-custom-build/build/ckeditor';
+import TinyMCEEditor from 'tinymce';
 
 @Component({
   selector: 'app-editor',
@@ -13,22 +13,33 @@ export class EditorComponent implements OnInit {
   } = {};
   private debounceTimer: any;
 
-  public editor: any = Editor;
+  public editorInstance: any;
   public editorContent = '';
 
-  public config = {
-    placeholder: 'Tache a scrivi alc...'
+  public config: any = {
+    // TinyMCE configuration options
+    placeholder: 'Tache a scrivi alc...',
+    plugins: 'lists link image',
+    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+    // Add other TinyMCE specific configurations as needed
   };
 
   constructor(private signalRService: SignalRService) {}
 
   ngOnInit(): void {
-    this.initializeSignalR();
+    this.signalRService.onConnected(() => {
+      this.registerSignalRCallbacks();
+    });
+    this.signalRService.startConnection();
   }
 
   initializeSignalR(): void {
-    this.signalRService.startConnection();
+    this.signalRService.onConnected(() => {
+      this.registerSignalRCallbacks();
+    });
+  }
 
+  private registerSignalRCallbacks(): void {
     this.signalRService.registerSuggestionsCallback((result) => {
       this.updateWordState(result.word, result.isCorrect, result.suggestions);
     });
@@ -36,6 +47,23 @@ export class EditorComponent implements OnInit {
     this.signalRService.registerTextCheckCallback((result) => {
       this.handleTextCheckResult(result);
     });
+  }
+
+  onEditorInit(event: { editor: any }): void {
+    this.editorInstance = event.editor;
+  
+    // Add an event listener for NodeChange
+    this.editorInstance.on('NodeChange', () => {
+      this.logCursorPosition();
+    });
+  }
+  
+  private logCursorPosition(): void {
+    const selection = this.editorInstance.selection;
+    const range = selection.getRng(); // Get the current range
+  
+    // Log the start and end positions of the range
+    console.log(`Cursor Start Position: ${range.startOffset}, Cursor End Position: ${range.endOffset}`);
   }
 
   onTextChange(): void {
@@ -47,68 +75,50 @@ export class EditorComponent implements OnInit {
   }
 
   private handleTextCheckResult(result: any): void {
+    // Processing the text check result
     result.forEach((wordResult: any) => {
       this.updateWordState(wordResult.original, wordResult.correct, wordResult.suggestions);
     });
     this.updateEditorContent();
   }
 
-  private checkLastWord(htmlContent: string): void {
-    const text = this.extractAndCleanTextFromHTML(htmlContent);
-    const words = text.trim().split(/\s+/);
-    const lastWord = words[words.length - 1];
-    if (lastWord) {
-      this.signalRService.suggestWords(lastWord);
-    }
-  }
-
-  private updateWordState(
-    word: string,
-    isCorrect: boolean,
-    suggestions: string[] = []
-  ): void {
+  private updateWordState(word: string, isCorrect: boolean, suggestions: string[] = []): void {
+    // Update the state of each word
     this.wordsState[word] = { isCorrect, suggestions };
-    // Now, handle the suggestions. For example, you could display them in a tooltip or a dropdown.
     this.updateEditorContent();
   }
 
   private updateEditorContent(): void {
     let content = this.editorContent;
-
+  
     for (const [word, state] of Object.entries(this.wordsState)) {
       if (!state.isCorrect) {
-        // More complex regex to avoid already wrapped words
-        const regex = new RegExp(
-          `(?!<span[^>]*?>)\\b${word}\\b(?!<\/span>)`,
-          'g'
-        );
-
-        if (regex.test(content)) {
-          // Wrap the word if it's not already within a <span>
-          const styledWord = `<span style="color:hsl(0, 75%, 60%); text-decoration: underline;">${word}</span>`;
-          content = content.replace(regex, styledWord);
-          console.log(`Wrapping word '${word}' with style.`);
-        }
+        const regex = new RegExp(`(?!<span[^>]*?class="incorrect-word"[^>]*?>)\\b${word}\\b(?!<\/span>)`, 'g');
+        const styledWord = `<span class="incorrect-word" style="color: rgb(224, 62, 45); text-decoration: underline;" data-mce-style="color: rgb(224, 62, 45); text-decoration: underline;">${word}</span>`;
+        content = content.replace(regex, styledWord);
       }
     }
-
+  
     if (this.editorContent !== content) {
       this.editorContent = content;
+      this.editorInstance.setContent(this.editorContent);
+  
+      // Set the cursor position to the end
+      this.setCursorToEnd();
     }
   }
-
-  private extractAndCleanTextFromHTML(htmlContent: string): string {
-    const doc = new DOMParser().parseFromString(htmlContent, 'text/html');
-    return doc.body.textContent || '';
+  
+  private setCursorToEnd(): void {
+    const editor = this.editorInstance;
+    editor.selection.select(editor.getBody(), true); // Select the entire content
+    editor.selection.collapse(false); // Collapse selection to the end
+    editor.focus(); // Focus the editor
   }
 
   private cleanHtmlContent(htmlContent: string): string {
+    // Cleans HTML content to get plain text
+    // This method might need adjustments based on how TinyMCE handles content
     const doc = new DOMParser().parseFromString(htmlContent, 'text/html');
-    let textContent = doc.body.textContent || '';
-
-    // Replace HTML entities like &nbsp; with a space
-    textContent = textContent.replace(/&nbsp;/g, ' ');
-
-    return textContent;
+    return doc.body.textContent || '';
   }
 }

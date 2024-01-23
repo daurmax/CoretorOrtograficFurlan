@@ -16,7 +16,10 @@ export class SignalRService {
 
     this.hubConnection
       .start()
-      .then(() => console.log('Connection started'))
+      .then(() => {
+        console.log('Connection started');
+        this.onConnectedCallback?.(); // Call the registered callback
+      })
       .catch((err) => {
         console.error('Error while starting connection: ', err);
         this.handleStartConnectionError(err);
@@ -26,6 +29,12 @@ export class SignalRService {
       console.error('Connection closed: ', err);
       this.handleConnectionClose(err);
     });
+  }
+
+  private onConnectedCallback: (() => void) | null = null;
+
+  public onConnected(callback: () => void): void {
+    this.onConnectedCallback = callback;
   }
 
   private handleStartConnectionError(error: Error): void {

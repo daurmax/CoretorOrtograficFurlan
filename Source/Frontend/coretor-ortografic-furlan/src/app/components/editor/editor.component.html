@@ -1,1 +1,1 @@
-<ckeditor [editor]="editor" [config]="config" [(ngModel)]="editorContent" (change)="onTextChange()" [attr.spellcheck]="'false'"></ckeditor>
+<editor [init]="config" [(ngModel)]="editorContent" (onInit)="onEditorInit($event)" (ngModelChange)="onTextChange()"></editor>
