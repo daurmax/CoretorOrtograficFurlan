@@ -119,15 +119,21 @@ export class EditorComponent implements OnInit {
     }
 
     if (this.editorContent !== content) {
-      this.editorInstance.setContent(content); // This one moves the caret at the beginning of the editor
-      this.editorInstance.selection.moveToBookmark(bookmark); // Restore the cursor position
-      console.log("Bookmark Restored. Current Selection:", this.editorInstance.selection.getRng());
-
-      const newBookmark = this.editorInstance.selection.getBookmark(2, true);
-      console.log("New Bookmark after Content Update:", newBookmark);
-
-      this.editorInstance.focus(); // Focus the editor
+      // Instead of setting the entire content, try to update only the changed parts
+      this.applyContentUpdates(content);
+  
+      // Delay the restoration of the bookmark
+      setTimeout(() => {
+        this.editorInstance.selection.moveToBookmark(bookmark); 
+        console.log("Bookmark Restored. Current Selection:", this.editorInstance.selection.getRng());
+        this.editorInstance.focus(); 
+      }, 25);
     }
+  }
+
+  private applyContentUpdates(updatedContent: string): void {
+    const editorBody = this.editorInstance.getBody();
+    editorBody.innerHTML = updatedContent;
   }
 
   private setCursorToEnd(): void {
