@@ -20,7 +20,8 @@ export class EditorComponent implements OnInit {
     // TinyMCE configuration options
     placeholder: 'Tache a scrivi alc...',
     plugins: 'lists link image',
-    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+    toolbar:
+      'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
     // Add other TinyMCE specific configurations as needed
   };
 
@@ -51,19 +52,21 @@ export class EditorComponent implements OnInit {
 
   onEditorInit(event: { editor: any }): void {
     this.editorInstance = event.editor;
-  
+
     // Add an event listener for NodeChange
     this.editorInstance.on('NodeChange', () => {
       this.logCursorPosition();
     });
   }
-  
+
   private logCursorPosition(): void {
     const selection = this.editorInstance.selection;
     const range = selection.getRng(); // Get the current range
-  
+
     // Log the start and end positions of the range
-    console.log(`Cursor Start Position: ${range.startOffset}, Cursor End Position: ${range.endOffset}`);
+    console.log(
+      `Cursor Start Position: ${range.startOffset}, Cursor End Position: ${range.endOffset}`
+    );
   }
 
   onTextChange(): void {
@@ -77,37 +80,56 @@ export class EditorComponent implements OnInit {
   private handleTextCheckResult(result: any): void {
     // Processing the text check result
     result.forEach((wordResult: any) => {
-      this.updateWordState(wordResult.original, wordResult.correct, wordResult.suggestions);
+      this.updateWordState(
+        wordResult.original,
+        wordResult.correct,
+        wordResult.suggestions
+      );
     });
     this.updateEditorContent();
   }
 
-  private updateWordState(word: string, isCorrect: boolean, suggestions: string[] = []): void {
+  private updateWordState(
+    word: string,
+    isCorrect: boolean,
+    suggestions: string[] = []
+  ): void {
     // Update the state of each word
     this.wordsState[word] = { isCorrect, suggestions };
     this.updateEditorContent();
   }
 
   private updateEditorContent(): void {
+    const contentBeforeUpdate = this.editorInstance.getContent();
+    const bookmark = this.editorInstance.selection.getBookmark(2, true); // Save the cursor position
+    bookmark.start[0] = bookmark.start[0] + 1; // Adjust the start position to avoid the <p> tag
+    console.log("Initial Bookmark:", bookmark);
+
     let content = this.editorContent;
-  
+
     for (const [word, state] of Object.entries(this.wordsState)) {
       if (!state.isCorrect) {
-        const regex = new RegExp(`(?!<span[^>]*?class="incorrect-word"[^>]*?>)\\b${word}\\b(?!<\/span>)`, 'g');
+        const regex = new RegExp(
+          `(?!<span[^>]*?class="incorrect-word"[^>]*?>)\\b${word}\\b(?!<\/span>)`,
+          'g'
+        );
         const styledWord = `<span class="incorrect-word" style="color: rgb(224, 62, 45); text-decoration: underline;" data-mce-style="color: rgb(224, 62, 45); text-decoration: underline;">${word}</span>`;
         content = content.replace(regex, styledWord);
       }
     }
-  
+
     if (this.editorContent !== content) {
-      this.editorContent = content;
-      this.editorInstance.setContent(this.editorContent);
-  
-      // Set the cursor position to the end
-      this.setCursorToEnd();
+      this.editorInstance.setContent(content); // This one moves the caret at the beginning of the editor
+      this.editorInstance.selection.moveToBookmark(bookmark); // Restore the cursor position
+      console.log("Bookmark Restored. Current Selection:", this.editorInstance.selection.getRng());
+
+      const newBookmark = this.editorInstance.selection.getBookmark(2, true);
+      console.log("New Bookmark after Content Update:", newBookmark);
+
+      this.editorInstance.focus(); // Focus the editor
     }
   }
-  
+
   private setCursorToEnd(): void {
     const editor = this.editorInstance;
     editor.selection.select(editor.getBody(), true); // Select the entire content
