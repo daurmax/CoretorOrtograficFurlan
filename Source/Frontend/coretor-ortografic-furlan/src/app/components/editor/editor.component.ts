@@ -71,13 +71,13 @@ export class EditorComponent implements OnInit {
       this.logCursorPosition();
     });
 
-    this.editorInstance.on('click', () => {
+    this.editorInstance.on('click', (e: MouseEvent) => {
       const node = this.editorInstance.selection.getNode(); 
       if (node && node.className === 'incorrect-word') {
         const word = node.textContent;
         const suggestions = this.wordsState[word]?.suggestions || [];
         if (suggestions.length > 0) {
-          this.showTooltip(word, suggestions);
+          this.showTooltip(word, suggestions, e);
         }
       } else if (this.currentTooltipRef) {
         // Close the tooltip if a non-incorrect-word is clicked
@@ -178,7 +178,7 @@ export class EditorComponent implements OnInit {
     return doc.body.textContent || '';
   }
 
-  private showTooltip(word: string, suggestions: string[]): void {
+  private showTooltip(word: string, suggestions: string[], event: MouseEvent): void {
     // Check if there's an existing tooltip and remove it
     if (this.currentTooltipRef) {
       this.currentTooltipRef.destroy();
@@ -192,7 +192,18 @@ export class EditorComponent implements OnInit {
     this.currentTooltipRef.instance.word = word;
     this.currentTooltipRef.instance.suggestions = suggestions;
   
-    // Positioning logic...
+    // Calculate the position
+    const editorPosition = this.editorInstance.getContainer().getBoundingClientRect();
+    const position = {
+      x: event.clientX - editorPosition.left,
+      y: event.clientY - editorPosition.top
+    };
+    
+    // Position the tooltip component
+    const tooltipElement = this.currentTooltipRef.location.nativeElement;
+    tooltipElement.style.position = 'absolute';
+    tooltipElement.style.left = `${position.x}px`;
+    tooltipElement.style.top = `${position.y + 20}px`; // +20 for some offset from the cursor
   }
 
   private handleGlobalClick(event: MouseEvent): void {
