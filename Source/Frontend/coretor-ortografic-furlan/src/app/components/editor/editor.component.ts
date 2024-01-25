@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, ViewContainerRef } from '@angular/core';
 import { SignalRService } from 'src/app/services/SignalR/SignalRService';
 import TinyMCEEditor from 'tinymce';
+import { SuggestionsModalComponent } from '../suggestions-modal/suggestions-modal.component';
 
 @Component({
   selector: 'app-editor',
@@ -25,8 +26,11 @@ export class EditorComponent implements OnInit {
     // Add other TinyMCE specific configurations as needed
   };
 
-  constructor(private signalRService: SignalRService) {}
-
+  constructor(
+    private signalRService: SignalRService,
+    private viewContainerRef: ViewContainerRef
+  ) {}
+  
   ngOnInit(): void {
     this.signalRService.onConnected(() => {
       this.registerSignalRCallbacks();
@@ -56,6 +60,18 @@ export class EditorComponent implements OnInit {
     // Add an event listener for NodeChange
     this.editorInstance.on('NodeChange', () => {
       this.logCursorPosition();
+    });
+
+    // Add an event listener for click
+    this.editorInstance.on('click', () => {
+      const node = this.editorInstance.selection.getNode(); // Get the clicked node
+      if (node && node.className === 'incorrect-word') {
+        const word = node.textContent;
+        const suggestions = this.wordsState[word]?.suggestions || [];
+        if (suggestions.length > 0) {
+          this.showTooltip(word, suggestions);
+        }
+      }
     });
   }
 
@@ -148,5 +164,20 @@ export class EditorComponent implements OnInit {
     // This method might need adjustments based on how TinyMCE handles content
     const doc = new DOMParser().parseFromString(htmlContent, 'text/html');
     return doc.body.textContent || '';
+  }
+
+  private showTooltip(word: string, suggestions: string[]): void {
+    // Clear the view container if there's any existing view
+    this.viewContainerRef.clear();
+  
+    // Create the component
+    const suggestionModalRef = this.viewContainerRef.createComponent(SuggestionsModalComponent);
+  
+    // Assign the necessary inputs to the component instance
+    suggestionModalRef.instance.word = word;
+    suggestionModalRef.instance.suggestions = suggestions;
+  
+    // Position the tooltip based on the editor's cursor position or selected word
+    // You might need to calculate the position based on the TinyMCE editor instance
   }
 }

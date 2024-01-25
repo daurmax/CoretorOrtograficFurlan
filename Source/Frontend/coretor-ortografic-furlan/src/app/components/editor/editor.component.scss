@@ -2,3 +2,8 @@
   color: red;
   text-decoration: red wavy underline;
 }
+
+.incorrect-word[title]:hover:after {
+  content: attr(title);
+  // Add styling for your tooltip here
+}
