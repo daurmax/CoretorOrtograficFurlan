@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { EditorComponent } from './components/editor/editor.component';
+import { SuggestionsModalComponent } from './components/suggestions-modal/suggestions-modal.component';
 
 import { FormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
@@ -13,7 +14,8 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent,
-    EditorComponent
+    EditorComponent,
+    SuggestionsModalComponent
   ],
   imports: [
     BrowserModule,

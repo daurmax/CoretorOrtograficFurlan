@@ -1,1 +1,7 @@
-<p>suggestions-modal works!</p>
+<div class="suggestions-modal">
+  <p>Incorrect Word: <strong>{{ word }}</strong></p>
+  <ul>
+    <li *ngFor="let suggestion of suggestions">{{ suggestion }}</li>
+  </ul>
+</div>
+  
