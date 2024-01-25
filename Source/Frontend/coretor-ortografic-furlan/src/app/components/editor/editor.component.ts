@@ -17,6 +17,7 @@ export class EditorComponent implements OnInit {
 
   public editorInstance: any;
   public editorContent = '';
+  private currentWord: string | undefined;
 
   public config: any = {
     // TinyMCE configuration options
@@ -74,8 +75,9 @@ export class EditorComponent implements OnInit {
     this.editorInstance.on('click', (e: MouseEvent) => {
       const node = this.editorInstance.selection.getNode(); 
       if (node && node.className === 'incorrect-word') {
-        const word = node.textContent;
-        const suggestions = this.wordsState[word]?.suggestions || [];
+        const word = node.textContent || '';
+        this.currentWord = word;
+        const suggestions = this.wordsState[word]?.suggestions ?? [];
         if (suggestions.length > 0) {
           this.showTooltip(word, suggestions, e);
         }
@@ -184,6 +186,11 @@ export class EditorComponent implements OnInit {
     // Assign the necessary inputs
     this.currentTooltipRef.instance.word = word;
     this.currentTooltipRef.instance.suggestions = suggestions;
+
+    // Subscribe to the suggestionSelected event
+    this.currentTooltipRef.instance.suggestionSelected.subscribe((selectedSuggestion: string) => {
+      this.onSuggestionSelect(selectedSuggestion);
+    });
   
     // Get the position of the selected word in the editor
     const rect = this.editorInstance.selection.getRng().getBoundingClientRect();
@@ -205,6 +212,29 @@ export class EditorComponent implements OnInit {
   private handleGlobalClick(event: MouseEvent): void {
     // Logic to determine if the click is outside the tooltip
     if (this.currentTooltipRef && !this.currentTooltipRef.location.nativeElement.contains(event.target)) {
+      this.currentTooltipRef.destroy();
+      this.currentTooltipRef = null;
+    }
+  }
+
+  onSuggestionSelect(suggestion: string): void {
+    if (this.currentWord !== undefined) {
+      // Get the current content
+      let content = this.editorInstance.getContent();
+  
+      // Replace the selected incorrect word with the suggestion
+      const regex = new RegExp(`\\b${this.currentWord}\\b`, 'g');
+      content = content.replace(regex, suggestion);
+  
+      // Update the editor content
+      this.editorInstance.setContent(content);
+  
+      // Update the wordsState
+      this.wordsState[this.currentWord].isCorrect = true;
+    }
+  
+    // Close the tooltip
+    if (this.currentTooltipRef) {
       this.currentTooltipRef.destroy();
       this.currentTooltipRef = null;
     }

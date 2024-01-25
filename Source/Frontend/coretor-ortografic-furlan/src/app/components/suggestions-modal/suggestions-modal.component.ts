@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-suggestions-modal',
@@ -9,9 +9,11 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 export class SuggestionsModalComponent implements OnInit {
   @Input() word: string | undefined;
   @Input() suggestions: string[] | undefined;
+  @Output() suggestionSelected = new EventEmitter<string>();
 
-  ngOnInit(): void {
-    console.log('Word:', this.word);
-    console.log('Suggestions:', this.suggestions);
+  ngOnInit(): void {}
+
+  onSuggestionClick(suggestion: string): void {
+    this.suggestionSelected.emit(suggestion);
   }
 }
