@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewContainerRef } from '@angular/core';
 import { SignalRService } from 'src/app/services/SignalR/SignalRService';
 import TinyMCEEditor from 'tinymce';
 import { SuggestionsModalComponent } from '../suggestions-modal/suggestions-modal.component';
@@ -13,6 +13,7 @@ export class EditorComponent implements OnInit {
     [word: string]: { isCorrect: boolean; suggestions: string[] };
   } = {};
   private debounceTimer: any;
+  private currentTooltipRef: ComponentRef<SuggestionsModalComponent> | null = null;
 
   public editorInstance: any;
   public editorContent = '';
@@ -36,6 +37,14 @@ export class EditorComponent implements OnInit {
       this.registerSignalRCallbacks();
     });
     this.signalRService.startConnection();
+
+    // Listen for global clicks
+    document.addEventListener('click', this.handleGlobalClick.bind(this), true);
+  }
+
+  ngOnDestroy(): void {
+    // Clean up the global click listener
+    document.removeEventListener('click', this.handleGlobalClick.bind(this), true);
   }
 
   initializeSignalR(): void {
@@ -62,15 +71,18 @@ export class EditorComponent implements OnInit {
       this.logCursorPosition();
     });
 
-    // Add an event listener for click
     this.editorInstance.on('click', () => {
-      const node = this.editorInstance.selection.getNode(); // Get the clicked node
+      const node = this.editorInstance.selection.getNode(); 
       if (node && node.className === 'incorrect-word') {
         const word = node.textContent;
         const suggestions = this.wordsState[word]?.suggestions || [];
         if (suggestions.length > 0) {
           this.showTooltip(word, suggestions);
         }
+      } else if (this.currentTooltipRef) {
+        // Close the tooltip if a non-incorrect-word is clicked
+        this.currentTooltipRef.destroy();
+        this.currentTooltipRef = null;
       }
     });
   }
@@ -167,17 +179,27 @@ export class EditorComponent implements OnInit {
   }
 
   private showTooltip(word: string, suggestions: string[]): void {
-    // Clear the view container if there's any existing view
-    this.viewContainerRef.clear();
+    // Check if there's an existing tooltip and remove it
+    if (this.currentTooltipRef) {
+      this.currentTooltipRef.destroy();
+      this.currentTooltipRef = null;
+    }
   
-    // Create the component
-    const suggestionModalRef = this.viewContainerRef.createComponent(SuggestionsModalComponent);
+    // Create the new tooltip component
+    this.currentTooltipRef = this.viewContainerRef.createComponent(SuggestionsModalComponent);
   
-    // Assign the necessary inputs to the component instance
-    suggestionModalRef.instance.word = word;
-    suggestionModalRef.instance.suggestions = suggestions;
+    // Assign the necessary inputs
+    this.currentTooltipRef.instance.word = word;
+    this.currentTooltipRef.instance.suggestions = suggestions;
   
-    // Position the tooltip based on the editor's cursor position or selected word
-    // You might need to calculate the position based on the TinyMCE editor instance
+    // Positioning logic...
+  }
+
+  private handleGlobalClick(event: MouseEvent): void {
+    // Logic to determine if the click is outside the tooltip
+    if (this.currentTooltipRef && !this.currentTooltipRef.location.nativeElement.contains(event.target)) {
+      this.currentTooltipRef.destroy();
+      this.currentTooltipRef = null;
+    }
   }
 }
