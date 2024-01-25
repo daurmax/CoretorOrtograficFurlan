@@ -1,7 +1,8 @@
-import { Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, OnInit, ViewContainerRef } from '@angular/core';
 import { SignalRService } from 'src/app/services/SignalR/SignalRService';
-import TinyMCEEditor from 'tinymce';
 import { SuggestionsModalComponent } from '../suggestions-modal/suggestions-modal.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-editor',
@@ -15,9 +16,12 @@ export class EditorComponent implements OnInit {
   private debounceTimer: any;
   private currentTooltipRef: ComponentRef<SuggestionsModalComponent> | null = null;
 
+  private currentWord: string | undefined;
+  private destroy$ = new Subject<void>();
+
   public editorInstance: any;
   public editorContent = '';
-  private currentWord: string | undefined;
+
 
   public config: any = {
     // TinyMCE configuration options
@@ -44,7 +48,11 @@ export class EditorComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    // Clean up the global click listener
+    // Emit to all subscribers that the component is being destroyed
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    // Unsubscribe from global click listener
     document.removeEventListener('click', this.handleGlobalClick.bind(this), true);
   }
 
@@ -188,7 +196,9 @@ export class EditorComponent implements OnInit {
     this.currentTooltipRef.instance.suggestions = suggestions;
 
     // Subscribe to the suggestionSelected event
-    this.currentTooltipRef.instance.suggestionSelected.subscribe((selectedSuggestion: string) => {
+    this.currentTooltipRef.instance.suggestionSelected.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((selectedSuggestion: string) => {
       this.onSuggestionSelect(selectedSuggestion);
     });
   
@@ -219,18 +229,19 @@ export class EditorComponent implements OnInit {
 
   onSuggestionSelect(suggestion: string): void {
     if (this.currentWord !== undefined) {
-      // Get the current content
-      let content = this.editorInstance.getContent();
+      const content = this.editorInstance.getBody();
+      const spans = content.querySelectorAll('.incorrect-word');
   
-      // Replace the selected incorrect word with the suggestion
-      const regex = new RegExp(`\\b${this.currentWord}\\b`, 'g');
-      content = content.replace(regex, suggestion);
-  
-      // Update the editor content
-      this.editorInstance.setContent(content);
+      spans.forEach((span: { textContent: string | undefined; classList: { remove: (arg0: string) => void; }; removeAttribute: (arg0: string) => void; }) => {
+        if (span.textContent === this.currentWord) {
+          span.textContent = suggestion;
+          span.classList.remove('incorrect-word');
+          span.removeAttribute('style');
+        }
+      });
   
       // Update the wordsState
-      this.wordsState[this.currentWord].isCorrect = true;
+      this.wordsState[this.currentWord] = { isCorrect: true, suggestions: [] };
     }
   
     // Close the tooltip
