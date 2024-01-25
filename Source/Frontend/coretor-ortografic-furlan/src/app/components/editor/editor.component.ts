@@ -164,13 +164,6 @@ export class EditorComponent implements OnInit {
     editorBody.innerHTML = updatedContent;
   }
 
-  private setCursorToEnd(): void {
-    const editor = this.editorInstance;
-    editor.selection.select(editor.getBody(), true); // Select the entire content
-    editor.selection.collapse(false); // Collapse selection to the end
-    editor.focus(); // Focus the editor
-  }
-
   private cleanHtmlContent(htmlContent: string): string {
     // Cleans HTML content to get plain text
     // This method might need adjustments based on how TinyMCE handles content
@@ -192,20 +185,23 @@ export class EditorComponent implements OnInit {
     this.currentTooltipRef.instance.word = word;
     this.currentTooltipRef.instance.suggestions = suggestions;
   
-    // Calculate the position
+    // Get the position of the selected word in the editor
+    const rect = this.editorInstance.selection.getRng().getBoundingClientRect();
     const editorPosition = this.editorInstance.getContainer().getBoundingClientRect();
+  
+    // Calculate the position for the tooltip
     const position = {
-      x: event.clientX - editorPosition.left,
-      y: event.clientY - editorPosition.top
+      x: rect.left - editorPosition.left,
+      y: rect.bottom - editorPosition.top
     };
-    
+  
     // Position the tooltip component
     const tooltipElement = this.currentTooltipRef.location.nativeElement;
     tooltipElement.style.position = 'absolute';
     tooltipElement.style.left = `${position.x}px`;
-    tooltipElement.style.top = `${position.y + 20}px`; // +20 for some offset from the cursor
+    tooltipElement.style.top = `${position.y + 110}px`; // position below the word
   }
-
+ 
   private handleGlobalClick(event: MouseEvent): void {
     // Logic to determine if the click is outside the tooltip
     if (this.currentTooltipRef && !this.currentTooltipRef.location.nativeElement.contains(event.target)) {
