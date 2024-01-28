@@ -176,12 +176,11 @@ export class EditorComponent implements OnInit {
   }
 
   private updateEditorContent(): void {
-    const bookmark = this.editorInstance.selection.getBookmark(2, true); // Save the cursor position
-    bookmark.start[0] = bookmark.start[0] + 1; // Adjust the start position to avoid the <p> tag
-    console.log("Initial Bookmark:", bookmark);
-
     let content = this.editorContent;
-
+    
+    // Flag to check if content was updated
+    let contentUpdated = false;
+  
     for (const [word, state] of Object.entries(this.wordsState)) {
       if (!state.isCorrect) {
         const regex = new RegExp(
@@ -189,26 +188,31 @@ export class EditorComponent implements OnInit {
           'g'
         );
         const styledWord = `<span class="incorrect-word" style="color: rgb(224, 62, 45); text-decoration: underline;" data-mce-style="color: rgb(224, 62, 45); text-decoration: underline;">${word}</span>`;
-        content = content.replace(regex, styledWord);
+        if (content.search(regex) !== -1) {
+          content = content.replace(regex, styledWord);
+          contentUpdated = true;
+        }
       }
     }
-
-    if (this.editorContent !== content) {
-      // Instead of setting the entire content, try to update only the changed parts
-      this.applyContentUpdates(content);
   
-      // Delay the restoration of the bookmark
-      setTimeout(() => {
-        this.editorInstance.selection.moveToBookmark(bookmark); 
-        console.log("Bookmark Restored. Current Selection:", this.editorInstance.selection.getRng());
-        this.editorInstance.focus(); 
-      }, 25);
-    }
-  }
+    if (contentUpdated) {
+      // Save the current selection
+      const bookmark = this.editorInstance.selection.getBookmark(2, true);
+      console.log("Initial Bookmark:", bookmark);
 
-  private applyContentUpdates(updatedContent: string): void {
-    const editorBody = this.editorInstance.getBody();
-    editorBody.innerHTML = updatedContent;
+      bookmark.start[0]++
+      bookmark.start[1]++
+      bookmark.start[2]++
+      
+      // Update the content
+      this.editorInstance.setContent(content);
+  
+      // Restore the selection
+      this.editorInstance.selection.moveToBookmark(bookmark);
+
+      const newRange = this.editorInstance.selection.getRng();
+      console.log("New Range:", newRange);
+    }
   }
 
   private cleanHtmlContent(htmlContent: string): string {
