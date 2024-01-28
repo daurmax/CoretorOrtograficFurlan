@@ -3,6 +3,7 @@ import { SignalRService } from 'src/app/services/SignalR/SignalRService';
 import { SuggestionsModalComponent } from '../suggestions-modal/suggestions-modal.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { secretConfig } from 'src/config/secret-config';
 
 @Component({
   selector: 'app-editor',
@@ -20,6 +21,7 @@ export class EditorComponent implements OnInit {
   private currentWordNode: Element | null = null;
   private destroy$ = new Subject<void>();
 
+  public tinyMCEApiKey = secretConfig.tinyMCEApiKey;
   public editorInstance: any;
   public editorContent = '';
 
@@ -29,7 +31,6 @@ export class EditorComponent implements OnInit {
     plugins: 'lists link image',
     toolbar:
       'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-    // Add other TinyMCE specific configurations as needed
   };
 
   constructor(
