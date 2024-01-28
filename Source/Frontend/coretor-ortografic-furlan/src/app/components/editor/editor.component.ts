@@ -232,7 +232,7 @@ export class EditorComponent implements OnInit {
       const content = this.editorInstance.getBody();
       const spans = content.querySelectorAll('.incorrect-word');
   
-      spans.forEach((span: { textContent: string | undefined; classList: { remove: (arg0: string) => void; }; removeAttribute: (arg0: string) => void; }) => {
+      spans.forEach((span: Element) => {
         if (span.textContent === this.currentWord) {
           span.textContent = suggestion;
           span.classList.remove('incorrect-word');
@@ -242,12 +242,34 @@ export class EditorComponent implements OnInit {
   
       // Update the wordsState
       this.wordsState[this.currentWord] = { isCorrect: true, suggestions: [] };
-    }
   
-    // Close the tooltip
-    if (this.currentTooltipRef) {
-      this.currentTooltipRef.destroy();
-      this.currentTooltipRef = null;
+      // Close the tooltip
+      if (this.currentTooltipRef) {
+        this.currentTooltipRef.destroy();
+        this.currentTooltipRef = null;
+      }
+  
+      // Restore focus to the editor
+      this.editorInstance.focus();
+  
+      // Optionally, you can also restore the cursor position to the end of the replaced word
+      // You'll need to find the node where the replacement happened and set the cursor there
+      const replacedNode = this.findNodeWithText(this.editorInstance.getBody(), suggestion);
+      if (replacedNode) {
+        this.editorInstance.selection.setCursorLocation(replacedNode, suggestion.length);
+      }
     }
+  }
+  
+  private findNodeWithText(node: Node, text: string): Node | null {
+    const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null);
+    let currentNode = walker.nextNode();
+    while (currentNode) {
+      if (currentNode.nodeValue === text) {
+        return currentNode;
+      }
+      currentNode = walker.nextNode();
+    }
+    return null;
   }
 }
