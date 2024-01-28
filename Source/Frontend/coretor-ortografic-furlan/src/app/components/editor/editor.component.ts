@@ -291,16 +291,4 @@ export class EditorComponent implements OnInit {
       this.editorInstance.selection.setCursorLocation(this.currentWordNode, this.currentWordNode.childNodes.length);
     }
   }
-  
-  private findNodeWithText(node: Node, text: string): Node | null {
-    const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null);
-    let currentNode = walker.nextNode();
-    while (currentNode) {
-      if (currentNode.nodeValue === text) {
-        return currentNode;
-      }
-      currentNode = walker.nextNode();
-    }
-    return null;
-  }
 }

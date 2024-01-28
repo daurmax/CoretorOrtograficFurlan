@@ -52,7 +52,7 @@ namespace ARLeF.CoretorOrtografic.Infrastructure.SpellChecker
                 try
                 {
                     // Skip single-character words
-                    if (word.Original.Length > 2)
+                    if (word.Original.Length > 3)
                     {
                         word.Correct = CheckWord(word).Result;
                         if (!word.Correct)
