@@ -102,7 +102,36 @@ export class EditorComponent implements OnInit {
           this.currentTooltipRef = null;
         }
       }
-    });    
+    });
+
+    this.editorInstance.on('keydown', (e: KeyboardEvent) => {
+      if (e.key === ' ') {
+        const node = this.editorInstance.selection.getNode();
+        if (node && node.className === 'incorrect-word') {
+          const range = this.editorInstance.selection.getRng();
+          if (range && range.startOffset === node.textContent.length) {
+            e.preventDefault(); // Prevent the default space insertion
+            this.insertSpaceAfterIncorrectWord();
+          }
+        }
+        // If not in an incorrect word, the default space behavior will occur
+      }
+    });
+  }
+
+  private insertSpaceAfterIncorrectWord(): void {
+    const node = this.editorInstance.selection.getNode();
+    if (node && node.className === 'incorrect-word') {
+      const range = this.editorInstance.selection.getRng();
+      if (range && range.startOffset === node.textContent.length) {
+        // Move the cursor outside the span and insert a space
+        const newRange = document.createRange();
+        newRange.setStartAfter(node);
+        newRange.setEndAfter(node);
+        this.editorInstance.selection.setRng(newRange);
+        this.editorInstance.insertContent(' '); // Insert a normal space
+      }
+    }
   }
 
   private logCursorPosition(): void {
