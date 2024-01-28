@@ -17,11 +17,11 @@ export class EditorComponent implements OnInit {
   private currentTooltipRef: ComponentRef<SuggestionsModalComponent> | null = null;
 
   private currentWord: string | undefined;
+  private currentWordNode: Element | null = null;
   private destroy$ = new Subject<void>();
 
   public editorInstance: any;
   public editorContent = '';
-
 
   public config: any = {
     // TinyMCE configuration options
@@ -83,18 +83,26 @@ export class EditorComponent implements OnInit {
     this.editorInstance.on('click', (e: MouseEvent) => {
       const node = this.editorInstance.selection.getNode(); 
       if (node && node.className === 'incorrect-word') {
+        this.currentWordNode = node;
         const word = node.textContent || '';
-        this.currentWord = word;
-        const suggestions = this.wordsState[word]?.suggestions ?? [];
-        if (suggestions.length > 0) {
-          this.showTooltip(word, suggestions, e);
+        if (word) {
+          this.currentWord = word;
+          const suggestions = this.wordsState[word]?.suggestions ?? [];
+          if (suggestions.length > 0) {
+            this.showTooltip(word, suggestions, e);
+          }
+        } else {
+          this.currentWord = undefined;
         }
-      } else if (this.currentTooltipRef) {
-        // Close the tooltip if a non-incorrect-word is clicked
-        this.currentTooltipRef.destroy();
-        this.currentTooltipRef = null;
+      } else {
+        this.currentWordNode = null;
+        this.currentWord = undefined;
+        if (this.currentTooltipRef) {
+          this.currentTooltipRef.destroy();
+          this.currentTooltipRef = null;
+        }
       }
-    });
+    });    
   }
 
   private logCursorPosition(): void {
@@ -138,7 +146,6 @@ export class EditorComponent implements OnInit {
   }
 
   private updateEditorContent(): void {
-    const contentBeforeUpdate = this.editorInstance.getContent();
     const bookmark = this.editorInstance.selection.getBookmark(2, true); // Save the cursor position
     bookmark.start[0] = bookmark.start[0] + 1; // Adjust the start position to avoid the <p> tag
     console.log("Initial Bookmark:", bookmark);
@@ -228,36 +235,26 @@ export class EditorComponent implements OnInit {
   }
 
   onSuggestionSelect(suggestion: string): void {
-    if (this.currentWord !== undefined) {
-      const content = this.editorInstance.getBody();
-      const spans = content.querySelectorAll('.incorrect-word');
-  
-      spans.forEach((span: Element) => {
-        if (span.textContent === this.currentWord) {
-          span.textContent = suggestion;
-          span.classList.remove('incorrect-word');
-          span.removeAttribute('style');
-        }
-      });
-  
+    if (this.currentWordNode && this.currentWord !== undefined) {
+      // Replace the text of the node with the suggestion
+      this.currentWordNode.textContent = suggestion;
+      this.currentWordNode.classList.remove('incorrect-word');
+      this.currentWordNode.removeAttribute('style');
+    
       // Update the wordsState
       this.wordsState[this.currentWord] = { isCorrect: true, suggestions: [] };
-  
+    
       // Close the tooltip
       if (this.currentTooltipRef) {
         this.currentTooltipRef.destroy();
         this.currentTooltipRef = null;
       }
-  
+    
       // Restore focus to the editor
       this.editorInstance.focus();
   
-      // Optionally, you can also restore the cursor position to the end of the replaced word
-      // You'll need to find the node where the replacement happened and set the cursor there
-      const replacedNode = this.findNodeWithText(this.editorInstance.getBody(), suggestion);
-      if (replacedNode) {
-        this.editorInstance.selection.setCursorLocation(replacedNode, suggestion.length);
-      }
+      // Using TinyMCE API to set the cursor position at the end of the replaced word
+      this.editorInstance.selection.setCursorLocation(this.currentWordNode, this.currentWordNode.childNodes.length);
     }
   }
   
