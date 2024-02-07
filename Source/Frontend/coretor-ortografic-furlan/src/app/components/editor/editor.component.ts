@@ -29,8 +29,16 @@ export class EditorComponent implements OnInit {
     // TinyMCE configuration options
     placeholder: 'Tache a scrivi alc...',
     plugins: 'lists link image',
-    toolbar:
-      'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+    menubar: false,
+    toolbar: 'undo redo | mycopy',
+    setup: function(editor: any) {
+      editor.ui.registry.addButton('mycopy', {
+        text: 'Copie',
+        onAction: function() {
+          editor.execCommand('Copy');
+        }
+      });
+    }
   };
 
   constructor(
