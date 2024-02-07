@@ -30,6 +30,7 @@ export class EditorComponent implements OnInit {
     placeholder: 'Tache a scrivi alc...',
     plugins: 'lists link image',
     menubar: false,
+    statusbar: false,
     toolbar: 'undo redo | mycopy',
     setup: function(editor: any) {
       editor.ui.registry.addButton('mycopy', {
