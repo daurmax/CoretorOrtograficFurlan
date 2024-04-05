@@ -1,6 +1,7 @@
 import { Component, ComponentRef, OnInit, ViewContainerRef } from '@angular/core';
 import { SignalRService } from 'src/app/services/SignalR/SignalRService';
 import { SuggestionsModalComponent } from '../suggestions-modal/suggestions-modal.component';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { secretConfig } from 'src/config/secret-config';
@@ -44,9 +45,16 @@ export class EditorComponent implements OnInit {
 
   constructor(
     private signalRService: SignalRService,
-    private viewContainerRef: ViewContainerRef
-  ) {}
-  
+    private viewContainerRef: ViewContainerRef,
+    private translate: TranslateService
+  ) {
+    translate.setDefaultLang('fur');
+  }
+
+  switchLanguage(language: string) {
+    this.translate.use(language);
+  }
+
   ngOnInit(): void {
     this.signalRService.onConnected(() => {
       this.registerSignalRCallbacks();
@@ -91,7 +99,7 @@ export class EditorComponent implements OnInit {
     });
 
     this.editorInstance.on('click', (e: MouseEvent) => {
-      const node = this.editorInstance.selection.getNode(); 
+      const node = this.editorInstance.selection.getNode();
       if (node && node.className === 'incorrect-word') {
         this.currentWordNode = node;
         const word = node.textContent || '';
@@ -186,10 +194,10 @@ export class EditorComponent implements OnInit {
 
   private updateEditorContent(): void {
     let content = this.editorContent;
-    
+
     // Flag to check if content was updated
     let contentUpdated = false;
-  
+
     for (const [word, state] of Object.entries(this.wordsState)) {
       if (!state.isCorrect) {
         const regex = new RegExp(
@@ -203,7 +211,7 @@ export class EditorComponent implements OnInit {
         }
       }
     }
-  
+
     if (contentUpdated) {
       // Save the current selection
       const bookmark = this.editorInstance.selection.getBookmark(2, true);
@@ -212,10 +220,10 @@ export class EditorComponent implements OnInit {
       bookmark.start[0]++
       bookmark.start[1]++
       bookmark.start[2]++
-      
+
       // Update the content
       this.editorInstance.setContent(content);
-  
+
       // Restore the selection
       this.editorInstance.selection.moveToBookmark(bookmark);
 
@@ -237,10 +245,10 @@ export class EditorComponent implements OnInit {
       this.currentTooltipRef.destroy();
       this.currentTooltipRef = null;
     }
-  
+
     // Create the new tooltip component
     this.currentTooltipRef = this.viewContainerRef.createComponent(SuggestionsModalComponent);
-  
+
     // Assign the necessary inputs
     this.currentTooltipRef.instance.word = word;
     this.currentTooltipRef.instance.suggestions = suggestions;
@@ -251,24 +259,24 @@ export class EditorComponent implements OnInit {
     ).subscribe((selectedSuggestion: string) => {
       this.onSuggestionSelect(selectedSuggestion);
     });
-  
+
     // Get the position of the selected word in the editor
     const rect = this.editorInstance.selection.getRng().getBoundingClientRect();
     const editorPosition = this.editorInstance.getContainer().getBoundingClientRect();
-  
+
     // Calculate the position for the tooltip
     const position = {
       x: rect.left - editorPosition.left,
       y: rect.bottom - editorPosition.top
     };
-  
+
     // Position the tooltip component
     const tooltipElement = this.currentTooltipRef.location.nativeElement;
     tooltipElement.style.position = 'absolute';
     tooltipElement.style.left = `${position.x}px`;
     tooltipElement.style.top = `${position.y + 110}px`; // position below the word
   }
- 
+
   private handleGlobalClick(event: MouseEvent): void {
     // Logic to determine if the click is outside the tooltip
     if (this.currentTooltipRef && !this.currentTooltipRef.location.nativeElement.contains(event.target)) {
@@ -283,19 +291,19 @@ export class EditorComponent implements OnInit {
       this.currentWordNode.textContent = suggestion;
       this.currentWordNode.classList.remove('incorrect-word');
       this.currentWordNode.removeAttribute('style');
-    
+
       // Update the wordsState
       this.wordsState[this.currentWord] = { isCorrect: true, suggestions: [] };
-    
+
       // Close the tooltip
       if (this.currentTooltipRef) {
         this.currentTooltipRef.destroy();
         this.currentTooltipRef = null;
       }
-    
+
       // Restore focus to the editor
       this.editorInstance.focus();
-  
+
       // Using TinyMCE API to set the cursor position at the end of the replaced word
       this.editorInstance.selection.setCursorLocation(this.currentWordNode, this.currentWordNode.childNodes.length);
     }

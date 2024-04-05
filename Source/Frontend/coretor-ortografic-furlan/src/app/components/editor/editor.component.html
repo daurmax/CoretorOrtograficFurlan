@@ -1,1 +1,7 @@
+<button (click)="switchLanguage('en')">English</button>
+<button (click)="switchLanguage('it')">Italian</button>
+<button (click)="switchLanguage('fur')">Friulian</button>
+
+<div>{{ 'HELLO' | translate }}</div>
+
 <editor [apiKey]="tinyMCEApiKey" [init]="config" [(ngModel)]="editorContent" (onInit)="onEditorInit($event)" (ngModelChange)="onTextChange()"></editor>
