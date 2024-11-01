@@ -53,6 +53,8 @@ namespace ARLeF.CoretorOrtografic.Business
         private void RegisterProductionOnlyDependencies(ContainerBuilder builder)
         {
             // Add production only services
+            builder.RegisterType<FurlanSpellChecker>().As<ISpellChecker>();
+            builder.RegisterType<SQLiteKeyValueDatabase>().As<IKeyValueDatabase>();
         }
 
         private void RegisterCLIDependencies(ContainerBuilder builder)
