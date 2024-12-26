@@ -6,14 +6,14 @@
       "name": "Serve Angular Application",
       "type": "chrome",
       "request": "launch",
-      "preLaunchTask": "npm: start",
+      "preLaunchTask": "Serve Angular Application",
       "url": "http://localhost:4200/"
     },
     {
       "name": "Test Angular Application",
       "type": "chrome",
       "request": "launch",
-      "preLaunchTask": "npm: test",
+      "preLaunchTask": "Test Angular Application",
       "url": "http://localhost:9876/debug.html"
     }
   ]
