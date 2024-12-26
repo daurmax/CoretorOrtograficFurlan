@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Docker .NET Core Attach",
+        "type": "coreclr",
+        "request": "attach",
+        "preLaunchTask": "Ensure Container is Running",
+        "processId": "${command:pickProcess}",
+        "pipeTransport": {
+          "pipeProgram": "docker",
+          "pipeArgs": [
+            "exec",
+            "-i",
+            "coretor-ortografic-furlan-debug"
+          ],
+          "pipeCwd": "${workspaceFolder}",
+          "quoteArgs": false,
+          "debuggerPath": "/vsdbg/vsdbg"
+        },
+        "sourceFileMap": {
+          "/app": "${workspaceFolder}"
+        }
+      }
+    ]
+  }
+  

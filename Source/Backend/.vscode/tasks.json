@@ -2,9 +2,20 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Ensure Container is Running",
+            "type": "shell",
+            "command": "[ $(docker ps -q -f name=coretor-ortografic-furlan-debug) ] && echo 'Container is already running' || (echo 'Container not running... starting now' && docker run --rm -d --name coretor-ortografic-furlan-debug -p 1077:1077 coretor-ortografic-furlan-code)",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            }
+        },
+        {
             "label": "Build Full Docker Image",
             "type": "shell",
-            "command": "sudo docker build -t coretor-ortografic-furlan-full -f Dockerfile.full .",
+            "command": "docker build -t coretor-ortografic-furlan-full -f Dockerfile.debug.full .",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -14,7 +25,7 @@
         {
             "label": "Build Code-Only Docker Image",
             "type": "shell",
-            "command": "sudo docker build -t coretor-ortografic-furlan-code -f Dockerfile.code .",
+            "command": "docker build -t coretor-ortografic-furlan-code -f Dockerfile.debug.code .",
             "group": {
                 "kind": "build",
                 "isDefault": false
@@ -24,7 +35,7 @@
         {
             "label": "Run Docker Container",
             "type": "shell",
-            "command": "sudo docker run -p 8080:80 coretor-ortografic-furlan-code",
+            "command": "docker run --rm --name coretor-ortografic-furlan-debug -p 1077:1077 coretor-ortografic-furlan-code",
             "group": {
                 "kind": "test",
                 "isDefault": true
@@ -35,8 +46,23 @@
         {
             "label": "Stop Docker Container",
             "type": "shell",
-            "command": "sudo docker stop $(sudo docker ps -q --filter ancestor=coretor-ortografic-furlan-code)",
+            "command": "docker stop coretor-ortografic-furlan-debug",
             "problemMatcher": []
+        },
+        {
+            "label": "Setup Docker Group Permissions",
+            "type": "shell",
+            "command": "[ $(getent group docker | grep $USER) ] && echo 'User already in docker group' || (sudo groupadd docker || echo 'Docker group already exists'; sudo usermod -aG docker $USER; echo 'Please log out and log back in or run \"newgrp docker\" to apply changes.')",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            }
         }
     ]
 }
