@@ -2,51 +2,30 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Ensure Container is Running",
+            "label": "Build Docker Image",
             "type": "shell",
-            "command": "[ $(docker ps -q -f name=coretor-ortografic-furlan-debug) ] && echo 'Container is already running' || (echo 'Container not running... starting now' && docker run --rm -d --name coretor-ortografic-furlan-debug -p 1077:1077 coretor-ortografic-furlan-code)",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared",
-                "clear": true
-            }
-        },
-        {
-            "label": "Build Full Docker Image",
-            "type": "shell",
-            "command": "docker build -t coretor-ortografic-furlan-full -f Dockerfile.debug.full .",
+            "command": "docker build -t coretor-ortografic-furlan -f Dockerfile.debug .",
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Build Code-Only Docker Image",
-            "type": "shell",
-            "command": "docker build -t coretor-ortografic-furlan-code -f Dockerfile.debug.code .",
-            "group": {
-                "kind": "build",
-                "isDefault": false
             },
             "problemMatcher": []
         },
         {
             "label": "Run Docker Container",
             "type": "shell",
-            "command": "docker run --rm --name coretor-ortografic-furlan-debug -p 1077:1077 coretor-ortografic-furlan-code",
+            "command": "docker run --rm --name coretor-ortografic-furlan -p 1077:1077 coretor-ortografic-furlan",
             "group": {
                 "kind": "test",
                 "isDefault": true
             },
             "problemMatcher": [],
-            "dependsOn": "Build Code-Only Docker Image"
+            "dependsOn": "Build Docker Image"
         },
         {
             "label": "Stop Docker Container",
             "type": "shell",
-            "command": "docker stop coretor-ortografic-furlan-debug",
+            "command": "docker stop coretor-ortografic-furlan",
             "problemMatcher": []
         },
         {
