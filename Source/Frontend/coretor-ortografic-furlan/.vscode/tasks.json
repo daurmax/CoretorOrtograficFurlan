@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Serve Angular Application",
       "type": "npm",
       "script": "start",
       "isBackground": true,
@@ -15,12 +16,37 @@
             "regexp": "(.*?)"
           },
           "endsPattern": {
-            "regexp": "bundle generation complete"
+            "regexp": "Compiled successfully."
           }
         }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
       }
     },
     {
+      "label": "Build Angular Application",
+      "type": "npm",
+      "script": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Install Dependencies",
+      "type": "shell",
+      "command": "npm install",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test Angular Application",
       "type": "npm",
       "script": "test",
       "isBackground": true,
@@ -33,9 +59,13 @@
             "regexp": "(.*?)"
           },
           "endsPattern": {
-            "regexp": "bundle generation complete"
+            "regexp": "Executed .* of .* SUCCESS"
           }
         }
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
       }
     }
   ]
