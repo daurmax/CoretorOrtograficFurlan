@@ -157,9 +157,9 @@ export class EditorComponent implements OnInit {
     const range = selection.getRng(); // Get the current range
 
     // Log the start and end positions of the range
-    console.log(
-      `Cursor Start Position: ${range.startOffset}, Cursor End Position: ${range.endOffset}`
-    );
+    //console.log(
+    //  `Cursor Start Position: ${range.startOffset}, Cursor End Position: ${range.endOffset}`
+    //);
   }
 
   onTextChange(): void {
