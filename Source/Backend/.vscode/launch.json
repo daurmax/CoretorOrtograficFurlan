@@ -12,7 +12,7 @@
           "pipeArgs": [
             "exec",
             "-i",
-            "coretor-ortografic-furlan-debug"
+            "coretor-ortografic-furlan"
           ],
           "pipeCwd": "${workspaceFolder}",
           "quoteArgs": false,

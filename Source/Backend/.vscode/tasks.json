@@ -2,6 +2,17 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Ensure Container is Running",
+            "type": "shell",
+            "command": "[ $(docker ps -q -f name=coretor-ortografic-furlan) ] && echo 'Container is already running' || (echo 'Container not running... starting now' && docker run --rm -d --name coretor-ortografic-furlan -p 1077:1077 coretor-ortografic-furlan)",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            }
+        },
+        {
             "label": "Build Docker Image",
             "type": "shell",
             "command": "docker build -t coretor-ortografic-furlan -f Dockerfile.debug .",
