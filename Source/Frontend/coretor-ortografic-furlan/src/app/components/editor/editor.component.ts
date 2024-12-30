@@ -7,9 +7,10 @@ import { takeUntil } from 'rxjs/operators';
 import { secretConfig } from 'src/config/secret-config';
 
 @Component({
-  selector: 'app-editor',
-  templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.scss'],
+    selector: 'app-editor',
+    templateUrl: './editor.component.html',
+    styleUrls: ['./editor.component.scss'],
+    standalone: false
 })
 export class EditorComponent implements OnInit {
   private wordsState: {

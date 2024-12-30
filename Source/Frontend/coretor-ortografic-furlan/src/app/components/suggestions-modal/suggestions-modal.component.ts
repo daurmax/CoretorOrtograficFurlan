@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'app-suggestions-modal',
-  templateUrl: './suggestions-modal.component.html',
-  styleUrls: ['./suggestions-modal.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-suggestions-modal',
+    templateUrl: './suggestions-modal.component.html',
+    styleUrls: ['./suggestions-modal.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class SuggestionsModalComponent implements OnInit {
   @Input() word: string | undefined;
