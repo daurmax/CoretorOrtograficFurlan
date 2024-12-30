@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "coretor-ortografic-furlan:build:production"
+              "buildTarget": "coretor-ortografic-furlan:build:production"
             },
             "development": {
-              "browserTarget": "coretor-ortografic-furlan:build:development"
+              "buildTarget": "coretor-ortografic-furlan:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "coretor-ortografic-furlan:build"
+            "buildTarget": "coretor-ortografic-furlan:build"
           }
         },
         "test": {
