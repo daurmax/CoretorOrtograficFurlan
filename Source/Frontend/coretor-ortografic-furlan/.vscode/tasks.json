@@ -1,5 +1,4 @@
 {
-  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
   "version": "2.0.0",
   "tasks": [
     {
@@ -13,10 +12,10 @@
         "background": {
           "activeOnStart": true,
           "beginsPattern": {
-            "regexp": "(.*?)"
+            "regexp": "Application bundle generation complete"
           },
           "endsPattern": {
-            "regexp": "Compiled successfully."
+            "regexp": "Watching for file changes"
           }
         }
       },
@@ -56,7 +55,7 @@
         "background": {
           "activeOnStart": true,
           "beginsPattern": {
-            "regexp": "(.*?)"
+            "regexp": "Executing .* specs"
           },
           "endsPattern": {
             "regexp": "Executed .* of .* SUCCESS"
